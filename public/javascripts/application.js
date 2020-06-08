@@ -1,4 +1,18 @@
 $(document).ready(function () {
+  // login button
+  $('#btn_login').on('click', function () {
+    var data = {};
+    data.adminId = $('#adminId').val();
+    data.adminPassword = $('#adminPassword').val();
+    apiAjaxSend( '/api/auth/admin', 'POST', data, function ( data ) {
+      if( data.success ) {
+        alert( data.data );
+        window.location.href="/admin/main";
+      } else {
+        alert( data.message);
+      }
+    });
+  })
 	// menu select event
     $('.dropdown-item').on('click', function() {
     	if( $('#tab_' + $(this).attr('id') ).is('div') ) {
@@ -26,12 +40,12 @@ $(document).ready(function () {
 
     $('#btn').on('click', function() {
 		$.toast({
-                    title: 'Notice',
-                    subtitle: '11 mins ago',
-                    content: 'Hello, world! This is a toast message.',
-                    type: 'info',
-                    pause_on_hover: false,
-                    delay: 5000
-                });
+          title: 'Notice',
+          subtitle: '11 mins ago',
+          content: 'Hello, world! This is a toast message.',
+          type: 'info',
+          pause_on_hover: false,
+          delay: 5000
+      });
 	});
 });

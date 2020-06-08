@@ -1,6 +1,8 @@
 /* login */
 html,body {
   height: 100%;
+  font-size: 14px;
+  font-family: '맑은 고딕','Malgun Gothic', 나눔고딕, 돋움, Dotum, 굴림, Gulim, 'Apple SD Gothic Neo', sans-serif  !important;
 }
 .body-signin {
   display: -ms-flexbox;
@@ -58,6 +60,7 @@ body {
     margin: -2px 0 0 10px;
     font-size: 1.5rem;
 }
+
 .tab-pane {
 	height: 100%;
     border-left: 1px solid #ddd;
