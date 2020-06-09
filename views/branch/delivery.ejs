@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<%- include('header') %>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+  <%- include('topMenu') %>
+  <%- include('sideMenu') %>
+  <div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Bikeda 배달 대행</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <!-- 배달 현황 -->
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-7">
+            <div class="card">
+              <div class="card-header border-0">
+                <h3 class="card-title">배달대행 현황</h3>
+                <div class="card-tools">
+                  <a href="#" class="btn btn-info btn-sm">
+                    주문 취소
+                  </a>
+                  <a href="#" class="btn btn-info btn-sm">
+                    배달 완료
+                  </a>
+                </div>
+              </div>
+              <div class="card-body">
+                <table id="dataTable1" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>상호</th>
+                    <th>상점주소</th>
+                    <th>목적지주소</th>
+                    <th>주문시간</th>
+                    <th>배차상태</th>
+                    <th>배달거리</th>
+                    <th>수수료</th>
+                    <th>결제종류</th>
+                  </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="card">
+              <div class="card-header border-0">
+                <div class="d-flex justify-content-between">
+                  <h3 class="card-title">라이더 현황</h3>
+                </div>
+              </div>
+              <div class="card-body">
+
+              </div>
+            </div>
+          </div>
+        <div>
+      </div>
+      <div class="col-md-8">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <!-- <h3 class="box-title">Horizontal Form</h3> -->
+            <button type="button" class="btn btn-info btn-sm">주문취소</button>
+            <button type="button" class="btn btn-info btn-sm">배달완료</button>
+          </div>
+            <div class="box-body">
+              <table id="dataTable1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>상호</th>
+                  <th>상점주소</th>
+                  <th>목적지주소</th>
+                  <th>주문시간</th>
+                  <th>배차상태</th>
+                  <th>배달거리</th>
+                  <th>수수료</th>
+                  <th>결제종류</th>
+                </tr>
+                </thead>
+              </table>
+            </div>
+        </div>
+      </div>
+
+      <!-- 기사 현황 -->
+      <div class="col-md-4">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">리이더 현황</h3>
+          </div>
+            <div class="box-body">
+              <table id="dataTable2" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>이름</th>
+                  <th>근퇴</th>
+                  <th>총건수</th>
+                  <th>진행중 건수</th>
+                </tr>
+                </thead>
+              </table>
+            </div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2020 Bikeda.</strong>All rights reserved.
+  </footer>
+</div>
+<!-- ./wrapper -->
+<%- include('footer') %>
+</body>
+</html>
