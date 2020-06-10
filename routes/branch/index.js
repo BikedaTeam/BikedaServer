@@ -13,7 +13,7 @@ router.post('/main', function(req, res, next) {
 router.post('/delivery', function(req, res, next) {
   var data = { "data" : [
     {
-      dlvryNo : 'S0001O2020061000001',
+      dlvryNo : 'S0001O2020061000002',
       stoBrcofcId : 'B0001',
       stoId : 'S0001',
       dlvryCusTelno : '01012345678',
@@ -31,7 +31,7 @@ router.post('/delivery', function(req, res, next) {
       dlvryPickDt: '',
       dlvryTcDt: '',
       dlvryDstnc : '1.5',
-      dlvryStateCd : '01',
+      dlvryStateCd : '02',
       dlvryReqCn : '전화주세요',
       riderBrcofcId : 'B0001',
       riderId : 'R00001'
