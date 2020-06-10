@@ -5,7 +5,10 @@ $(document).ready(function () {
       type : 'post'
     },
     columns : [
-      {data : 'dlvryStateCd'},
+      {
+        data : 'dlvryStateCd' ,
+        render
+      },
       {data : 'dlvryNo'},
       {data : 'stoBrcofcId'},
       {data : 'stoId'},
