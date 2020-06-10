@@ -130,12 +130,14 @@ $(document).ready(function () {
   });
   $('#realTimeDelivery tbody').on('click', '.bg-info', function (){
     var table = $('#realTimeDelivery').DataTable();
-    console.log( table.row($(this).closest('tr')).data() );
+    var data = table.row($(this).closest('tr')).data();
   });
   $('#realTimeDelivery tbody').on('click', '.bg-primary', function (){
-      alert('primary');
+    var table = $('#realTimeDelivery').DataTable();
+    var data = table.row($(this).closest('tr')).data();
   });
   $('#realTimeDelivery tbody').on('click', '.bg-danger', function (){
-      alert('danger');
+    var table = $('#realTimeDelivery').DataTable();
+    var data = table.row($(this).closest('tr')).data();
   });
 });
