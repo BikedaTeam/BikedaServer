@@ -97,8 +97,15 @@
             </div>
           </div>
         </div>
+        <input type="hidden" id="modalType" name="modalType">
+        <div id="cancel" class="row">
+          <div class="col-12 text-center">
+            <h4 class="text-danger">해당 배달 정보를 취소 하시겠습니까?</h4>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
+        <button id="btn_cancel" type="button" class="btn btn-danger">취소</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
     </div>
@@ -136,8 +143,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
         <button id="btn_dispatchRider" type="button" class="btn btn-primary">배차</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>

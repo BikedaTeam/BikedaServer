@@ -17,6 +17,8 @@ $(document).ready(function () {
             return  '<button type="button" class="btn btn-block btn-xs bg-olive">픽업 완료</button>';
           else if( data  == '04')
             return  '<button type="button" class="btn btn-block btn-xs bg-success">배달 완료</button>';
+          else
+            return  '<button type="button" class="btn btn-block btn-xs bg-danger">배달 취소</button>';
         }
       },
       {
@@ -139,7 +141,7 @@ $(document).ready(function () {
         width : '50px',
         render : function ( data, type, row, meta) {
           if( row.dlvryStateCd == '01' )
-            return '<button type="button" class="btn btn-block btn-xs bg-primary">배차</button>';
+            return '<button type="button" class="btn btn-block btn-xs bg-primary enabled">배차</button>';
           else
             return '<button type="button" class="btn btn-block btn-xs bg-primary disabled">배차</button>';
         }
@@ -149,7 +151,7 @@ $(document).ready(function () {
         width : '50px',
         render : function ( data, type, row, meta) {
           if( row.dlvryStateCd == '01' || row.dlvryStateCd == '02' )
-            return '<button type="button" class="btn btn-block btn-xs bg-danger">취소</button>';
+            return '<button type="button" class="btn btn-block btn-xs bg-danger enabled">취소</button>';
           else
             return '<button type="button" class="btn btn-block btn-xs bg-danger disabled">취소</button>';
         }
@@ -192,15 +194,23 @@ $(document).ready(function () {
     paging: false,
     searching: false,
     dom: 't',
+    select : {
+      style: 'single'
+    },
     order: [ [1, 'asc'] ],
     language: {
       'emptyTable': '데이터가 존재 하지 않습니다.'
     }
   });
 
+  var table;
+  var row;
+  var data;
+
   $('#tb_realTimeDelivery tbody').on('click', '.bg-info', function (){
-    var table = $('#tb_realTimeDelivery').DataTable();
-    var data = table.row($(this).closest('tr')).data();
+    table = $('#tb_realTimeDelivery').DataTable();
+    row = table.row($(this).closest('tr'));
+    data = table.row($(this).closest('tr')).data();
 
     $('#dlvryNo').text('');
     $('#stoId').text('');
@@ -263,44 +273,124 @@ $(document).ready(function () {
       $('#dlvryPaySeCd').text( '선결' );
       $('#dlvryPaySeCd').addClass('bg-pink');
     }
-
+    $('#modalType').val('info');
     $('#deliveryDetailModal').modal('show');
-
   });
-  $('#tb_realTimeDelivery tbody').on('click', '.bg-primary', function (){
-    var table = $('#tb_realTimeDelivery').DataTable();
-    var row = table.row($(this).closest('tr'));
-    var data = row.data();
-    var riderTable = $("#tb_dispatchRider").DataTable();
-    riderTable.ajax.reload();
+
+
+  $('#tb_realTimeDelivery tbody').on('click', '.bg-primary.enabled', function (){
     $('#deliveryDispatchModal').modal('show');
+    table = $('#tb_realTimeDelivery').DataTable();
+    row = table.row($(this).closest('tr'));
+    data = table.row($(this).closest('tr')).data();
 
-
-    $('#tb_dispatchRider tbody').on( 'click', 'tr', function () {
-      if($(this).hasClass('selected')) {
-        $(this).removeClass('selected');
-      } else {
-        riderTable.$('tr.selected').removeClass('selected');
-        $(this).addClass('selected');
-      }
-    });
-
-    $('#btn_dispatchRider').on('click', function () {
-      var riderData = riderTable.row('.selected').data();
-
-      riderTable.$('tr.selected').removeClass('selected');
-
-      data.riderBrcofcId = riderData.riderBrcofcId;
-      data.riderId = riderData.riderId;
-      data.riderNm = riderData.riderNm;
-      data.riderCelno = riderData.riderCelno;
-      data.dlvryStateCd = '02';
-      table.row(row).data(data).draw();
-      $('#deliveryDispatchModal').modal('hide');
-    });
+    $("#tb_dispatchRider").DataTable().ajax.reload();
   });
-  $('#tb_realTimeDelivery tbody').on('click', '.bg-danger', function (){
-    var table = $('#tb_realTimeDelivery').DataTable();
-    var data = table.row($(this).closest('tr')).data();
+  $('#tb_realTimeDelivery tbody').on('click', '.bg-danger.enabled', function (){
+    table = $('#tb_realTimeDelivery').DataTable();
+    row = table.row($(this).closest('tr'));
+    data = table.row($(this).closest('tr')).data();
+
+    $('#dlvryNo').text('');
+    $('#stoId').text('');
+    $('#stoMtlty').text('');
+    $('#stoCelno').text('');
+    $('#dlvryCusTelno').text('');
+    $('#dlvryCusAdres').text('');
+    $('#dlvryCusRoadAdres').text('');
+    $('#dlvryCusDetlAdres').text('');
+    $('#dlvryFoodAmnt').text('');
+    $('#dlvryAmnt').text('');
+    $('#riderId').text('');
+    $('#riderNm').text('');
+    $('#riderCelno').text('');
+    $('#dlvryStateCd').text('');
+    $('#dlvryStateCd').removeClass('bg-secondary bg-warning bg-olive bg-success');
+    $('#dlvryPaySeCd').text('');
+    $('#dlvryPaySeCd').removeClass('bg-purple bg-navy bg-pink');
+
+
+    $('#dlvryNo').text( data.dlvryNo );
+    $('#stoId').text( data.stoId );
+    $('#stoMtlty').text( data.stoMtlty );
+    $('#stoCelno').text( data.stoCelno );
+    $('#dlvryCusTelno').text( data.dlvryCusTelno );
+    $('#dlvryCusAdres').text( data.dlvryCusAdres );
+    $('#dlvryCusRoadAdres').text( data.dlvryCusRoadAdres );
+    $('#dlvryCusDetlAdres').text( data.dlvryCusDetlAdres );
+    $('#dlvryFoodAmnt').text( data.dlvryFoodAmnt );
+    $('#dlvryAmnt').text( data.dlvryAmnt );
+    $('#riderId').text( data.riderId );
+    $('#riderNm').text( data.riderNm );
+    $('#riderCelno').text( data.riderCelno );
+    $('#dlvryPickReqTm').text( data.dlvryPickReqTm );
+    $('#dlvryRecvDt').text( data.dlvryRecvDt );
+    $('#dlvryDstnc').text( data.dlvryDstnc );
+    $('#dlvryReqCn').text( data.dlvryReqCn );
+
+    if( data.dlvryStateCd == '01' ) {
+      $('#dlvryStateCd').text( '배차 대기' );
+      $('#dlvryStateCd').addClass('bg-secondary');
+    } else if( data.dlvryStateCd == '02' ) {
+      $('#dlvryStateCd').text( '배차 완료' );
+      $('#dlvryStateCd').addClass('bg-warning');
+    } else if( data.dlvryStateCd == '03' ) {
+      $('#dlvryStateCd').text( '픽업 완료' );
+      $('#dlvryStateCd').addClass('bg-olive');
+    } else if( data.dlvryStateCd == '04' ) {
+      $('#dlvryStateCd').text( '배달 완료' );
+      $('#dlvryStateCd').addClass('bg-success');
+    }
+
+    if( data.dlvryPaySeCd == '01' ) {
+      $('#dlvryPaySeCd').text( '현금' );
+      $('#dlvryPaySeCd').addClass('bg-purple');
+    } else if( data.dlvryPaySeCd == '02' ) {
+      $('#dlvryPaySeCd').text( '카드' );
+      $('#dlvryPaySeCd').addClass('bg-navy');
+    } else if( data.dlvryPaySeCd == '03' ) {
+      $('#dlvryPaySeCd').text( '선결' );
+      $('#dlvryPaySeCd').addClass('bg-pink');
+    }
+    $('#modalType').val('cancel');
+    $('#deliveryDetailModal').modal('show');
+  });
+
+  $('#tb_dispatchRider tbody').on( 'click', 'tr', function () {
+    if($(this).hasClass('selected')) {
+      $(this).removeClass('selected');
+    } else {
+      $("#tb_dispatchRider").DataTable().$('tr.selected').removeClass('selected');
+      $(this).addClass('selected');
+    }
+  });
+
+  $('#btn_dispatchRider').on('click', function () {
+    var riderData = $("#tb_dispatchRider").DataTable().row('.selected').data();
+    $("#tb_dispatchRider").DataTable().$('tr.selected').removeClass('selected');
+    data.riderBrcofcId = riderData.riderBrcofcId;
+    data.riderId = riderData.riderId;
+    data.riderNm = riderData.riderNm;
+    data.riderCelno = riderData.riderCelno;
+    data.dlvryStateCd = '02';
+    table.row(row).data(data).draw();
+    $('#deliveryDispatchModal').modal('hide');
+  });
+  $('#deliveryDetailModal').on('show.bs.modal', function (event) {
+    var modal = $(this);
+    $('#cancel').removeClass("visible invisible");
+    $('#btn_cancel').removeClass("visible invisible");
+    if( $('#modalType').val() == 'info') {
+      $('#cancel').addClass("invisible");
+      $('#btn_cancel').addClass("invisible");
+    } else {
+      $('#cancel').addClass("visible");
+      $('#btn_cancel').addClass("visible");
+    }
+  });
+  $('#btn_cancel').on('click', function () {
+    data.dlvryStateCd = '09';
+    table.row(row).data(data).draw();
+    $('#deliveryDetailModal').modal('hide');
   });
 });
