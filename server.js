@@ -4,6 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var multer = require('multer');
+var upload = multer();
+var flash = require('connect-flash');
+var session = require('express-session');
+var passport = require('./config/passport');
 
 var debug = require('debug')('bikedaapiserver:server');
 var http = require('http');
@@ -18,10 +23,14 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
+app.use(flash());
+app.use(session({secret:'#JDKLF439jsdlfsjl', resave:true, saveUninitialized:true}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(upload.array()); // for parsing multipart/form-data
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules/admin-lte')));
@@ -29,14 +38,10 @@ app.use('/js', express.static(path.join(__dirname, 'public/javascripts')));
 app.use('/css', express.static(path.join(__dirname, 'public/stylesheets')));
 app.use('/img', express.static(path.join(__dirname, 'public/images')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/admin', adminRouter);
-app.use('/branch', branchRouter);
-
-// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  res.locals.isAuthenticated = req.isAuthenticated();
+  res.locals.currentUser = req.user;
+  next();
 });
 
 // error handler
@@ -49,6 +54,15 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/admin', adminRouter);
+app.use('/branch', branchRouter);
+
+
+
+
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);

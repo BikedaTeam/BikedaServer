@@ -1,14 +1,31 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('../../config/passport');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('branch/index', {});
 });
 
-router.post('/main', function(req, res, next) {
-  res.render('branch/delivery', {});
+router.post('/login', function(req, res, next) {
+  next();
+},passport.authenticate('branch',{
+  successRedirect : '/branch/main',
+  failureRedirect : '/branch'
+}));
+
+router.get('/main', function(req, res, next) {
+    res.render('branch/realTimeDelivery', {});
 });
+
+router.get('/main/:pageName', function(req, res, next) {
+  var pageName = req.params.pageName || '';
+  if( pageName )
+    res.render('branch/' + pageName, {});
+  else
+    res.render('branch/realTimeDelivery', {});
+});
+
 
 router.post('/realTimeDelivery', function(req, res, next) {
   var data = { "data" : [
@@ -177,6 +194,38 @@ router.post('/dispatchRider', function(req, res, next) {
       riderNm : '테스트 라이더3',
       riderCelno : '01012345678',
       riderDsptCnt : 0,
+    },
+  ] };
+  res.json(data);
+});
+router.post('/realTimeRider', function(req, res, next) {
+  var data = { "data" : [
+    {
+      riderBrcofcId : 'B0001',
+      riderId : 'R00001',
+      riderNm : '테스트 라이더1',
+      riderCelno : '01012345678',
+      riderStateCd : '01',
+      riderLa : 35.19461943325928,
+      riderLo : 129.11751365461865
+    },
+    {
+      riderBrcofcId : 'B0001',
+      riderId : 'R00002',
+      riderNm : '테스트 라이더2',
+      riderCelno : '01012345678',
+      riderStateCd : '02',
+      riderLa : 35.196597453088884,
+      riderLo : 129.11570970633733
+    },
+    {
+      riderBrcofcId : 'B0001',
+      riderId : 'R00003',
+      riderNm : '테스트 라이더3',
+      riderCelno : '01012345678',
+      riderStateCd : '01',
+      riderLa : 35.19688847791782,
+      riderLo : 129.12481813852943
     },
   ] };
   res.json(data);
