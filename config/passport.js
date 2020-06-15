@@ -2,11 +2,9 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 passport.serializeUser(function(user, done) {
-  console.log('serializeUser');
   done(null, user.username);
 });
 passport.deserializeUser(function(username, done) {
-  console.log('deserializeUser');
   done(null, username);
 });
 

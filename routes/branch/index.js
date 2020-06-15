@@ -231,4 +231,36 @@ router.post('/realTimeRider', function(req, res, next) {
   res.json(data);
 });
 
+router.post('/stores', function(req, res, next) {
+  var data = { "data" : [
+    {
+      stoId : 'S0001',
+      stoBsnsRgnmb : '1234567890',
+      stoMtlty : '테스트 상점1',
+      stoBizSeCd : '01',
+      stoRprsntvNm : '테스트 대표1',
+      stoBsnsPlaceAdres : '부산시 부산진구 중앙대로 993',
+      stoStateCd : '01'
+    },
+    {
+      stoId : 'S0002',
+      stoBsnsRgnmb : '1234567890',
+      stoMtlty : '테스트 상점2',
+      stoBizSeCd : '01',
+      stoRprsntvNm : '테스트 대표2',
+      stoBsnsPlaceAdres : '부산시 부산진구 중앙대로 993',
+      stoStateCd : '01'
+    },
+    {
+      stoId : 'S0003',
+      stoBsnsRgnmb : '1234567890',
+      stoMtlty : '테스트 상점3',
+      stoBizSeCd : '01',
+      stoRprsntvNm : '테스트 대표3',
+      stoBsnsPlaceAdres : '부산시 부산진구 중앙대로 993',
+      stoStateCd : '02'
+    },
+  ] };
+  res.json(data);
+});
 module.exports = router;
