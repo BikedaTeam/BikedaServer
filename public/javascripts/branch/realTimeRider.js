@@ -30,7 +30,11 @@ $(document).ready(function () {
         data : 'riderNm'
       },
       {
-        data : 'riderCelno'
+        data : 'riderCelno',
+        width : '100px',
+        render : function ( data, type, row, meta) {
+          return phoneFomatter(data);
+        }
       },
       {
         data : 'riderStateCd',
