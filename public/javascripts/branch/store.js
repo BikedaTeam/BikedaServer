@@ -134,28 +134,70 @@ $(document).ready(function () {
     table = $('#tb_store').DataTable();
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();
-
-    $('#stoId').text('');
-    $('#stoCelno').text('');
-    $('#dlvryCusTelno').text('');
-
-    $('#stoId').text( data.stoId );
-    $('#stoMtlty').text( data.stoMtlty );
-
-    $('#stoBizSeCd').text( data.stoBizSeCd );
-
     $('#storeDetailModal').modal('show');
   });
 
   var bizSwap;
   $('#storeDetailModal').on('show.bs.modal', function (event) {
     var modal = $(this);
-    var bizSeCd = $('#stoBizSeCd').text();
-    if( bizSwap ) $('#bizDefault').append(bizSwap);
-    if( bizSeCd == '01' ) {
+    $('#stoBizSeCd').removeClass('bg-indigo bg-lightblue');
+    $('#stoStateCd').removeClass('bg-purple bg-navy');
+
+    if( bizSwap ) $('#bizDefault').append( bizSwap );
+    if( data.stoBizSeCd == '01') {
+      $('#stoBizSeCd').text( '개인' );
+      $('#stoBizSeCd').addClass('bg-indigo');
       bizSwap = $('#bizCrprt').detach();
-    } else if( bizSeCd == '02' ){
+    } else if( data.stoBizSeCd == '02') {
+      $('#stoBizSeCd').text( '법인' );
+      $('#stoBizSeCd').addClass('bg-lightblue');
       bizSwap = $('#bizPrivate').detach();
     }
+
+    if( data.stoStateCd == '01') {
+      $('#stoStateCd').text( '정상' );
+      $('#stoStateCd').addClass('bg-purple');
+    } else if( data.stoStateCd == '02') {
+      $('#stoStateCd').text( '탈회' );
+      $('#stoStateCd').addClass('bg-navy');
+    }
+
+
+    $('#stoId').text('');
+    $('#brcofcNm').text('');
+    $('#stoBsnsRgnmb').text('');
+    $('#stoMtlty').text('');
+    $('#stoRprsntvNm').text('');
+    $('#stoBrdYmd').text('');
+    $('#stoCrprtRgnmb').text('');
+    $('#stoOpnngYmd').text('');
+    $('#stoBsnsPlaceAdres').text('');
+    $('#stoHdofcAdres').text('');
+    $('#stoBizcnd').text('');
+    $('#stoInduty').text('');
+    $('#stoTelno').text('');
+    $('#stoVrtlAcnt').text('');
+    $('#stoSetSeCd').text('');
+    $('#stoNightSrchrApplyYn').text('');
+    $('#stoNightSrchrTm').text('');
+    $('#stoNightSrchrAmnt').text('');
+
+
+    $('#stoId').text( data.stoId );
+    $('#brcofcNm').text( data.brcofcNm );
+    $('#stoBsnsRgnmb').text( data.stoBsnsRgnmb.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3') );
+    $('#stoMtlty').text( data.stoMtlty );
+    $('#stoRprsntvNm').text( data.stoRprsntvNm );
+    $('#stoBrdYmd').text( data.stoBrdYmd.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') );
+    $('#stoCrprtRgnmb').text( data.stoCrprtRgnmb.replace(/(\d{6})(\d{7})/, '$1-$2') );
+    $('#stoOpnngYmd').text( data.stoOpnngYmd.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') );
+    $('#stoBsnsPlaceAdres').text( data.stoBsnsPlaceAdres );
+    $('#stoHdofcAdres').text( data.stoHdofcAdres );
+    $('#stoBizcnd').text( data.stoBizcnd );
+    $('#stoInduty').text( data.stoInduty );
+    $('#stoTelno').text( phoneFomatter(data.stoTelno ) );
+    $('#stoVrtlAcnt').text( data.stoVrtlAcnt );
+    $('#stoNightSrchrTm').text( data.stoNightSrchrStdTm.replace(/(\d{2})(\d{2})(\d{2})/, '$1:$2:$3') + ' ~ ' + data.stoNightSrchrEndTm.replace(/(\d{2})(\d{2})(\d{2})/, '$1:$2:$3') );
+    $('#stoNightSrchrAmnt').text( data.stoNightSrchrAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
   });
 });

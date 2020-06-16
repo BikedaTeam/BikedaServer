@@ -37,7 +37,7 @@ $(document).ready(function () {
         data : 'stoMtlty'
       },
       {
-        data : 'stoCelno',
+        data : 'stoTelno',
         visible : false
       },
       {
@@ -221,7 +221,7 @@ $(document).ready(function () {
     $('#dlvryNo').text('');
     $('#stoId').text('');
     $('#stoMtlty').text('');
-    $('#stoCelno').text('');
+    $('#stoTelno').text('');
     $('#dlvryCusTelno').text('');
     $('#dlvryCusAdres').text('');
     $('#dlvryCusRoadAdres').text('');
@@ -240,13 +240,13 @@ $(document).ready(function () {
     $('#dlvryNo').text( data.dlvryNo );
     $('#stoId').text( data.stoId );
     $('#stoMtlty').text( data.stoMtlty );
-    $('#stoCelno').text( phoneFomatter(data.stoCelno) );
+    $('#stoTelno').text( phoneFomatter(data.stoTelno) );
     $('#dlvryCusTelno').text( phoneFomatter(data.dlvryCusTelno) );
     $('#dlvryCusAdres').text( data.dlvryCusAdres );
     $('#dlvryCusRoadAdres').text( data.dlvryCusRoadAdres );
     $('#dlvryCusDetlAdres').text( data.dlvryCusDetlAdres );
-    $('#dlvryFoodAmnt').text( data.dlvryFoodAmnt.replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
-    $('#dlvryAmnt').text( data.dlvryAmnt.replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
+    $('#dlvryFoodAmnt').text( data.dlvryFoodAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
+    $('#dlvryAmnt').text( data.dlvryAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
     $('#riderId').text( data.riderId );
     $('#riderNm').text( data.riderNm );
     $('#riderCelno').text( phoneFomatter(data.riderCelno) );
@@ -300,7 +300,7 @@ $(document).ready(function () {
     $('#dlvryNo').text('');
     $('#stoId').text('');
     $('#stoMtlty').text('');
-    $('#stoCelno').text('');
+    $('#stoTelno').text('');
     $('#dlvryCusTelno').text('');
     $('#dlvryCusAdres').text('');
     $('#dlvryCusRoadAdres').text('');
@@ -319,13 +319,13 @@ $(document).ready(function () {
     $('#dlvryNo').text( data.dlvryNo );
     $('#stoId').text( data.stoId );
     $('#stoMtlty').text( data.stoMtlty );
-    $('#stoCelno').text( phoneFomatter(data.stoCelno) );
+    $('#stoTelno').text( phoneFomatter(data.stoTelno) );
     $('#dlvryCusTelno').text( phoneFomatter(data.dlvryCusTelno) );
     $('#dlvryCusAdres').text( data.dlvryCusAdres );
     $('#dlvryCusRoadAdres').text( data.dlvryCusRoadAdres );
     $('#dlvryCusDetlAdres').text( data.dlvryCusDetlAdres );
-    $('#dlvryFoodAmnt').text( data.dlvryFoodAmnt.replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
-    $('#dlvryAmnt').text( data.dlvryAmnt.replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
+    $('#dlvryFoodAmnt').text( data.dlvryFoodAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
+    $('#dlvryAmnt').text( data.dlvryAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
     $('#riderId').text( data.riderId );
     $('#riderNm').text( data.riderNm );
     $('#riderCelno').text( phoneFomatter(data.riderCelno) );

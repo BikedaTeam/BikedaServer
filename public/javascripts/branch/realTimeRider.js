@@ -163,7 +163,7 @@ $(document).ready(function () {
           data : 'stoMtlty'
         },
         {
-          data : 'stoCelno',
+          data : 'stoTelno',
           visible : false
         },
         {

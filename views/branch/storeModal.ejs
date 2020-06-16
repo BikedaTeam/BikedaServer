@@ -3,98 +3,129 @@
     <div class="modal-content">
       <div class="modal-body">
         <div class="row">
-          <section class="col-6" id="bizDefault">
+          <section class="col-6">
             <div class="card card-info">
               <div class="card-header">
                 <h3 class="card-title">기본 정보</h3>
+                <div class="card-tools">
+                  <span id="stoStateCd" class="badge"></span>
+                </div>
               </div>
               <div class="card-body">
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-6">
+                    <div class="col-12">
                       <b>ID</b> <a id="stoId" class="float-right"></a>
-                    </div>
-                    <div class="col-6">
-                      <b>사업구분</b> <a id="stoBizSeCd" class="float-right"></a>
                     </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-6">
+                    <div class="col-12">
                       <b>연락처</b> <a id="stoTelno" class="float-right"></a>
                     </div>
-                    <div class="col-6">
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-12">
+                      <b>관리지점</b> <a id="brcofcNm" class="float-right"></a>
+                    </div>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-12">
                       <b>가상계좌번호</b> <a id="stoVrtlAcnt" class="float-right"></a>
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
-            <div id='bizPrivate'class="card card-info">
+            <div id="bizDefault" class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">사업자 등록증 정보(간이/개인)</h3>
+                <h3 class="card-title">사업자 등록증 정보</h3>
+                <div class="card-tools">
+                  <span id="stoBizSeCd" class="badge"></span>
+                </div>
               </div>
-              <div class="card-body">
-                <ul class="list-group">
+              <div id='bizPrivate' class="card-body">
+                <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b> 상호</b><a id="dlvryNo" class="float-right"></a>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-6">
-                      <b>성명</b><a id="stoTelno" class="float-right"></a>
-                    </div>
-                    <div class="col-6">
-                      <b>생년월일</b> <a id="stoVrtlAcnt" class="float-right"></a>
+                    <div class="col-12">
+                      <b>사업자 등록번호</b><a id="stoBsnsRgnmb" class="float-right"></a>
                     </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>개업년월일</b> <a id="dlvryCusRoadAdres" class="float-right"></a>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>사업장소재지</b> <a id="dlvryCusDetlAdres" class="float-right"></a>
+                    <div class="col-12">
+                      <b>상호</b><a id="stoMtlty" class="float-right"></a>
+                    </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="col-6">
-                      <b>업태</b> <a id="dlvryCusTelno" class="float-right"></a>
+                      <b>성명</b><a id="stoRprsntvNm" class="float-right"></a>
                     </div>
                     <div class="col-6">
-                      <b>종목</b> <a id="dlvryRecvDt" class="float-right"></a>
+                      <b>생년월일</b> <a id="stoBrdYmd" class="float-right"></a>
+                    </div>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-12">
+                      <b>개업년월일</b> <a id="stoOpnngYmd" class="float-right"></a>
+                    </div>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-12">
+                      <b>사업장소재지</b> <a id="stoBsnsPlaceAdres" class="float-right"></a>
+                    </div>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-6">
+                      <b>업태</b> <a id="stoBizcnd" class="float-right"></a>
+                    </div>
+                    <div class="col-6">
+                      <b>종목</b> <a id="stoInduty" class="float-right"></a>
                     </div>
                   </li>
                 </ul>
               </div>
-            </div>
-            <div id='bizCrprt' class="card card-info">
-              <div class="card-header">
-                <h3 class="card-title">사업자 등록증 정보(법인)</h3>
-              </div>
-              <div class="card-body">
-                <ul class="list-group">
+              <div id='bizCrprt' class="card-body">
+                <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>법인명</b><a id="dlvryNo" class="float-right"></a>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>대표명</b> <a id="dlvryCusRoadAdres" class="float-right"></a>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-6">
-                      <b>개업년월일</b><a id="stoTelno" class="float-right"></a>
-                    </div>
-                    <div class="col-6">
-                      <b>법인등록번호</b> <a id="stoVrtlAcnt" class="float-right"></a>
+                    <div class="col-12">
+                      <b>사업자 등록번호</b><a id="stoBsnsRgnmb" class="float-right"></a>
                     </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>사업장소재지</b> <a id="dlvryCusDetlAdres" class="float-right"></a>
+                    <div class="col-12">
+                      <b>법인명</b><a id="stoMtlty" class="float-right"></a>
+                    </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>본점소재지</b> <a id="dlvryCusDetlAdres" class="float-right"></a>
+                    <div class="col-12">
+                      <b>대표명</b> <a id="stoRprsntvNm" class="float-right"></a>
+                    </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="col-6">
-                      <b>업태</b> <a id="dlvryCusTelno" class="float-right"></a>
+                      <b>개업년월일</b><a id="stoOpnngYmd" class="float-right"></a>
+                    </div>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-12">
+                      <b>법인등록번호</b> <a id="stoCrprtRgnmb" class="float-right"></a>
+                    </div>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-12">
+                      <b>사업장소재지</b> <a id="stoBsnsPlaceAdres" class="float-right"></a>
+                    <div>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-12">
+                      <b>본점소재지</b> <a id="stoHdofcAdres" class="float-right"></a>
+                    </div>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-6">
+                      <b>업태</b> <a id="stoBizcnd" class="float-right"></a>
                     </div>
                     <div class="col-6">
-                      <b>종목</b> <a id="dlvryRecvDt" class="float-right"></a>
+                      <b>종목</b> <a id="stoInduty" class="float-right"></a>
                     </div>
                   </li>
                 </ul>
@@ -104,43 +135,89 @@
           <section class="col-6">
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">기본 정보</h3>
+                <h3 class="card-title">야간 할증</h3>
+                <div class="card-tools">
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-xs btn-secondary">
+                      <input type="radio" name="options" id="option1" autocomplete="off" checked> 적용
+                    </label>
+                    <label class="btn btn-xs btn-secondary">
+                      <input type="radio" name="options" id="option2" autocomplete="off"> 미적용
+                    </label>
+                  </div>
+                </div>
               </div>
               <div class="card-body">
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-6">
-                      <b>ID</b> <a id="stoId" class="float-right"></a>
-                    </div>
-                    <div class="col-6">
-                      <b>사업구분</b> <a id="stoBizSeCd" class="float-right"></a>
+                    <div class="col-12">
+                      <b>할증 시간</b>
+                      <a id="stoNightSrchrTm" class="float-right">00:00:00 ~ 00:00:00</a>
                     </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-6">
-                      <b>연락처</b> <a id="stoTelno" class="float-right"></a>
-                    </div>
-                    <div class="col-6">
-                      <b>가상계좌번호</b> <a id="stoVrtlAcnt" class="float-right"></a>
+                    <div class="col-12">
+                      <b>할증 금액</b> <a id="stoNightSrchrAmnt" class="float-right">1,000</a>
                     </div>
                   </li>
+                </ul>
+              </div>
+            </div>
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">할증 설정</h3>
+                <div class="card-tools">
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-xs btn-secondary">
+                      <input type="radio" name="options" id="option1" autocomplete="off" checked> 구역
+                    </label>
+                    <label class="btn btn-xs btn-secondary">
+                      <input type="radio" name="options" id="option2" autocomplete="off"> 거리
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div id="setArea" class="card-body">
+                <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>본점소재지</b> <a id="dlvryCusDetlAdres" class="float-right"></a>
+                    <b></b>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                      <label class="btn btn-sm btn-secondary">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked> 적용
+                      </label>
+                      <label class="btn btn-sm btn-secondary">
+                        <input type="radio" name="options" id="option2" autocomplete="off"> 미적용
+                      </label>
+                    </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>본점소재지</b> <a id="dlvryCusDetlAdres" class="float-right"></a>
+                    <b>야간 할증 시간</b>
+                    <a id="dlvryCusDetlAdres" class="float-right">00:00:00 ~ 00:00:00</a>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>본점소재지</b> <a id="dlvryCusDetlAdres" class="float-right"></a>
+                    <b>야간 할증 금액</b> <a id="dlvryCusDetlAdres" class="float-right">1,000</a>
+                  </li>
+                </ul>
+              </div>
+              <div id="setDistance" class="card-body">
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <b></b>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                      <label class="btn btn-sm btn-secondary">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked> 적용
+                      </label>
+                      <label class="btn btn-sm btn-secondary">
+                        <input type="radio" name="options" id="option2" autocomplete="off"> 미적용
+                      </label>
+                    </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>본점소재지</b> <a id="dlvryCusDetlAdres" class="float-right"></a>
+                    <b>야간 할증 시간</b>
+                    <a id="dlvryCusDetlAdres" class="float-right">00:00:00 ~ 00:00:00</a>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>본점소재지</b> <a id="dlvryCusDetlAdres" class="float-right"></a>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>본점소재지</b> <a id="dlvryCusDetlAdres" class="float-right"></a>
+                    <b>야간 할증 금액</b> <a id="dlvryCusDetlAdres" class="float-right">1,000</a>
                   </li>
                 </ul>
               </div>
