@@ -106,24 +106,23 @@ $(document).ready(function () {
     else
       stateHtml = '<span class="badge bg-danger">휴무</span>';
 
-    var content = '<div class="row">'+
-      '<div class="col-12">'+
-        '<div class="card card-info">'+
-          '<div class="card-header">'+
-            '<h3 class="card-title">'+ data.riderNm +'</h3>'+
-            '<div class="card-tools">'+
-              stateHtml +
-            '</div>'+
+    var content =
+    '<div class="col-12">'+
+      '<div class="card card-info">'+
+        '<div class="card-header">'+
+          '<h3 class="card-title">'+ data.riderNm +'</h3>'+
+          '<div class="card-tools">'+
+            stateHtml +
           '</div>'+
-          '<div class="card-body">'+
-            '<table id="tb_riderDeliveries" class="table table-bordered table-hover">'+
-              '<thead>'+
-              '<tr>'+
-                '<th>배달 목록</th>'+
-              '</tr>'+
-              '</thead>'+
-            '</table>'+
-          '</div>'+
+        '</div>'+
+        '<div class="card-body">'+
+          '<table id="tb_riderDeliveries" class="table table-bordered table-hover">'+
+            '<thead>'+
+            '<tr>'+
+              '<th>배달 목록</th>'+
+            '</tr>'+
+            '</thead>'+
+          '</table>'+
         '</div>'+
       '</div>'+
     '</div>';
