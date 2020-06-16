@@ -137,14 +137,7 @@
               <div class="card-header">
                 <h3 class="card-title">야간 할증</h3>
                 <div class="card-tools">
-                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-xs btn-secondary">
-                      <input type="radio" name="options" id="option1" autocomplete="off" checked> 적용
-                    </label>
-                    <label class="btn btn-xs btn-secondary">
-                      <input type="radio" name="options" id="option2" autocomplete="off"> 미적용
-                    </label>
-                  </div>
+                  <input id="stoNightSrchrApplyYn" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="적용" data-off="미적용" data-onstyle="primary" data-offstyle="dark">
                 </div>
               </div>
               <div class="card-body">
@@ -163,61 +156,25 @@
                 </ul>
               </div>
             </div>
-            <div class="card card-info">
+            <div id="setDefault" class="card card-info">
               <div class="card-header">
                 <h3 class="card-title">할증 설정</h3>
                 <div class="card-tools">
-                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-xs btn-secondary">
-                      <input type="radio" name="options" id="option1" autocomplete="off" checked> 구역
-                    </label>
-                    <label class="btn btn-xs btn-secondary">
-                      <input type="radio" name="options" id="option2" autocomplete="off"> 거리
-                    </label>
-                  </div>
+                  <input id="stoSetSeCd" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="구역" data-off="거리" data-onstyle="warning" data-offstyle="danger">
                 </div>
               </div>
               <div id="setArea" class="card-body">
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b></b>
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                      <label class="btn btn-sm btn-secondary">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked> 적용
-                      </label>
-                      <label class="btn btn-sm btn-secondary">
-                        <input type="radio" name="options" id="option2" autocomplete="off"> 미적용
-                      </label>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>야간 할증 시간</b>
+                    <b>구역</b>
                     <a id="dlvryCusDetlAdres" class="float-right">00:00:00 ~ 00:00:00</a>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>야간 할증 금액</b> <a id="dlvryCusDetlAdres" class="float-right">1,000</a>
                   </li>
                 </ul>
               </div>
               <div id="setDistance" class="card-body">
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b></b>
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                      <label class="btn btn-sm btn-secondary">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked> 적용
-                      </label>
-                      <label class="btn btn-sm btn-secondary">
-                        <input type="radio" name="options" id="option2" autocomplete="off"> 미적용
-                      </label>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>야간 할증 시간</b>
-                    <a id="dlvryCusDetlAdres" class="float-right">00:00:00 ~ 00:00:00</a>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <b>야간 할증 금액</b> <a id="dlvryCusDetlAdres" class="float-right">1,000</a>
+                    <b>거리</b> <a id="dlvryCusDetlAdres" class="float-right">1,000</a>
                   </li>
                 </ul>
               </div>

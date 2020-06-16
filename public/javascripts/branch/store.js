@@ -138,6 +138,7 @@ $(document).ready(function () {
   });
 
   var bizSwap;
+  var setSwap;
   $('#storeDetailModal').on('show.bs.modal', function (event) {
     var modal = $(this);
     $('#stoBizSeCd').removeClass('bg-indigo bg-lightblue');
@@ -162,6 +163,26 @@ $(document).ready(function () {
       $('#stoStateCd').addClass('bg-navy');
     }
 
+    $('#stoNightSrchrApplyYn').bootstrapToggle('enable');
+    if( data.stoNightSrchrApplyYn == 'Y') {
+      $('#stoNightSrchrApplyYn').bootstrapToggle('on');
+    } else if( data.stoNightSrchrApplyYn == 'N') {
+      $('#stoNightSrchrApplyYn').bootstrapToggle('off');
+    }
+    $('#stoNightSrchrApplyYn').bootstrapToggle('disable');
+
+    if( setSwap ) $('#setDefault').append( setSwap );
+    $('#stoSetSeCd').bootstrapToggle('enable');
+    if( data.stoSetSeCd == '01') {
+      $('#stoSetSeCd').bootstrapToggle('on');
+      setSwap = $('#setDistance').detach();
+    } else if( data.stoSetSeCd == '02') {
+      $('#stoSetSeCd').bootstrapToggle('off');      
+      setSwap = $('#setArea').detach();
+    }
+    $('#stoSetSeCd').bootstrapToggle('disable');
+
+
 
     $('#stoId').text('');
     $('#brcofcNm').text('');
@@ -178,7 +199,6 @@ $(document).ready(function () {
     $('#stoTelno').text('');
     $('#stoVrtlAcnt').text('');
     $('#stoSetSeCd').text('');
-    $('#stoNightSrchrApplyYn').text('');
     $('#stoNightSrchrTm').text('');
     $('#stoNightSrchrAmnt').text('');
 
@@ -199,5 +219,6 @@ $(document).ready(function () {
     $('#stoVrtlAcnt').text( data.stoVrtlAcnt );
     $('#stoNightSrchrTm').text( data.stoNightSrchrStdTm.replace(/(\d{2})(\d{2})(\d{2})/, '$1:$2:$3') + ' ~ ' + data.stoNightSrchrEndTm.replace(/(\d{2})(\d{2})(\d{2})/, '$1:$2:$3') );
     $('#stoNightSrchrAmnt').text( data.stoNightSrchrAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
+
   });
 });

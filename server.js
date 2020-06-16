@@ -33,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.use(upload.array()); // for parsing multipart/form-data
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'node_modules/admin-lte')));
 app.use('/js', express.static(path.join(__dirname, 'public/javascripts')));
 app.use('/css', express.static(path.join(__dirname, 'public/stylesheets')));
