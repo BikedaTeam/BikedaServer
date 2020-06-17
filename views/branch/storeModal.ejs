@@ -1,301 +1,170 @@
-<div class="modal fade" id="storeRegisterModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="storeInputModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-body">
         <div class="row">
-          <section class="col-6">
-            <div class="card card-info">
-              <div class="card-header">
-                <h3 class="card-title">기본 정보</h3>
-              </div>
-              <div class="card-body">
-                <ul class="list-group list-group-unbordered mb-3">
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>연락처</b></button>
+          <div class="card card-info col-12">
+            <div class="card-header">
+              <h3 class="card-title">상점 등록</h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <section class="col-lg-6">
+                  <ul class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div class="col-12">
+                        <div class="input-group">
+                          <div class="input-group-prepend col-4">
+                            <button type="button" class="btn btn-sm btn-nomal"><b>사업자 번호</b></button>
+                          </div>
+                          <input id="r_stoBsnsRgnmb" type="text" class="form-control form-control-sm">
                         </div>
-                        <input id="r_stoTelno" type="text" class="form-control form-control-sm">
                       </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>가상계좌번호</b></button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div class="col-12">
+                        <div class="input-group">
+                          <div class="input-group-prepend col-4">
+                            <button type="button" class="btn btn-sm btn-nomal"><b>상호</b></button>
+                          </div>
+                          <input id="r_stoMtlty" type="text" class="form-control form-control-sm">
                         </div>
-                        <input id="r_stoVrtlAcnt" type="text" class="form-control form-control-sm">
                       </div>
-                    </div>
-                  </li>
-                </ul>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div class="col-12">
+                        <div class="input-group">
+                          <div class="input-group-prepend col-4">
+                            <button type="button" class="btn btn-sm btn-nomal"><b>성명</b></button>
+                          </div>
+                          <input id="r_stoRprsntvNm" type="text" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div class="col-12">
+                        <div class="input-group">
+                          <div class="input-group-prepend col-4">
+                            <button type="button" class="btn btn-sm btn-nomal"><b>개업년월일</b></button>
+                          </div>
+                          <input id="r_stoOpnngYmd" type="text" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div class="col-12">
+                        <div class="input-group">
+                          <div class="input-group-prepend col-4">
+                            <button type="button" class="btn btn-sm btn-nomal"><b>주소</b></button>
+                          </div>
+                          <input id="r_stoBsnsPlaceAdres" type="text" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div class="col-12">
+                        <div class="input-group">
+                          <div class="input-group-prepend col-4">
+                            <button type="button" class="btn btn-sm btn-nomal"><b>업태</b></button>
+                          </div>
+                          <input id="r_stoBizcnd" type="text" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div class="col-12">
+                        <div class="input-group">
+                          <div class="input-group-prepend col-4">
+                            <button type="button" class="btn btn-sm btn-nomal"><b>종목</b></button>
+                          </div>
+                          <input id="r_stoInduty" type="text" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </section>
+                <section id="r_bizDefault" class="col-lg-6" >
+                  <ul class="list-group list-group-unbordered">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div class="col-12">
+                        <div class="input-group">
+                          <div class="input-group-prepend col-4">
+                            <button type="button" class="btn btn-sm btn-nomal"><b>연락처</b></button>
+                          </div>
+                          <input id="r_stoTelno" type="text" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div class="col-12">
+                        <div class="input-group">
+                          <div class="input-group-prepend col-4">
+                            <button type="button" class="btn btn-sm btn-nomal"><b>가상계좌번호</b></button>
+                          </div>
+                          <input id="r_stoVrtlAcnt" type="text" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div class="col-12">
+                        <input id="r_stoBizSeCd" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="개인" data-off="법인" data-onstyle="danger" data-offstyle="success">
+                      </div>
+                    </li>
+                  </ul>
+                  <ul id='r_bizPrivate' class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div class="col-12">
+                        <div class="input-group">
+                          <div class="input-group-prepend col-4">
+                            <button type="button" class="btn btn-sm btn-nomal"><b>생년월일</b></button>
+                          </div>
+                          <input id="r_stoBrdYmd" type="text" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <ul id='r_bizCrprt' class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div class="col-12">
+                        <div class="input-group">
+                          <div class="input-group-prepend col-4">
+                            <button type="button" class="btn btn-sm btn-nomal"><b>법인번호</b></button>
+                          </div>
+                          <input id="r_stoCrprtRgnmb" type="text" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div class="col-12">
+                        <div class="input-group">
+                          <div class="input-group-prepend col-4">
+                            <button type="button" class="btn btn-sm btn-nomal"><b>본점주소</b></button>
+                          </div>
+                          <input id="r_stoHdofcAdres" type="text" class="form-control form-control-sm">
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </section>
               </div>
             </div>
-            <div id="r_bizDefault" class="card card-info">
-              <div class="card-header">
-                <h3 class="card-title">사업자 등록증 정보</h3>
-                <div class="card-tools">
-                  <input id="r_stoBizSeCd" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="개인" data-off="법인" data-onstyle="danger" data-offstyle="success">
-                </div>
-              </div>
-              <div id='r_bizPrivate' class="card-body">
-                <ul class="list-group list-group-unbordered mb-3">
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>사업자 등록번호</b></button>
-                        </div>
-                        <input id="r_stoBsnsRgnmb" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>상호</b></button>
-                        </div>
-                        <input id="r_stoMtlty" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>성명</b></button>
-                        </div>
-                        <input id="r_stoRprsntvNm" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>생년월일</b></button>
-                        </div>
-                        <input id="r_stoBrdYmd" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>개업년월일</b></button>
-                        </div>
-                        <input id="r_stoOpnngYmd" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>사업장소재지</b></button>
-                        </div>
-                        <input id="r_stoBsnsPlaceAdres" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>업태</b></button>
-                        </div>
-                        <input id="r_stoBizcnd" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>종목</b></button>
-                        </div>
-                        <input id="r_stoInduty" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div id='r_bizCrprt' class="card-body">
-                <ul class="list-group list-group-unbordered mb-3">
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>사업자 등록번호</b></button>
-                        </div>
-                        <input id="r_stoBsnsRgnmb" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>법인명</b></button>
-                        </div>
-                        <input id="r_stoMtlty" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>대표명</b></button>
-                        </div>
-                        <input id="r_stoRprsntvNm" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>개업년월일</b></button>
-                        </div>
-                        <input id="r_stoOpnngYmd" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>법인등록번호</b></button>
-                        </div>
-                        <input id="r_stoCrprtRgnmb" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>사업장소재지</b></button>
-                        </div>
-                        <input id="r_stoBsnsPlaceAdres" type="text" class="form-control form-control-sm">
-                      </div>
-                    <div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>본점소재지</b></button>
-                        </div>
-                        <input id="r_stoHdofcAdres" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>업태</b></button>
-                        </div>
-                        <input id="r_stoBizcnd" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>종목</b></button>
-                        </div>
-                        <input id="r_stoInduty" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </section>
-          <section class="col-6">
-            <div class="card card-info">
-              <div class="card-header">
-                <h3 class="card-title">야간 할증</h3>
-                <div class="card-tools">
-                  <input id="r_stoNightSrchrApplyYn" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="적용" data-off="미적용" data-onstyle="primary" data-offstyle="dark">
-                </div>
-              </div>
-              <div class="card-body">
-                <ul class="list-group list-group-unbordered mb-3">
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>할증 시간</b></button>
-                        </div>
-                        <input id="r_stoNightSrchrStdTm" type="text" class="form-control form-control-sm">&nbsp;~&nbsp;
-                        <input id="r_stoNightSrchrEndTm" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div class="col-12">
-                      <div class="input-group">
-                        <div class="input-group-prepend col-4">
-                          <button type="button" class="btn btn-sm btn-nomal"><b>할증 금액</b></button>
-                        </div>
-                        <input id="r_stoNightSrchrAmnt" type="text" class="form-control form-control-sm">
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="card card-info">
-              <div class="card-header">
-                <h3 class="card-title">특수 할증</h3>
-              </div>
-              <div class="card-body">
-                <ul id="r_surchargeList" class="list-group list-group-unbordered mb-3">
-                </ul>
-              </div>
-            </div>
-            <div id="r_setDefault" class="card card-info">
-              <div class="card-header">
-                <h3 class="card-title">추가 요금 설정 (기본료 : 3,000원)</h3>
-                <div class="card-tools">
-                  <input id="r_stoSetSeCd" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="구역" data-off="거리" data-onstyle="warning" data-offstyle="danger">
-                </div>
-              </div>
-              <div id="r_setArea" class="card-body">
-                <ul id="r_setAreaList" class="list-group list-group-unbordered mb-3">
-                </ul>
-              </div>
-              <div id="r_setDistance" class="card-body">
-                <ul id="r_setDistanceList" class="list-group list-group-unbordered mb-3">
-                </ul>
-              </div>
-            </div>
-          </section>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">저장</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>
 </div>
 
-
 <div class="modal fade" id="storeDetailModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-body">
         <div class="row">
-          <section class="col-6">
+          <section class="col-lg-6 col-12">
             <div class="card card-info">
               <div class="card-header">
                 <h3 class="card-title">기본 정보</h3>
@@ -339,7 +208,7 @@
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="col-12">
-                      <b>사업자 등록번호</b><a id="stoBsnsRgnmb" class="float-right"></a>
+                      <b>사업자번호</b><a id="stoBsnsRgnmb" class="float-right"></a>
                     </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -362,7 +231,7 @@
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="col-12">
-                      <b>사업장소재지</b> <a id="stoBsnsPlaceAdres" class="float-right"></a>
+                      <b>주소</b> <a id="stoBsnsPlaceAdres" class="float-right"></a>
                     </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -379,17 +248,17 @@
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="col-12">
-                      <b>사업자 등록번호</b><a id="stoBsnsRgnmb" class="float-right"></a>
+                      <b>사업자번호</b><a id="stoBsnsRgnmb" class="float-right"></a>
                     </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="col-12">
-                      <b>법인명</b><a id="stoMtlty" class="float-right"></a>
+                      <b>상호</b><a id="stoMtlty" class="float-right"></a>
                     </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="col-12">
-                      <b>대표명</b> <a id="stoRprsntvNm" class="float-right"></a>
+                      <b>성명</b> <a id="stoRprsntvNm" class="float-right"></a>
                     </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -399,17 +268,17 @@
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="col-12">
-                      <b>법인등록번호</b> <a id="stoCrprtRgnmb" class="float-right"></a>
+                      <b>법인번호</b> <a id="stoCrprtRgnmb" class="float-right"></a>
                     </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="col-12">
-                      <b>사업장소재지</b> <a id="stoBsnsPlaceAdres" class="float-right"></a>
+                      <b>주소</b> <a id="stoBsnsPlaceAdres" class="float-right"></a>
                     <div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="col-12">
-                      <b>본점소재지</b> <a id="stoHdofcAdres" class="float-right"></a>
+                      <b>본점주소</b> <a id="stoHdofcAdres" class="float-right"></a>
                     </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -424,7 +293,7 @@
               </div>
             </div>
           </section>
-          <section class="col-6">
+          <section class="col-lg-6 col-12">
             <div class="card card-info">
               <div class="card-header">
                 <h3 class="card-title">야간 할증</h3>

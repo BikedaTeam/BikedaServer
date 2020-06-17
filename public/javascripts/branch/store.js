@@ -114,16 +114,30 @@ $(document).ready(function () {
       },
       {
         data : null,
-        width : '70px',
+        width : '50px',
         render : function ( data, type, row, meta) {
-          return '<button type="button" class="btn btn-block btn-xs bg-info">상세 보기</button>';
+          return '<button type="button" class="btn btn-block btn-xs bg-info">상세</button>';
         }
       },
       {
         data : null,
-        width : '70px',
+        width : '50px',
         render : function ( data, type, row, meta) {
           return '<button type="button" class="btn btn-block btn-xs bg-success">수정</button>';
+        }
+      },
+      {
+        data : null,
+        width : '50px',
+        render : function ( data, type, row, meta) {
+          return '<button type="button" class="btn btn-block btn-xs bg-teal">요금</button>';
+        }
+      },
+      {
+        data : null,
+        width : '50px',
+        render : function ( data, type, row, meta) {
+          return '<button type="button" class="btn btn-block btn-xs bg-olive">할증</button>';
         }
       }
     ],
@@ -143,6 +157,14 @@ $(document).ready(function () {
     data = table.row($(this).closest('tr')).data();
     $('#storeDetailModal').modal('show');
   });
+
+  $('#tb_store tbody').on('click', '.bg-info', function () {
+    table = $('#tb_store').DataTable();
+    row = table.row($(this).closest('tr'));
+    data = table.row($(this).closest('tr')).data();
+    $('#storeDetailModal').modal('show');
+  });
+
 
   var bizSwap;
   var setSwap;
@@ -303,15 +325,18 @@ $(document).ready(function () {
       }
     });
   });
+
+
   $('#stoReg').on('click',function () {
-    $('#storeRegisterModal').modal('show');
+    $('#storeInputModal').modal('show');
   });
   var r_bizSwap;
-  $('#storeRegisterModal').on('show.bs.modal', function (event) {
+  $('#storeInputModal').on('show.bs.modal', function (event) {
+    console.log(event);
     $('#r_stoBizSeCd').bootstrapToggle('on');
     $('#r_stoSetSeCd').bootstrapToggle('on');
   });
-  $('#storeRegisterModal').on('hidden.bs.modal', function (event) {
+  $('#storeInputModal').on('hidden.bs.modal', function (event) {
     $('#r_stoBizSeCd').bootstrapToggle('on');
     $('#r_stoSetSeCd').bootstrapToggle('on');
   });
