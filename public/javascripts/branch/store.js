@@ -162,7 +162,7 @@ $(document).ready(function () {
     table = $('#tb_store').DataTable();
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();
-    $('#storeDetailModal').modal('show');
+    $('#storeDetailModal').modal('show'); 
   });
 
 
