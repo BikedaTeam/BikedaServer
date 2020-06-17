@@ -311,4 +311,105 @@ router.post('/stores', function(req, res, next) {
   ] };
   res.json(data);
 });
+
+router.post('/surcharge', function(req, res, next) {
+  var data = { "data" : [
+    {
+      srchrSeqNo : 1,
+      stoId : 'S0001',
+      srchrSeCd : '01',
+      srchrCn : '눈',
+      srchrAmnt : 500,
+      srchrApplyYn : 'Y',
+    },
+    {
+      srchrSeqNo : 2,
+      stoId : 'S0001',
+      srchrSeCd : '02',
+      srchrCn : '비',
+      srchrAmnt : 500,
+      srchrApplyYn : 'Y',
+    },
+    {
+      srchrSeqNo : 3,
+      stoId : 'S0001',
+      srchrSeCd : '03',
+      srchrCn : '결빙',
+      srchrAmnt : 500,
+      srchrApplyYn : 'N',
+    },
+    {
+      srchrSeqNo : 4,
+      stoId : 'S0001',
+      srchrSeCd : '04',
+      srchrCn : '기타',
+      srchrAmnt : 500,
+      srchrApplyYn : 'Y',
+    },
+  ] };
+  res.json(data);
+});
+
+router.post('/setDistance', function(req, res, next) {
+  var data = { "data" : [
+    {
+      setSeqNo : 1,
+      stoId : 'S0001',
+      setStdDstnc : 0,
+      setEndDstnc : 0.5,
+      setAmnt : 500
+    },
+    {
+      setSeqNo : 2,
+      stoId : 'S0001',
+      setStdDstnc : 0.5,
+      setEndDstnc : 1,
+      setAmnt : 1000
+    },
+    {
+      setSeqNo : 3,
+      stoId : 'S0001',
+      setStdDstnc : 1,
+      setEndDstnc : 2,
+      setAmnt : 2000
+    },
+  ] };
+  res.json(data);
+});
+
+router.post('/setArea', function(req, res, next) {
+  var data = { "data" : [
+    {
+      setSeqNo : 1,
+      stoId : 'S0001',
+      setDCd : '4113510900',
+      setPrvnc : '부산',
+      setMncpl: '해운대구',
+      setSbmnc: '반여1동',
+      setVlg: '',
+      setAmnt : 1000
+    },
+    {
+      setSeqNo : 2,
+      stoId : 'S0001',
+      setDCd : '4113510900',
+      setPrvnc : '부산',
+      setMncpl: '해운대구',
+      setSbmnc: '반여2동',
+      setVlg: '',
+      setAmnt : 1000
+    },
+    {
+      setSeqNo : 3,
+      stoId : 'S0001',
+      setDCd : '4113510900',
+      setPrvnc : '부산',
+      setMncpl: '해운대구',
+      setSbmnc: '반여3동',
+      setVlg: '',
+      setAmnt : 1000
+    },
+  ] };
+  res.json(data);
+});
 module.exports = router;

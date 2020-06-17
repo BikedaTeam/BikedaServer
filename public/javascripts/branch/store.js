@@ -118,6 +118,13 @@ $(document).ready(function () {
         render : function ( data, type, row, meta) {
           return '<button type="button" class="btn btn-block btn-xs bg-info">상세 보기</button>';
         }
+      },
+      {
+        data : null,
+        width : '70px',
+        render : function ( data, type, row, meta) {
+          return '<button type="button" class="btn btn-block btn-xs bg-success">수정</button>';
+        }
       }
     ],
     autoWidth : false,
@@ -177,12 +184,10 @@ $(document).ready(function () {
       $('#stoSetSeCd').bootstrapToggle('on');
       setSwap = $('#setDistance').detach();
     } else if( data.stoSetSeCd == '02') {
-      $('#stoSetSeCd').bootstrapToggle('off');      
+      $('#stoSetSeCd').bootstrapToggle('off');
       setSwap = $('#setArea').detach();
     }
     $('#stoSetSeCd').bootstrapToggle('disable');
-
-
 
     $('#stoId').text('');
     $('#brcofcNm').text('');
@@ -202,7 +207,6 @@ $(document).ready(function () {
     $('#stoNightSrchrTm').text('');
     $('#stoNightSrchrAmnt').text('');
 
-
     $('#stoId').text( data.stoId );
     $('#brcofcNm').text( data.brcofcNm );
     $('#stoBsnsRgnmb').text( data.stoBsnsRgnmb.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3') );
@@ -220,5 +224,111 @@ $(document).ready(function () {
     $('#stoNightSrchrTm').text( data.stoNightSrchrStdTm.replace(/(\d{2})(\d{2})(\d{2})/, '$1:$2:$3') + ' ~ ' + data.stoNightSrchrEndTm.replace(/(\d{2})(\d{2})(\d{2})/, '$1:$2:$3') );
     $('#stoNightSrchrAmnt').text( data.stoNightSrchrAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
 
+
+    var sendData = {
+      stoId : data.stoId
+    };
+    serverAjaxSend( '/branch/surcharge', 'post', sendData, function ( datas ) {
+      $('#surchargeList').empty();
+      var data = datas.data;
+
+      var html =
+      '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+      ' <div class="col-12">' +
+      '  <b>할증 구분</b>' +
+      '  <a class="float-right">금액</a>' +
+      ' </div>' +
+      '</li>';
+      $('#surchargeList').append( html );
+
+      for( var i = 0 ; i < data.length ; i++ ){
+        html =
+        '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+        ' <div class="col-12">' +
+        '  <input disabled type="checkbox"'+ ( data[i].srchrApplyYn == 'Y' ? 'checked' : '' ) +'>&nbsp;<b>' + data[i].srchrCn + '</b>' +
+        '  <a class="float-right">'+ data[i].srchrAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</a>' +
+        ' </div>' +
+        '</li>';
+        $('#surchargeList').append( html );
+      }
+    });
+
+    serverAjaxSend( '/branch/setDistance', 'post', sendData, function ( datas ) {
+      $('#setDistanceList').empty();
+      var data = datas.data;
+
+      var html =
+      '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+      ' <div class="col-12">' +
+      '  <b>거리 구간</b>' +
+      '  <a class="float-right">금액</a>' +
+      ' </div>' +
+      '</li>';
+      $('#setDistanceList').append( html );
+
+      for( var i = 0 ; i < data.length ; i++ ){
+        html =
+        '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+        ' <div class="col-12">' +
+        '  <b>' + data[i].setStdDstnc.toFixed(2) + '(km) ~ ' + data[i].setEndDstnc.toFixed(2) + '(km)</b>' +
+        '  <a class="float-right">'+ data[i].setAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</a>' +
+        ' </div>' +
+        '</li>';
+        $('#setDistanceList').append( html );
+      }
+    });
+
+    serverAjaxSend( '/branch/setArea', 'post', sendData, function ( datas ) {
+      $('#setAreaList').empty();
+      var data = datas.data;
+
+      var html =
+      '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+      ' <div class="col-12">' +
+      '  <b>구역</b>' +
+      '  <a class="float-right">금액</a>' +
+      ' </div>' +
+      '</li>';
+      $('#setAreaList').append( html );
+
+      for( var i = 0 ; i < data.length ; i++ ){
+        html =
+        '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+        ' <div class="col-12">' +
+        '  <b>' + data[i].setSbmnc + '&nbsp;' + data[i].setVlg + '</b>' +
+        '  <a class="float-right">'+ data[i].setAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</a>' +
+        ' </div>' +
+        '</li>';
+        $('#setAreaList').append( html );
+      }
+    });
   });
+  $('#stoReg').on('click',function () {
+    $('#storeRegisterModal').modal('show');
+  });
+  var r_bizSwap;
+  $('#storeRegisterModal').on('show.bs.modal', function (event) {
+    $('#r_stoBizSeCd').bootstrapToggle('on');
+    $('#r_stoSetSeCd').bootstrapToggle('on');
+  });
+  $('#storeRegisterModal').on('hidden.bs.modal', function (event) {
+    $('#r_stoBizSeCd').bootstrapToggle('on');
+    $('#r_stoSetSeCd').bootstrapToggle('on');
+  });
+  $('#r_stoBizSeCd').change(function () {
+    $('#r_bizDefault').append( r_bizSwap );
+    if( $('#r_stoBizSeCd').prop('checked') )
+      r_bizSwap = $('#r_bizCrprt').detach();
+    else
+      r_bizSwap = $('#r_bizPrivate').detach();
+  });
+  var r_setDefault;
+  $('#r_stoSetSeCd').change(function () {
+    $('#r_setDefault').append( r_setDefault );
+    if( $('#r_stoSetSeCd').prop('checked') )
+      r_setDefault = $('#r_setDistance').detach();
+    else
+      r_setDefault = $('#r_setArea').detach();
+  });
+
 });
