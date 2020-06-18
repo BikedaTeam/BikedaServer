@@ -165,32 +165,28 @@ $(document).ready(function () {
     $('#storeDetailModal').modal('show'); 
   });
 
-
+  var stateSwap;
   var bizSwap;
   var setSwap;
   $('#storeDetailModal').on('show.bs.modal', function (event) {
     var modal = $(this);
-    $('#stoBizSeCd').removeClass('bg-indigo bg-lightblue');
-    $('#stoStateCd').removeClass('bg-purple bg-navy');
 
-    if( bizSwap ) $('#bizDefault').append( bizSwap );
+    $('#stoBizSeCd').bootstrapToggle('enable');
     if( data.stoBizSeCd == '01') {
-      $('#stoBizSeCd').text( '개인' );
-      $('#stoBizSeCd').addClass('bg-indigo');
-      bizSwap = $('#bizCrprt').detach();
+      $('#stoBizSeCd').bootstrapToggle('on');
     } else if( data.stoBizSeCd == '02') {
-      $('#stoBizSeCd').text( '법인' );
-      $('#stoBizSeCd').addClass('bg-lightblue');
-      bizSwap = $('#bizPrivate').detach();
+      $('#stoBizSeCd').bootstrapToggle('off');
     }
+    $('#stoBizSeCd').bootstrapToggle('disable');
 
+    $('#stoStateCd').bootstrapToggle('enable');
     if( data.stoStateCd == '01') {
-      $('#stoStateCd').text( '정상' );
-      $('#stoStateCd').addClass('bg-purple');
+      $('#stoStateCd').bootstrapToggle('on');
     } else if( data.stoStateCd == '02') {
-      $('#stoStateCd').text( '탈회' );
-      $('#stoStateCd').addClass('bg-navy');
+      $('#stoStateCd').bootstrapToggle('off');
     }
+    $('#stoStateCd').bootstrapToggle('disable');
+
 
     $('#stoNightSrchrApplyYn').bootstrapToggle('enable');
     if( data.stoNightSrchrApplyYn == 'Y') {
@@ -200,14 +196,12 @@ $(document).ready(function () {
     }
     $('#stoNightSrchrApplyYn').bootstrapToggle('disable');
 
-    if( setSwap ) $('#setDefault').append( setSwap );
+
     $('#stoSetSeCd').bootstrapToggle('enable');
     if( data.stoSetSeCd == '01') {
       $('#stoSetSeCd').bootstrapToggle('on');
-      setSwap = $('#setDistance').detach();
     } else if( data.stoSetSeCd == '02') {
       $('#stoSetSeCd').bootstrapToggle('off');
-      setSwap = $('#setArea').detach();
     }
     $('#stoSetSeCd').bootstrapToggle('disable');
 
@@ -253,18 +247,8 @@ $(document).ready(function () {
     serverAjaxSend( '/branch/surcharge', 'post', sendData, function ( datas ) {
       $('#surchargeList').empty();
       var data = datas.data;
-
-      var html =
-      '<li class="list-group-item d-flex justify-content-between align-items-center">' +
-      ' <div class="col-12">' +
-      '  <b>할증 구분</b>' +
-      '  <a class="float-right">금액</a>' +
-      ' </div>' +
-      '</li>';
-      $('#surchargeList').append( html );
-
       for( var i = 0 ; i < data.length ; i++ ){
-        html =
+        var html =
         '<li class="list-group-item d-flex justify-content-between align-items-center">' +
         ' <div class="col-12">' +
         '  <input disabled type="checkbox"'+ ( data[i].srchrApplyYn == 'Y' ? 'checked' : '' ) +'>&nbsp;<b>' + data[i].srchrCn + '</b>' +
@@ -278,18 +262,8 @@ $(document).ready(function () {
     serverAjaxSend( '/branch/setDistance', 'post', sendData, function ( datas ) {
       $('#setDistanceList').empty();
       var data = datas.data;
-
-      var html =
-      '<li class="list-group-item d-flex justify-content-between align-items-center">' +
-      ' <div class="col-12">' +
-      '  <b>거리 구간</b>' +
-      '  <a class="float-right">금액</a>' +
-      ' </div>' +
-      '</li>';
-      $('#setDistanceList').append( html );
-
       for( var i = 0 ; i < data.length ; i++ ){
-        html =
+        var html =
         '<li class="list-group-item d-flex justify-content-between align-items-center">' +
         ' <div class="col-12">' +
         '  <b>' + data[i].setStdDstnc.toFixed(2) + '(km) ~ ' + data[i].setEndDstnc.toFixed(2) + '(km)</b>' +
@@ -303,18 +277,8 @@ $(document).ready(function () {
     serverAjaxSend( '/branch/setArea', 'post', sendData, function ( datas ) {
       $('#setAreaList').empty();
       var data = datas.data;
-
-      var html =
-      '<li class="list-group-item d-flex justify-content-between align-items-center">' +
-      ' <div class="col-12">' +
-      '  <b>구역</b>' +
-      '  <a class="float-right">금액</a>' +
-      ' </div>' +
-      '</li>';
-      $('#setAreaList').append( html );
-
       for( var i = 0 ; i < data.length ; i++ ){
-        html =
+        var html =
         '<li class="list-group-item d-flex justify-content-between align-items-center">' +
         ' <div class="col-12">' +
         '  <b>' + data[i].setSbmnc + '&nbsp;' + data[i].setVlg + '</b>' +
@@ -324,15 +288,80 @@ $(document).ready(function () {
         $('#setAreaList').append( html );
       }
     });
+
+    serverAjaxSend( '/branch/setSpecial', 'post', sendData, function ( datas ) {
+      $('#setSpecialList').empty();
+      var data = datas.data;
+      for( var i = 0 ; i < data.length ; i++ ){
+        var html =
+        '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+        ' <div class="col-12">' +
+        '  <b>' + data[i].setNm + '</b>' +
+        '  <a class="float-right">'+ data[i].setAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</a>' +
+        ' </div>' +
+        '</li>';
+        $('#setSpecialList').append( html );
+      }
+    });
+
+  });
+  $('#storeDetailModal').on('hidden.bs.modal', function (event) {
+    $('#stoBizSeCd').bootstrapToggle('on');
+    $('#stoSetSeCd').bootstrapToggle('on');
   });
 
-
-  $('#stoReg').on('click',function () {
-    $('#storeInputModal').modal('show');
+  $('#stoBizSeCd').change(function () {
+    $('#bizDefault').append( bizSwap );
+    if( $('#stoBizSeCd').prop('checked') )
+      bizSwap = $('#bizCrprt').detach();
+    else
+      bizSwap = $('#bizPrivate').detach();
   });
+
+  $('#stoSetSeCd').change(function () {
+    $('#setDefault').append( setSwap );
+    if( $('#stoSetSeCd').prop('checked') )
+      setSwap = $('#setDistance').detach();
+    else
+      setSwap = $('#setArea').detach();
+  });
+
+  $('#storeSpecialModal').on('show.bs.modal', function (event) {
+    setTimeout(function () {
+      var container = document.getElementById('map');
+      var options = {
+        center: new kakao.maps.LatLng(35.19707078036156, 129.11891663441136),
+        level: 5
+      };
+      var map = new kakao.maps.Map(container, options);
+      //지점 위치 마커
+      var markerPosition  = new kakao.maps.LatLng(35.19707078036156, 129.11891663441136);
+      var marker = new kakao.maps.Marker({
+          position: markerPosition
+      });
+      marker.setMap(map);
+
+
+      serverAjaxSend( '/branch/setSpecialPolygons', 'post', sendData, function ( datas ) {
+        $('#setSpecialList').empty();
+        var data = datas.data;
+        for( var i = 0 ; i < data.length ; i++ ){
+          var html =
+          '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+          ' <div class="col-12">' +
+          '  <b>' + data[i].setNm + '</b>' +
+          '  <a class="float-right">'+ data[i].setAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</a>' +
+          ' </div>' +
+          '</li>';
+          $('#setSpecialList').append( html );
+        }
+      });
+
+    },500);
+  });
+
   var r_bizSwap;
   $('#storeInputModal').on('show.bs.modal', function (event) {
-    console.log(event);
     $('#r_stoBizSeCd').bootstrapToggle('on');
     $('#r_stoSetSeCd').bootstrapToggle('on');
   });

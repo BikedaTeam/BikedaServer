@@ -290,7 +290,7 @@ router.post('/stores', function(req, res, next) {
       stoBizSeCd : '01',
       stoRprsntvNm : '테스트 대표3',
       stoBsnsPlaceAdres : '부산시 부산진구 중앙대로 993',
-      stoStateCd : '01',
+      stoStateCd : '02',
       brcofcId : 'B0001',
       stoBrdYmd : '20201231',
       stoCrprtRgnmb : '1234567890123',
@@ -349,7 +349,6 @@ router.post('/surcharge', function(req, res, next) {
   ] };
   res.json(data);
 });
-
 router.post('/setDistance', function(req, res, next) {
   var data = { "data" : [
     {
@@ -408,6 +407,54 @@ router.post('/setArea', function(req, res, next) {
       setSbmnc: '반여3동',
       setVlg: '',
       setAmnt : 1000
+    },
+  ] };
+  res.json(data);
+});
+
+router.post('/setSpecial', function(req, res, next) {
+  var data = { "data" : [
+    {
+      setSeqNo : 1,
+      stoId : 'S0001',
+      setNm : '반여동',
+      setAmnt : 500,
+    },
+    {
+      setSeqNo : 2,
+      stoId : 'S0001',
+      setNm : '재송동',
+      setAmnt : 1000,
+    },
+  ] };
+  res.json(data);
+});
+
+router.post('/setSpecialPolygons', function(req, res, next) {
+  var data = { "data" : [
+    {
+      setSeqNo : 1,
+      plygnSeqNo : 1,
+      plygnLa : 35.199814782923056,
+      plygnLo : 129.13340822295038,
+    },
+    {
+      setSeqNo : 1,
+      plygnSeqNo : 2,
+      plygnLa : 35.20120733113157,
+      plygnLo : 129.1336477601857,
+    },
+    {
+      setSeqNo : 1,
+      plygnSeqNo : 3,
+      plygnLa : 35.201052395220096,
+      plygnLo : 129.13527952856475,
+    },
+    {
+      setSeqNo : 1,
+      plygnSeqNo : 4,
+      plygnLa : 35.1986345717232,
+      plygnLo : 129.13492529567293,
     },
   ] };
   res.json(data);

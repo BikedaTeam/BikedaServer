@@ -83,10 +83,6 @@ $(document).ready(function () {
             image : markerImage, // 마커 이미지
             clickable: true
         });
-
-        kakao.maps.event.addListener(marker, 'click', function() {
-          console.log(rows[i].riderNm);
-        });
       }
     }
   });
