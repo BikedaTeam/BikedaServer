@@ -162,7 +162,7 @@ $(document).ready(function () {
     table = $('#tb_store').DataTable();
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();
-    $('#storeDetailModal').modal('show'); 
+    $('#storeDetailModal').modal('show');
   });
 
   var stateSwap;
@@ -341,20 +341,24 @@ $(document).ready(function () {
       });
       marker.setMap(map);
 
-
+      var sendData;
       serverAjaxSend( '/branch/setSpecialPolygons', 'post', sendData, function ( datas ) {
-        $('#setSpecialList').empty();
         var data = datas.data;
+        var path = Array();
         for( var i = 0 ; i < data.length ; i++ ){
-          var html =
-          '<li class="list-group-item d-flex justify-content-between align-items-center">' +
-          ' <div class="col-12">' +
-          '  <b>' + data[i].setNm + '</b>' +
-          '  <a class="float-right">'+ data[i].setAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</a>' +
-          ' </div>' +
-          '</li>';
-          $('#setSpecialList').append( html );
+          path.push( new kakao.maps.LatLng(data[i].plygnLa, data[i].plygnLo) );
         }
+        var polygon = new kakao.maps.Polygon({
+          path:path, // 그려질 다각형의 좌표 배열입니다
+          strokeWeight: 2, // 선의 두께입니다
+          strokeColor: '#004c80', // 선의 색깔입니다
+          strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+          strokeStyle: 'solid', // 선의 스타일입니다
+          fillColor: '#fff', // 채우기 색깔입니다
+          fillOpacity: 0.7 // 채우기 불투명도 입니다
+        });
+        // 지도에 다각형을 표시합니다
+        polygon.setMap(map);
       });
 
     },500);
