@@ -38,12 +38,12 @@ $(document).ready(function () {
       },
       {
         data : 'riderStateCd',
-        width : '70px',
+        width : '50px',
         render : function ( data, type, row, meta) {
           if( data  == '01' )
-            return  '<button type="button" class="btn btn-block btn-xs bg-primary">정상</button>';
+            return  '<span class="badge bg-primary">정상</span>';
           else if( data  == '02')
-            return  '<button type="button" class="btn btn-block btn-xs bg-danger">휴무</button>';
+            return  '<span class="badge bg-danger">휴무</span>';
         }
       },
       {

@@ -28,9 +28,9 @@ $(document).ready(function () {
         width : '50px',
         render : function ( data, type, row, meta) {
           if( data  == '01' )
-            return  '<button type="button" class="btn btn-block btn-xs bg-indigo">개인</button>';
+            return  '<span class="badge bg-indigo">개인</span>';
           else if( data  == '02')
-            return  '<button type="button" class="btn btn-block btn-xs bg-lightblue">법인</button>';
+            return  '<span class="badge bg-lightblue">법인</span>';
         }
       },
       {
@@ -107,9 +107,9 @@ $(document).ready(function () {
         width : '50px',
         render : function ( data, type, row, meta) {
           if( data  == '01' )
-            return  '<button type="button" class="btn btn-block btn-xs bg-purple">정상</button>';
+            return  '<span class="badge bg-purple">정상</span>';
           else if( data  == '02')
-            return  '<button type="button" class="btn btn-block btn-xs bg-navy">탈회</button>';
+            return  '<span class="badge bg-navy">탈회</span>';
         }
       },
       {
@@ -158,19 +158,17 @@ $(document).ready(function () {
     $('#storeDetailModal').modal('show');
   });
 
-  $('#tb_store tbody').on('click', '.bg-info', function () {
+  $('#tb_store tbody').on('click', '.bg-success', function () {
     table = $('#tb_store').DataTable();
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();
-    $('#storeDetailModal').modal('show');
+    $('#storeModModal').modal('show');
   });
 
   var stateSwap;
   var bizSwap;
   var setSwap;
   $('#storeDetailModal').on('show.bs.modal', function (event) {
-    var modal = $(this);
-
     $('#stoBizSeCd').bootstrapToggle('enable');
     if( data.stoBizSeCd == '01') {
       $('#stoBizSeCd').bootstrapToggle('on');
@@ -365,13 +363,11 @@ $(document).ready(function () {
   });
 
   var r_bizSwap;
-  $('#storeInputModal').on('show.bs.modal', function (event) {
+  $('#storeRegModal').on('show.bs.modal', function (event) {
     $('#r_stoBizSeCd').bootstrapToggle('on');
-    $('#r_stoSetSeCd').bootstrapToggle('on');
   });
-  $('#storeInputModal').on('hidden.bs.modal', function (event) {
+  $('#storeRegModal').on('hidden.bs.modal', function (event) {
     $('#r_stoBizSeCd').bootstrapToggle('on');
-    $('#r_stoSetSeCd').bootstrapToggle('on');
   });
   $('#r_stoBizSeCd').change(function () {
     $('#r_bizDefault').append( r_bizSwap );
@@ -380,13 +376,61 @@ $(document).ready(function () {
     else
       r_bizSwap = $('#r_bizPrivate').detach();
   });
-  var r_setDefault;
-  $('#r_stoSetSeCd').change(function () {
-    $('#r_setDefault').append( r_setDefault );
-    if( $('#r_stoSetSeCd').prop('checked') )
-      r_setDefault = $('#r_setDistance').detach();
+
+  var u_bizSwap;
+  $('#storeModModal').on('show.bs.modal', function (event) {
+
+    if( data.stoBizSeCd == '01') {
+      $('#u_stoBizSeCd').bootstrapToggle('on');
+    } else if( data.stoBizSeCd == '02') {
+      $('#u_stoBizSeCd').bootstrapToggle('off');
+    }
+
+    if( data.stoStateCd == '01') {
+      $('#u_stoStateCd').bootstrapToggle('on');
+    } else if( data.stoStateCd == '02') {
+      $('#u_stoStateCd').bootstrapToggle('off');
+    }
+
+    $('#u_stoId').val('');
+    $('#u_stoBsnsRgnmb').val('');
+    $('#u_stoMtlty').val('');
+    $('#u_stoRprsntvNm').val('');
+    $('#u_stoBrdYmd').val('');
+    $('#u_stoCrprtRgnmb').val('');
+    $('#u_stoOpnngYmd').val('');
+    $('#u_stoBsnsPlaceAdres').val('');
+    $('#u_stoHdofcAdres').val('');
+    $('#u_stoBizcnd').val('');
+    $('#u_stoInduty').val('');
+    $('#u_stoTelno').val('');
+    $('#u_stoVrtlAcnt').val('');
+
+    $('#u_stoId').val( data.stoId );
+    $('#u_stoBsnsRgnmb').val( data.stoBsnsRgnmb.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3') );
+    $('#u_stoMtlty').val( data.stoMtlty );
+    $('#u_stoRprsntvNm').val( data.stoRprsntvNm );
+    $('#u_stoBrdYmd').val( data.stoBrdYmd.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') );
+    $('#u_stoCrprtRgnmb').val( data.stoCrprtRgnmb.replace(/(\d{6})(\d{7})/, '$1-$2') );
+    $('#u_stoOpnngYmd').val( data.stoOpnngYmd.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') );
+    $('#u_stoBsnsPlaceAdres').val( data.stoBsnsPlaceAdres );
+    $('#u_stoHdofcAdres').val( data.stoHdofcAdres );
+    $('#u_stoBizcnd').val( data.stoBizcnd );
+    $('#u_stoInduty').val( data.stoInduty );
+    $('#u_stoTelno').val( phoneFomatter(data.stoTelno ) );
+    $('#u_stoVrtlAcnt').val( data.stoVrtlAcnt );
+
+  });
+  $('#storeModModal').on('hidden.bs.modal', function (event) {
+    $('#u_stoBizSeCd').bootstrapToggle('on');
+  });
+
+  $('#u_stoBizSeCd').change(function () {
+    $('#u_bizDefault').append( u_bizSwap );
+    if( $('#u_stoBizSeCd').prop('checked') )
+      u_bizSwap = $('#u_bizCrprt').detach();
     else
-      r_setDefault = $('#r_setArea').detach();
+      u_bizSwap = $('#u_bizPrivate').detach();
   });
 
 });

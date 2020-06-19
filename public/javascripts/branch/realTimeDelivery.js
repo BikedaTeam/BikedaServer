@@ -10,15 +10,15 @@ $(document).ready(function () {
         width : '70px',
         render : function ( data, type, row, meta) {
           if( data  == '01' )
-            return  '<button type="button" class="btn btn-block btn-xs bg-secondary">배차 대기</button>';
+            return  '<span class="badge bg-secondary">배차 대기</span>';
           else if( data  == '02')
-            return  '<button type="button" class="btn btn-block btn-xs bg-warning">배차 완료</button>';
+            return  '<span class="badge bg-warning">배차 완료</span>';
           else if( data  == '03')
-            return  '<button type="button" class="btn btn-block btn-xs bg-olive">픽업 완료</button>';
+            return  '<span class="badge bg-olive">픽업 완료</span>';
           else if( data  == '04')
-            return  '<button type="button" class="btn btn-block btn-xs bg-success">배달 완료</button>';
+            return  '<span class="badge bg-success">배달 완료</span>';
           else
-            return  '<button type="button" class="btn btn-block btn-xs bg-danger">배달 취소</button>';
+            return  '<span class="badge bg-danger">배달 취소</span>';
         }
       },
       {
@@ -68,11 +68,11 @@ $(document).ready(function () {
         width : '50px',
         render : function ( data, type, row, meta) {
           if( data  == '01' )
-            return  '<button type="button" class="btn btn-block btn-xs bg-purple">현금</button>';
+            return  '<span class="badge bg-purple">현금</span>';
           else if( data  == '02')
-            return  '<button type="button" class="btn btn-block btn-xs bg-navy">카드</button>';
+            return  '<span class="badge bg-navy">카드</span>';
           else if( data  == '03')
-            return  '<button type="button" class="btn btn-block btn-xs bg-pink">선결</button>';
+            return  '<span class="badge bg-pink">선결</span>';
         }
       },
       {
@@ -212,7 +212,6 @@ $(document).ready(function () {
   var table;
   var row;
   var data;
-
   $('#tb_realTimeDelivery tbody').on('click', '.bg-info', function (){
     table = $('#tb_realTimeDelivery').DataTable();
     row = table.row($(this).closest('tr'));
@@ -232,7 +231,7 @@ $(document).ready(function () {
     $('#riderNm').text('');
     $('#riderCelno').text('');
     $('#dlvryStateCd').text('');
-    $('#dlvryStateCd').removeClass('bg-secondary bg-warning bg-olive bg-success');
+    $('#dlvryStateCd').removeClass('bg-secondary bg-warning bg-olive bg-success bg-danger');
     $('#dlvryPaySeCd').text('');
     $('#dlvryPaySeCd').removeClass('bg-purple bg-navy bg-pink');
 
@@ -267,6 +266,9 @@ $(document).ready(function () {
     } else if( data.dlvryStateCd == '04' ) {
       $('#dlvryStateCd').text( '배달 완료' );
       $('#dlvryStateCd').addClass('bg-success');
+    } else {
+      $('#dlvryStateCd').text( '배달 취소' );
+      $('#dlvryStateCd').addClass('bg-danger');
     }
 
     if( data.dlvryPaySeCd == '01' ) {
@@ -311,7 +313,7 @@ $(document).ready(function () {
     $('#riderNm').text('');
     $('#riderCelno').text('');
     $('#dlvryStateCd').text('');
-    $('#dlvryStateCd').removeClass('bg-secondary bg-warning bg-olive bg-success');
+    $('#dlvryStateCd').removeClass('bg-secondary bg-warning bg-olive bg-success bg-danger');
     $('#dlvryPaySeCd').text('');
     $('#dlvryPaySeCd').removeClass('bg-purple bg-navy bg-pink');
 
@@ -346,6 +348,9 @@ $(document).ready(function () {
     } else if( data.dlvryStateCd == '04' ) {
       $('#dlvryStateCd').text( '배달 완료' );
       $('#dlvryStateCd').addClass('bg-success');
+    } else  {
+      $('#dlvryStateCd').text( '배달 취소' );
+      $('#dlvryStateCd').addClass('bg-danger');
     }
 
     if( data.dlvryPaySeCd == '01' ) {
