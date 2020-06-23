@@ -328,12 +328,12 @@ $(document).ready(function () {
     setTimeout(function () {
       var container = document.getElementById('map');
       var options = {
-        center: new kakao.maps.LatLng(35.19707078036156, 129.11891663441136),
+        center: new kakao.maps.LatLng(35.0483226504227, 129.018486922035),
         level: 5
       };
       var map = new kakao.maps.Map(container, options);
       //지점 위치 마커
-      var markerPosition  = new kakao.maps.LatLng(35.19707078036156, 129.11891663441136);
+      var markerPosition  = new kakao.maps.LatLng(35.0483226504227, 129.018486922035);
       var marker = new kakao.maps.Marker({
           position: markerPosition
       });
