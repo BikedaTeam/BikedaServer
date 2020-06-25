@@ -130,13 +130,6 @@ $(document).ready(function () {
         data : null,
         width : '50px',
         render : function ( data, type, row, meta) {
-          return '<button type="button" class="btn btn-block btn-xs bg-teal">요금</button>';
-        }
-      },
-      {
-        data : null,
-        width : '50px',
-        render : function ( data, type, row, meta) {
           return '<button type="button" class="btn btn-block btn-xs bg-olive">할증</button>';
         }
       }
@@ -165,44 +158,17 @@ $(document).ready(function () {
     $('#storeModModal').modal('show');
   });
 
+  $('#tb_store tbody').on('click', '.bg-olive', function () {
+    table = $('#tb_store').DataTable();
+    row = table.row($(this).closest('tr'));
+    data = table.row($(this).closest('tr')).data();
+    $('#storeModSetModal').modal('show');
+  });
+
   var stateSwap;
   var bizSwap;
   var setSwap;
   $('#storeDetailModal').on('show.bs.modal', function (event) {
-    $('#stoBizSeCd').bootstrapToggle('enable');
-    if( data.stoBizSeCd == '01') {
-      $('#stoBizSeCd').bootstrapToggle('on');
-    } else if( data.stoBizSeCd == '02') {
-      $('#stoBizSeCd').bootstrapToggle('off');
-    }
-    $('#stoBizSeCd').bootstrapToggle('disable');
-
-    $('#stoStateCd').bootstrapToggle('enable');
-    if( data.stoStateCd == '01') {
-      $('#stoStateCd').bootstrapToggle('on');
-    } else if( data.stoStateCd == '02') {
-      $('#stoStateCd').bootstrapToggle('off');
-    }
-    $('#stoStateCd').bootstrapToggle('disable');
-
-
-    $('#stoNightSrchrApplyYn').bootstrapToggle('enable');
-    if( data.stoNightSrchrApplyYn == 'Y') {
-      $('#stoNightSrchrApplyYn').bootstrapToggle('on');
-    } else if( data.stoNightSrchrApplyYn == 'N') {
-      $('#stoNightSrchrApplyYn').bootstrapToggle('off');
-    }
-    $('#stoNightSrchrApplyYn').bootstrapToggle('disable');
-
-
-    $('#stoSetSeCd').bootstrapToggle('enable');
-    if( data.stoSetSeCd == '01') {
-      $('#stoSetSeCd').bootstrapToggle('on');
-    } else if( data.stoSetSeCd == '02') {
-      $('#stoSetSeCd').bootstrapToggle('off');
-    }
-    $('#stoSetSeCd').bootstrapToggle('disable');
-
     $('#stoId').text('');
     $('#brcofcNm').text('');
     $('#stoBsnsRgnmb').text('');
@@ -302,6 +268,39 @@ $(document).ready(function () {
       }
     });
 
+    $('#stoBizSeCd').bootstrapToggle('enable');
+    if( data.stoBizSeCd == '01') {
+      $('#stoBizSeCd').bootstrapToggle('on');
+    } else if( data.stoBizSeCd == '02') {
+      $('#stoBizSeCd').bootstrapToggle('off');
+    }
+    $('#stoBizSeCd').bootstrapToggle('disable');
+
+    $('#stoStateCd').bootstrapToggle('enable');
+    if( data.stoStateCd == '01') {
+      $('#stoStateCd').bootstrapToggle('on');
+    } else if( data.stoStateCd == '02') {
+      $('#stoStateCd').bootstrapToggle('off');
+    }
+    $('#stoStateCd').bootstrapToggle('disable');
+
+
+    $('#stoNightSrchrApplyYn').bootstrapToggle('enable');
+    if( data.stoNightSrchrApplyYn == 'Y') {
+      $('#stoNightSrchrApplyYn').bootstrapToggle('on');
+    } else if( data.stoNightSrchrApplyYn == 'N') {
+      $('#stoNightSrchrApplyYn').bootstrapToggle('off');
+    }
+    $('#stoNightSrchrApplyYn').bootstrapToggle('disable');
+
+
+    $('#stoSetSeCd').bootstrapToggle('enable');
+    if( data.stoSetSeCd == '01') {
+      $('#stoSetSeCd').bootstrapToggle('on');
+    } else if( data.stoSetSeCd == '02') {
+      $('#stoSetSeCd').bootstrapToggle('off');
+    }
+    $('#stoSetSeCd').bootstrapToggle('disable');
   });
   $('#storeDetailModal').on('hidden.bs.modal', function (event) {
     $('#stoBizSeCd').bootstrapToggle('on');
@@ -339,26 +338,31 @@ $(document).ready(function () {
       });
       marker.setMap(map);
 
-      var sendData;
-      serverAjaxSend( '/branch/setSpecialPolygons', 'post', sendData, function ( datas ) {
-        var data = datas.data;
-        var path = Array();
-        for( var i = 0 ; i < data.length ; i++ ){
-          path.push( new kakao.maps.LatLng(data[i].plygnLa, data[i].plygnLo) );
+      var sendData = {};
+      sendData.sdCd = '26';
+      sendData.sggCd = '350';
+      sendData.emdCd = '103';
+      sendData.riCd = '00';
+      apiAjaxSend( '/api/commond/coordinate', 'get', sendData, function ( result ) {
+        if( result.success ) {
+          var data = result.data;
+          var path = Array();
+          for( var i = 0 ; i < data.length ; i++ ){
+            path.push( new kakao.maps.LatLng(data[i].crdntLa, data[i].crdntLo) );
+          }
+          var polygon = new kakao.maps.Polygon({
+            path:path, // 그려질 다각형의 좌표 배열입니다
+            strokeWeight: 1, // 선의 두께입니다
+            strokeColor: '#004c80', // 선의 색깔입니다
+            strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+            strokeStyle: 'solid', // 선의 스타일입니다
+            fillColor: '#fff', // 채우기 색깔입니다
+            fillOpacity: 0.7 // 채우기 불투명도 입니다
+          });
+          // 지도에 다각형을 표시합니다
+          polygon.setMap(map);
         }
-        var polygon = new kakao.maps.Polygon({
-          path:path, // 그려질 다각형의 좌표 배열입니다
-          strokeWeight: 2, // 선의 두께입니다
-          strokeColor: '#004c80', // 선의 색깔입니다
-          strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-          strokeStyle: 'solid', // 선의 스타일입니다
-          fillColor: '#fff', // 채우기 색깔입니다
-          fillOpacity: 0.7 // 채우기 불투명도 입니다
-        });
-        // 지도에 다각형을 표시합니다
-        polygon.setMap(map);
       });
-
     },500);
   });
 
@@ -379,19 +383,6 @@ $(document).ready(function () {
 
   var u_bizSwap;
   $('#storeModModal').on('show.bs.modal', function (event) {
-
-    if( data.stoBizSeCd == '01') {
-      $('#u_stoBizSeCd').bootstrapToggle('on');
-    } else if( data.stoBizSeCd == '02') {
-      $('#u_stoBizSeCd').bootstrapToggle('off');
-    }
-
-    if( data.stoStateCd == '01') {
-      $('#u_stoStateCd').bootstrapToggle('on');
-    } else if( data.stoStateCd == '02') {
-      $('#u_stoStateCd').bootstrapToggle('off');
-    }
-
     $('#u_stoId').val('');
     $('#u_stoBsnsRgnmb').val('');
     $('#u_stoMtlty').val('');
@@ -420,6 +411,17 @@ $(document).ready(function () {
     $('#u_stoTelno').val( phoneFomatter(data.stoTelno ) );
     $('#u_stoVrtlAcnt').val( data.stoVrtlAcnt );
 
+    if( data.stoBizSeCd == '01') {
+      $('#u_stoBizSeCd').bootstrapToggle('on');
+    } else if( data.stoBizSeCd == '02') {
+      $('#u_stoBizSeCd').bootstrapToggle('off');
+    }
+
+    if( data.stoStateCd == '01') {
+      $('#u_stoStateCd').bootstrapToggle('on');
+    } else if( data.stoStateCd == '02') {
+      $('#u_stoStateCd').bootstrapToggle('off');
+    }
   });
   $('#storeModModal').on('hidden.bs.modal', function (event) {
     $('#u_stoBizSeCd').bootstrapToggle('on');
@@ -432,5 +434,9 @@ $(document).ready(function () {
     else
       u_bizSwap = $('#u_bizPrivate').detach();
   });
-
+});
+$(document).on('hidden.bs.modal', function (event) {
+	if ($('.modal:visible').length) {
+		$('body').addClass('modal-open');
+	}
 });
