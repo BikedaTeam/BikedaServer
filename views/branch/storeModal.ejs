@@ -342,71 +342,168 @@
     <div class="modal-content">
       <div class="modal-body">
         <div class="row">
-          <div class="col-lg-4 col-12">
+          <div class="col-lg-6 col-12">
             <div class="card card-info">
               <div class="card-header">
                 <h3 class="card-title">야간 할증</h3>
                 <div class="card-tools">
-                  <input id="stoNightSrchrApplyYn" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="적용" data-off="미적용" data-onstyle="primary" data-offstyle="dark">
+                  <input id="u_stoNightSrchrApplyYn" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="적용" data-off="미적용" data-onstyle="primary" data-offstyle="dark">
                 </div>
               </div>
               <div class="card-body">
                 <ul class="list-group list-group-unbordered">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="col-12">
-                      <b>할증 시간</b>
-                      <a id="stoNightSrchrTm" class="float-right">00:00:00 ~ 00:00:00</a>
+                      <div class="input-group">
+                        <div class="input-group-prepend col-4">
+                          <button type="button" class="btn btn-sm btn-nomal"><b>시작 시간</b></button>
+                        </div>
+                        <input id="u_stoNightSrchrStdTm" type="text" class="form-control form-control-sm" >
+                      </div>
                     </div>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="col-12">
-                      <b>할증 금액</b> <a id="stoNightSrchrAmnt" class="float-right">1,000</a>
+                      <div class="input-group">
+                        <div class="input-group-prepend col-4">
+                          <button type="button" class="btn btn-sm btn-nomal"><b>종료 시간</b></button>
+                        </div>
+                        <input id="u_stoNightSrchrEndTm" type="text" class="form-control form-control-sm" >
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-12">
+                      <div class="input-group">
+                        <div class="input-group-prepend col-4">
+                          <button type="button" class="btn btn-sm btn-nomal"><b>할증 금액</b></button>
+                        </div>
+                        <input id="u_stoNightSrchrAmnt" type="text" class="form-control form-control-sm" >
+                      </div>
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
+          </div>
+          <div class="col-lg-6 col-12">
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">기후/환경 할증</h3>
+                <h3 class="card-title">기타 할증</h3>
               </div>
               <div class="card-body">
-                <ul id="surchargeList" class="list-group list-group-unbordered">
-                </ul>
+                <ul class="list-group list-group-unbordered">
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-12">
+                      <div class="input-group">
+                        <input id="u_srchrCn1" type="text" class="form-control form-control-sm" placeholder="할증 내용">
+                        <input id="u_srchrAmnt1" type="text" class="form-control form-control-sm" placeholder="할증 금액">
+                        <input id="srchrApplyYn1" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="적용" data-off="미적용" data-onstyle="primary" data-offstyle="dark">
+                      </div>
+                   </div>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-12">
+                      <div class="input-group">
+                        <input id="u_srchrCn2" type="text" class="form-control form-control-sm" placeholder="할증 내용">
+                        <input id="u_srchrAmnt2" type="text" class="form-control form-control-sm" placeholder="할증 금액">
+                        <input id="srchrApplyYn2" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="적용" data-off="미적용" data-onstyle="primary" data-offstyle="dark">
+                      </div>
+                   </div>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-12">
+                      <div class="input-group">
+                        <input id="u_srchrCn3" type="text" class="form-control form-control-sm" placeholder="할증 내용">
+                        <input id="u_srchrAmnt3" type="text" class="form-control form-control-sm" placeholder="할증 금액">
+                        <input id="srchrApplyYn3" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="적용" data-off="미적용" data-onstyle="primary" data-offstyle="dark">
+                      </div>
+                   </div>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-12">
+                      <div class="input-group">
+                        <input id="u_srchrCn4" type="text" class="form-control form-control-sm" placeholder="할증 내용">
+                        <input id="u_srchrAmnt4" type="text" class="form-control form-control-sm" placeholder="할증 금액">
+                        <input id="srchrApplyYn4" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="적용" data-off="미적용" data-onstyle="primary" data-offstyle="dark">
+                      </div>
+                   </div>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-12">
+                      <div class="input-group">
+                        <input id="u_srchrCn5" type="text" class="form-control form-control-sm" placeholder="할증 내용">
+                        <input id="u_srchrAmnt5" type="text" class="form-control form-control-sm" placeholder="할증 금액">
+                        <input id="srchrApplyYn5" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="적용" data-off="미적용" data-onstyle="primary" data-offstyle="dark">
+                      </div>
+                   </div>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="col-12">
+                      <div class="input-group">
+                        <input id="u_srchrCn6" type="text" class="form-control form-control-sm" placeholder="할증 내용">
+                        <input id="u_srchrAmnt6" type="text" class="form-control form-control-sm" placeholder="할증 금액">
+                        <input id="srchrApplyYn6" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="적용" data-off="미적용" data-onstyle="primary" data-offstyle="dark">
+                      </div>
+                   </div>
+                  </li>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">저장</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="storeModFeeModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content" >
+      <div class="modal-body">
         <div class="row">
-          <div class="col-lg-6 col-12">
-            <div id="setDefault" class="card card-info">
+          <div class="col-12">
+            <div id="u_setDefault" class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">지역/거리별 할증</h3>
+                <h3 class="card-title">지역/거리별 요금</h3>
                 <div class="card-tools">
-                  <input id="stoSetSeCd" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="지역" data-off="거리" data-onstyle="warning" data-offstyle="danger">
+                  <input id="u_stoSetSeCd" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="지역" data-off="거리" data-onstyle="warning" data-offstyle="danger">
                 </div>
               </div>
-              <div id="setArea" class="card-body">
-                <ul id="setAreaList" class="list-group list-group-unbordered">
-                </ul>
+              <div id="u_setArea" class="card-body">
+                <table id="tb_area" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>설정일련번호</th>
+                    <th>상점ID</th>
+                    <th>시도 코드</th>
+                    <th>시/도</th>
+                    <th>시군구 코드</th>
+                    <th>시/군/구</th>
+                    <th>읍면동 코드</th>
+                    <th>읍/면/동</th>
+                    <th>리 코드</th>
+                    <th>리</th>
+                    <th>금액</th>
+                  </tr>
+                  </thead>
+                </table>
               </div>
-              <div id="setDistance" class="card-body">
-                <ul id="setDistanceList" class="list-group list-group-unbordered">
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6 col-12">
-            <div class="card card-info">
-              <div class="card-header">
-                <h3 class="card-title">특수 지역 할증</h3>
-                <div class="card-tools">
-                  <button type="button" data-toggle="modal" data-target="#storeSpecialModal" class="btn btn-sm btn-primary float-right">설정 확인</button>
-                </div>
-              </div>
-              <div id="setSpecial" class="card-body">
-                <ul id="setSpecialList" class="list-group list-group-unbordered">
-                </ul>
+              <div id="u_setDistance" class="card-body">
+                <table id="tb_distance" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>설정일련번호</th>
+                    <th>상점ID</th>
+                    <th>시작 거리(Km)</th>
+                    <th>종료 거리(Km)</th>
+                    <th>금액</th>
+                  </tr>
+                  </thead>
+                </table>
               </div>
             </div>
           </div>
@@ -546,7 +643,7 @@
             </div>
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">기후/환경 할증</h3>
+                <h3 class="card-title">기타 할증</h3>
               </div>
               <div class="card-body">
                 <ul id="surchargeList" class="list-group list-group-unbordered">
@@ -555,11 +652,27 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-toggle="modal" data-target="#storeSpecialModal" class="btn btn-primary float-right">배달 요금</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="storeSpecialModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content" >
+      <div class="modal-body">
         <div class="row">
-          <div class="col-lg-6 col-12">
+          <div class="col-lg-8 col-12">
+            <div id="map" style="height : calc(80vh - (14rem + 4px) )"></div>
+          </div>
+          <div class="col-lg-4 col-12">
             <div id="setDefault" class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">지역/거리별 할증</h3>
+                <h3 class="card-title">지역/거리별 요금</h3>
                 <div class="card-tools">
                   <input id="stoSetSeCd" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="지역" data-off="거리" data-onstyle="warning" data-offstyle="danger">
                 </div>
@@ -573,14 +686,9 @@
                 </ul>
               </div>
             </div>
-          </div>
-          <div class="col-lg-6 col-12">
             <div class="card card-info">
               <div class="card-header">
-                <h3 class="card-title">특수 지역 할증</h3>
-                <div class="card-tools">
-                  <button type="button" data-toggle="modal" data-target="#storeSpecialModal" class="btn btn-sm btn-primary float-right">설정 확인</button>
-                </div>
+                <h3 class="card-title">특수 지역 요금</h3>
               </div>
               <div id="setSpecial" class="card-body">
                 <ul id="setSpecialList" class="list-group list-group-unbordered">
@@ -589,19 +697,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="storeSpecialModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content" >
-      <div class="modal-body" style="height : 80vh">
-        <div id="map" class="w-100 h-100"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>

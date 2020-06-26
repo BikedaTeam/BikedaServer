@@ -255,8 +255,8 @@ router.post('/stores', function(req, res, next) {
       stoNightSrchrStdTm : '210000',
       stoNightSrchrEndTm : '030000',
       stoNightSrchrAmnt : 1000,
-      stoLa : 0.000000,
-      stoLo : 0.000000
+      stoLa : 35.19688847791782,
+      stoLo : 129.12481813852943
     },
     {
       stoId : 'S0002',
@@ -280,8 +280,8 @@ router.post('/stores', function(req, res, next) {
       stoNightSrchrStdTm : '210000',
       stoNightSrchrEndTm : '030000',
       stoNightSrchrAmnt : 1000,
-      stoLa : 0.000000,
-      stoLo : 0.000000
+      stoLa : 35.19688847791782,
+      stoLo : 129.12481813852943
     },
     {
       stoId : 'S0003',
@@ -305,8 +305,8 @@ router.post('/stores', function(req, res, next) {
       stoNightSrchrStdTm : '210000',
       stoNightSrchrEndTm : '030000',
       stoNightSrchrAmnt : 1000,
-      stoLa : 0.000000,
-      stoLo : 0.000000
+      stoLa : 35.19688847791782,
+      stoLo : 129.12481813852943
     },
   ] };
   res.json(data);

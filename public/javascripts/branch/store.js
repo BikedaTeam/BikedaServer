@@ -132,6 +132,13 @@ $(document).ready(function () {
         render : function ( data, type, row, meta) {
           return '<button type="button" class="btn btn-block btn-xs bg-olive">할증</button>';
         }
+      },
+      {
+        data : null,
+        width : '50px',
+        render : function ( data, type, row, meta) {
+          return '<button type="button" class="btn btn-block btn-xs bg-maroon">요금</button>';
+        }
       }
     ],
     autoWidth : false,
@@ -163,6 +170,13 @@ $(document).ready(function () {
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();
     $('#storeModSetModal').modal('show');
+  });
+
+  $('#tb_store tbody').on('click', '.bg-maroon', function () {
+    table = $('#tb_store').DataTable();
+    row = table.row($(this).closest('tr'));
+    data = table.row($(this).closest('tr')).data();
+    $('#storeModFeeModal').modal('show');
   });
 
   var stateSwap;
@@ -327,12 +341,12 @@ $(document).ready(function () {
     setTimeout(function () {
       var container = document.getElementById('map');
       var options = {
-        center: new kakao.maps.LatLng(35.0483226504227, 129.018486922035),
-        level: 5
+        center: new kakao.maps.LatLng(data.stoLa, data.stoLo),
+        level: 6
       };
       var map = new kakao.maps.Map(container, options);
       //지점 위치 마커
-      var markerPosition  = new kakao.maps.LatLng(35.0483226504227, 129.018486922035);
+      var markerPosition  = new kakao.maps.LatLng(data.stoLa, data.stoLo);
       var marker = new kakao.maps.Marker({
           position: markerPosition
       });
@@ -433,6 +447,21 @@ $(document).ready(function () {
       u_bizSwap = $('#u_bizCrprt').detach();
     else
       u_bizSwap = $('#u_bizPrivate').detach();
+  });
+
+  $('#storeModFeeModal').on('show.bs.modal', function (event) {
+    $('#u_stoSetSeCd').bootstrapToggle('on');
+  });
+  $('#storeModFeeModal').on('hidden.bs.modal', function (event) {
+    $('#u_stoSetSeCd').bootstrapToggle('on');
+  });
+  var u_setSwap;
+  $('#u_stoSetSeCd').change(function () {
+    $('#u_setDefault').append( u_setSwap );
+    if( $('#u_stoSetSeCd').prop('checked') )
+      u_setSwap = $('#u_setDistance').detach();
+    else
+      u_setSwap = $('#u_setArea').detach();
   });
 });
 $(document).on('hidden.bs.modal', function (event) {
