@@ -7,6 +7,7 @@ var apiAjaxSend = function ( url, type, sendData, callback ) {
       callback( data );
     },
     error: function ( jqXHR, textStatus, errorThrown  ) {
+      console.log( jqXHR.responseText );
       callback( JSON.parse(jqXHR.responseText ) );
     }
   });

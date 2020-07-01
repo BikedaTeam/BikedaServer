@@ -456,12 +456,122 @@ $(document).ready(function () {
     $('#u_stoSetSeCd').bootstrapToggle('on');
   });
   var u_setSwap;
+  var tb_area, tb_distance;
   $('#u_stoSetSeCd').change(function () {
     $('#u_setDefault').append( u_setSwap );
-    if( $('#u_stoSetSeCd').prop('checked') )
+    if( $('#u_stoSetSeCd').prop('checked') ){
       u_setSwap = $('#u_setDistance').detach();
-    else
+      tb_area = $('#tb_area').DataTable({
+        ajax : {
+          url : 'http://127.0.0.1:8080/api/store/store-area',
+          type : 'get',
+          data : data,
+          dataSrc :function( data, textStatus, jqXHR ) {
+            if( data.success )
+              return data.data
+            else
+              return null;
+          }
+        },
+        columns : [
+          {
+            data : 'setSeqNo',
+            visible : false
+          },
+          {
+            data : 'stoId',
+            visible : false
+          },
+          {
+            data : 'setSdCd',
+          },
+          {
+            data : 'setSggCd',
+          },
+          {
+            data : 'setEmdCd',
+          },
+          {
+            data : 'setRiCd',
+          },
+          {
+            data : 'setAmnt',
+            render : function ( data, type, row, meta) {
+              console.log(data);
+              return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+          }
+        ],
+        autoWidth : false,
+        paging: false,
+        searching: false,
+        dom: 't',
+        order: [ [1, 'desc'] ],
+        language: {
+          'emptyTable': '데이터가 존재 하지 않습니다.'
+        }
+      });
+      if( tb_distance != null ) {
+        tb_distance.destroy();
+        $('#tb_distance').empty();
+      }
+    } else {
       u_setSwap = $('#u_setArea').detach();
+      tb_distance = $('#tb_distance').DataTable({
+        ajax : {
+          url : 'http://127.0.0.1:8080/api/store/store-distance',
+          type : 'get',
+          data : data,
+          dataSrc :function( data, textStatus, jqXHR ) {
+            if( data.success )
+              return data.data
+            else
+              return null;
+          }
+        },
+        columns : [
+          {
+            data : 'setSeqNo',
+            visible : false
+          },
+          {
+            data : 'stoId',
+            visible : false
+          },
+          {
+            data : 'setStdDstnc',
+            render : function ( data, type, row, meta) {
+              return data.toFixed(2);
+            }
+
+          },
+          {
+            data : 'setEndDstnc',
+            render : function ( data, type, row, meta) {
+              return data.toFixed(2);
+            }
+          },
+          {
+            data : 'setAmnt',
+            render : function ( data, type, row, meta) {
+              return data.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+          }
+        ],
+        autoWidth : false,
+        paging: false,
+        searching: false,
+        dom: 't',
+        order: [ [1, 'desc'] ],
+        language: {
+          'emptyTable': '데이터가 존재 하지 않습니다.'
+        }
+      });
+      if( tb_area != null ){
+        tb_area.destroy();
+        $('#tb_area').empty();
+      }
+    }
   });
 });
 $(document).on('hidden.bs.modal', function (event) {
