@@ -155,34 +155,35 @@ $(document).ready(function () {
     table = $('#tb_store').DataTable();
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();
-    $('#storeDetailModal').modal('show');
+    $('#storeDetail').modal('show');
   });
 
   $('#tb_store tbody').on('click', '.bg-success', function () {
     table = $('#tb_store').DataTable();
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();
-    $('#storeModModal').modal('show');
+    $('#storeModify').modal('show');
   });
 
   $('#tb_store tbody').on('click', '.bg-olive', function () {
     table = $('#tb_store').DataTable();
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();
-    $('#storeModSetModal').modal('show');
+    $('#storeModifySurcharge').modal('show');
   });
 
   $('#tb_store tbody').on('click', '.bg-maroon', function () {
     table = $('#tb_store').DataTable();
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();
-    $('#storeModFeeModal').modal('show');
+    $('#storeModifyFee').modal('show');
   });
 
+  //================= storeDetail====================================
   var stateSwap;
   var bizSwap;
   var setSwap;
-  $('#storeDetailModal').on('show.bs.modal', function (event) {
+  $('#storeDetail').on('show.bs.modal', function (event) {
     $('#stoId').text('');
     $('#brcofcNm').text('');
     $('#stoBsnsRgnmb').text('');
@@ -316,7 +317,7 @@ $(document).ready(function () {
     }
     $('#stoSetSeCd').bootstrapToggle('disable');
   });
-  $('#storeDetailModal').on('hidden.bs.modal', function (event) {
+  $('#storeDetail').on('hidden.bs.modal', function (event) {
     $('#stoBizSeCd').bootstrapToggle('on');
     $('#stoSetSeCd').bootstrapToggle('on');
   });
@@ -337,7 +338,7 @@ $(document).ready(function () {
       setSwap = $('#setArea').detach();
   });
 
-  $('#storeSpecialModal').on('show.bs.modal', function (event) {
+  $('#storeDetailFee').on('show.bs.modal', function (event) {
     setTimeout(function () {
       var container = document.getElementById('map');
       var options = {
@@ -381,10 +382,10 @@ $(document).ready(function () {
   });
 
   var r_bizSwap;
-  $('#storeRegModal').on('show.bs.modal', function (event) {
+  $('#storeRegister').on('show.bs.modal', function (event) {
     $('#r_stoBizSeCd').bootstrapToggle('on');
   });
-  $('#storeRegModal').on('hidden.bs.modal', function (event) {
+  $('#storeRegister').on('hidden.bs.modal', function (event) {
     $('#r_stoBizSeCd').bootstrapToggle('on');
   });
   $('#r_stoBizSeCd').change(function () {
@@ -396,7 +397,7 @@ $(document).ready(function () {
   });
 
   var u_bizSwap;
-  $('#storeModModal').on('show.bs.modal', function (event) {
+  $('#storeModify').on('show.bs.modal', function (event) {
     $('#u_stoId').val('');
     $('#u_stoBsnsRgnmb').val('');
     $('#u_stoMtlty').val('');
@@ -437,7 +438,7 @@ $(document).ready(function () {
       $('#u_stoStateCd').bootstrapToggle('off');
     }
   });
-  $('#storeModModal').on('hidden.bs.modal', function (event) {
+  $('#storeModify').on('hidden.bs.modal', function (event) {
     $('#u_stoBizSeCd').bootstrapToggle('on');
   });
 
@@ -449,130 +450,162 @@ $(document).ready(function () {
       u_bizSwap = $('#u_bizPrivate').detach();
   });
 
-  $('#storeModFeeModal').on('show.bs.modal', function (event) {
-    $('#u_stoSetSeCd').bootstrapToggle('on');
-  });
-  $('#storeModFeeModal').on('hidden.bs.modal', function (event) {
-    $('#u_stoSetSeCd').bootstrapToggle('on');
-  });
   var u_setSwap;
   var tb_area, tb_distance;
+  $('#storeModifyFee').on('show.bs.modal', function (event) {
+    var reqParam = {};
+    reqParam.stoId = data.stoId;
+    tb_area = $('#tb_area').DataTable({
+      ajax : {
+        url : 'http://127.0.0.1:8080/api/store/store-area',
+        type : 'get',
+        data : reqParam,
+        dataSrc :function( data, textStatus, jqXHR ) {
+          if( data.success )
+            return data.data;
+          else
+            return null;
+        }
+      },
+      columns : [
+        {
+          data : 'setSeqNo',
+          visible : false
+        },
+        {
+          data : 'stoId',
+          visible : false
+        },
+        {
+          data : 'setSdCd',
+          visible : false
+        },
+        {
+          data : 'setSdNm'
+        },
+        {
+          data : 'setSggCd',
+          visible : false
+        },
+        {
+          data : 'setSggNm'
+        },
+        {
+          data : 'setEmdCd',
+          visible : false
+        },
+        {
+          data : 'setEmdNm'
+        },
+        {
+          data : 'setRiCd',
+          visible : false
+        },
+        {
+          data : 'setRiNm'
+        },
+        {
+          data : 'setAmnt',
+          render : function ( data, type, row, meta) {
+            return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          }
+        }
+      ],
+      autoWidth : false,
+      paging: false,
+      searching: false,
+      dom: 't',
+      order: [ [1, 'desc'] ],
+      language: {
+        'emptyTable': '데이터가 존재 하지 않습니다.'
+      }
+    });
+    $('#tb_area tbody').on('click','tr',function () {
+      var areaRow = tb_area.row($(this)).data();
+    });
+    apiAjaxSend('/api/common/sido','get',null, function ( result ) {
+      if( result.success ) {
+        var resultData = result.data;
+        for( var i = 0; i < resultData.length; i++ ) {
+          $('#setSd').append('<option value="' + resultData[i].sdCd + '">' + resultData[i].sdNm + '</option>');
+        }
+      }
+    });
+    $('#setSd').on('change', function () {
+      console.log($('#setSd').val());
+    });
+
+    tb_distance = $('#tb_distance').DataTable({
+      ajax : {
+        url : 'http://127.0.0.1:8080/api/store/store-distance',
+        type : 'get',
+        data : reqParam,
+        dataSrc :function( data, textStatus, jqXHR ) {
+          if( data.success )
+            return data.data;
+          else
+            return null;
+        }
+      },
+      columns : [
+        {
+          data : 'setSeqNo',
+          visible : false
+        },
+        {
+          data : 'stoId',
+          visible : false
+        },
+        {
+          data : 'setStdDstnc',
+          render : function ( data, type, row, meta) {
+            return data.toFixed(2);
+          }
+
+        },
+        {
+          data : 'setEndDstnc',
+          render : function ( data, type, row, meta) {
+            return data.toFixed(2);
+          }
+        },
+        {
+          data : 'setAmnt',
+          render : function ( data, type, row, meta) {
+            return data.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          }
+        }
+      ],
+      autoWidth : false,
+      paging: false,
+      searching: false,
+      dom: 't',
+      order: [ [1, 'desc'] ],
+      language: {
+        'emptyTable': '데이터가 존재 하지 않습니다.'
+      }
+    });
+    if(data.stoSetSeCd == '01') {
+      $('#u_stoSetSeCd').bootstrapToggle('on');
+    } else {
+      $('#u_stoSetSeCd').bootstrapToggle('off');
+    }
+  });
+  $('#storeModifyFee').on('hidden.bs.modal', function (event) {
+    $('#u_stoSetSeCd').bootstrapToggle('on');
+    tb_area.destroy().draw();
+    tb_distance.destroy().draw();
+  });
+
   $('#u_stoSetSeCd').change(function () {
     $('#u_setDefault').append( u_setSwap );
     if( $('#u_stoSetSeCd').prop('checked') ){
       u_setSwap = $('#u_setDistance').detach();
-      tb_area = $('#tb_area').DataTable({
-        ajax : {
-          url : 'http://127.0.0.1:8080/api/store/store-area',
-          type : 'get',
-          data : data,
-          dataSrc :function( data, textStatus, jqXHR ) {
-            if( data.success )
-              return data.data
-            else
-              return null;
-          }
-        },
-        columns : [
-          {
-            data : 'setSeqNo',
-            visible : false
-          },
-          {
-            data : 'stoId',
-            visible : false
-          },
-          {
-            data : 'setSdCd',
-          },
-          {
-            data : 'setSggCd',
-          },
-          {
-            data : 'setEmdCd',
-          },
-          {
-            data : 'setRiCd',
-          },
-          {
-            data : 'setAmnt',
-            render : function ( data, type, row, meta) {
-              console.log(data);
-              return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            }
-          }
-        ],
-        autoWidth : false,
-        paging: false,
-        searching: false,
-        dom: 't',
-        order: [ [1, 'desc'] ],
-        language: {
-          'emptyTable': '데이터가 존재 하지 않습니다.'
-        }
-      });
-      if( tb_distance != null ) {
-        tb_distance.destroy();
-        $('#tb_distance').empty();
-      }
     } else {
       u_setSwap = $('#u_setArea').detach();
-      tb_distance = $('#tb_distance').DataTable({
-        ajax : {
-          url : 'http://127.0.0.1:8080/api/store/store-distance',
-          type : 'get',
-          data : data,
-          dataSrc :function( data, textStatus, jqXHR ) {
-            if( data.success )
-              return data.data
-            else
-              return null;
-          }
-        },
-        columns : [
-          {
-            data : 'setSeqNo',
-            visible : false
-          },
-          {
-            data : 'stoId',
-            visible : false
-          },
-          {
-            data : 'setStdDstnc',
-            render : function ( data, type, row, meta) {
-              return data.toFixed(2);
-            }
-
-          },
-          {
-            data : 'setEndDstnc',
-            render : function ( data, type, row, meta) {
-              return data.toFixed(2);
-            }
-          },
-          {
-            data : 'setAmnt',
-            render : function ( data, type, row, meta) {
-              return data.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            }
-          }
-        ],
-        autoWidth : false,
-        paging: false,
-        searching: false,
-        dom: 't',
-        order: [ [1, 'desc'] ],
-        language: {
-          'emptyTable': '데이터가 존재 하지 않습니다.'
-        }
-      });
-      if( tb_area != null ){
-        tb_area.destroy();
-        $('#tb_area').empty();
-      }
     }
   });
+
 });
 $(document).on('hidden.bs.modal', function (event) {
 	if ($('.modal:visible').length) {

@@ -1,0 +1,43 @@
+<div class="modal fade" id="storeDetailFee" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content" >
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-8 col-12">
+            <div id="map" style="height : calc(80vh - (14rem + 4px) )"></div>
+          </div>
+          <div class="col-lg-4 col-12">
+            <div id="setDefault" class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">지역/거리별 요금</h3>
+                <div class="card-tools">
+                  <input id="stoSetSeCd" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="지역" data-off="거리" data-onstyle="warning" data-offstyle="danger">
+                </div>
+              </div>
+              <div id="setArea" class="card-body">
+                <ul id="setAreaList" class="list-group list-group-unbordered">
+                </ul>
+              </div>
+              <div id="setDistance" class="card-body">
+                <ul id="setDistanceList" class="list-group list-group-unbordered">
+                </ul>
+              </div>
+            </div>
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">특수 지역 요금</h3>
+              </div>
+              <div id="setSpecial" class="card-body">
+                <ul id="setSpecialList" class="list-group list-group-unbordered">
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>

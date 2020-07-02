@@ -50,7 +50,7 @@
         <div class="row">
           <div class="col-12 mb-3">
             <div class="input-group col-md-1 offset-md-11 col-sm-2 offset-sm-10 col-3 offset-9">
-              <button id="stoReg" type="button" data-toggle="modal" data-target="#storeRegModal" class="form-control btn btn-info float-right">신규</button>
+              <button type="button" data-toggle="modal" data-target="#storeRegister" class="form-control btn btn-info float-right">신규</button>
             </div>
           </div>
         </div>
@@ -117,7 +117,12 @@
     </section>
   </div>
   <!-- Modal -->
-  <%- include('storeModal') %>
+  <%- include('modal/storeDetail') %>
+  <%- include('modal/storeDetailFee') %>
+  <%- include('modal/storeModify') %>
+  <%- include('modal/storeModifyFee') %>
+  <%- include('modal/storeModifySurcharge') %>
+  <%- include('modal/storeRegister') %>
   <footer class="main-footer">
     <strong>Copyright &copy; 2020 Bikeda.</strong>All rights reserved.
   </footer>

@@ -282,12 +282,12 @@ $(document).ready(function () {
       $('#dlvryPaySeCd').addClass('bg-pink');
     }
     $('#modalType').val('info');
-    $('#deliveryDetailModal').modal('show');
+    $('#realTimeDeliveryDetail').modal('show');
   });
 
 
   $('#tb_realTimeDelivery tbody').on('click', '.bg-primary.enabled', function (){
-    $('#deliveryDispatchModal').modal('show');
+    $('#realTimeDeliveryDispatch').modal('show');
     table = $('#tb_realTimeDelivery').DataTable();
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();
@@ -364,7 +364,7 @@ $(document).ready(function () {
       $('#dlvryPaySeCd').addClass('bg-pink');
     }
     $('#modalType').val('cancel');
-    $('#deliveryDetailModal').modal('show');
+    $('#realTimeDeliveryDetail').modal('show');
   });
 
   $('#tb_dispatchRider tbody').on( 'click', 'tr', function () {
@@ -385,9 +385,9 @@ $(document).ready(function () {
     data.riderCelno = riderData.riderCelno;
     data.dlvryStateCd = '02';
     table.row(row).data(data).draw();
-    $('#deliveryDispatchModal').modal('hide');
+    $('#realTimeDeliveryDispatch').modal('hide');
   });
-  $('#deliveryDetailModal').on('show.bs.modal', function (event) {
+  $('#realTimeDeliveryDetail').on('show.bs.modal', function (event) {
     var modal = $(this);
     $('#cancel').removeClass("visible invisible");
     $('#btn_cancel').removeClass("visible invisible");
@@ -402,6 +402,6 @@ $(document).ready(function () {
   $('#btn_cancel').on('click', function () {
     data.dlvryStateCd = '09';
     table.row(row).data(data).draw();
-    $('#deliveryDetailModal').modal('hide');
+    $('#realTimeDeliveryDetail').modal('hide');
   });
 });
