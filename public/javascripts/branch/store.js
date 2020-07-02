@@ -358,7 +358,7 @@ $(document).ready(function () {
       sendData.sggCd = '350';
       sendData.emdCd = '103';
       sendData.riCd = '00';
-      apiAjaxSend( '/api/commond/coordinate', 'get', sendData, function ( result ) {
+      apiAjaxSend( '/api/common/coordinate', 'get', sendData, function ( result ) {
         if( result.success ) {
           var data = result.data;
           var path = Array();
@@ -457,7 +457,7 @@ $(document).ready(function () {
     reqParam.stoId = data.stoId;
     tb_area = $('#tb_area').DataTable({
       ajax : {
-        url : 'http://127.0.0.1:8080/api/store/store-area',
+        url : 'http://deliverylabapi.gabia.io/api/store/store-area',
         type : 'get',
         data : reqParam,
         dataSrc :function( data, textStatus, jqXHR ) {
@@ -546,7 +546,7 @@ $(document).ready(function () {
 
     tb_distance = $('#tb_distance').DataTable({
       ajax : {
-        url : 'http://127.0.0.1:8080/api/store/store-distance',
+        url : 'http://deliverylabapi.gabia.io/api/store/store-distance',
         type : 'get',
         data : reqParam,
         dataSrc :function( data, textStatus, jqXHR ) {
