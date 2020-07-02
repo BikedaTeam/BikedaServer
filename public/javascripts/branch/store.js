@@ -457,7 +457,7 @@ $(document).ready(function () {
     reqParam.stoId = data.stoId;
     tb_area = $('#tb_area').DataTable({
       ajax : {
-        url : 'http://deliverylabapi.gabia.io/api/store/store-area',
+        url : 'http:// .gabia.io/api/store/store-area',
         type : 'get',
         data : reqParam,
         dataSrc :function( data, textStatus, jqXHR ) {
