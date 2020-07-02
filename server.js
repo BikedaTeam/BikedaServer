@@ -40,6 +40,11 @@ app.use('/css', express.static(path.join(__dirname, 'public/stylesheets')));
 app.use('/img', express.static(path.join(__dirname, 'public/images')));
 
 app.use(function(req, res, next) {
+ res.header('Access-Control-Allow-Origin', '*');
+ next();
+});
+
+app.use(function(req, res, next) {
   res.locals.isAuthenticated = req.isAuthenticated();
   res.locals.currentUser = req.user;
   next();
