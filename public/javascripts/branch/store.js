@@ -532,7 +532,16 @@ $(document).ready(function () {
       }
     });
     $('#setSd').on('change', function () {
-      console.log($('#setSd').val());
+      var reqParam = {};
+      reqParam.sdCd = $('#setSd').val();
+      apiAjaxSend('/api/common/sigungu','get',reqParam, function ( result ) {
+        if( result.success ) {
+          var resultData = result.data;
+          for( var i = 0; i < resultData.length; i++ ) {
+            $('#setSgg').append('<option value="' + resultData[i].sdCd + '">' + resultData[i].sdNm + '</option>');
+          }
+        }
+      });
     });
 
     tb_distance = $('#tb_distance').DataTable({
