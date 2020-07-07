@@ -14,7 +14,6 @@ var debug = require('debug')('bikedaapiserver:server');
 var http = require('http');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin/index');
 var branchRouter = require('./routes/branch/index');
 
@@ -27,7 +26,7 @@ app.use(flash());
 app.use(session({secret:'#JDKLF439jsdlfsjl', resave:true, saveUninitialized:true}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(logger('dev'));
+app.use(logger('dev', { skip : function(req, res) { return res.statusCode < 400 } }));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(upload.array()); // for parsing multipart/form-data
@@ -57,7 +56,6 @@ app.use(function(err, req, res, next) {
 });
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
 app.use('/branch', branchRouter);
 

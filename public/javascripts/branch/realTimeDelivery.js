@@ -294,7 +294,7 @@ $(document).ready(function () {
 
     $("#tb_dispatchRider").DataTable().ajax.reload();
   });
-  $('#tb_realTimeDelivery tbody').on('click', '.bg-danger.enabled', function (){
+  $('#tb_realTimeDelivery tbody').on('click', '.bg-danger.enabled', function (){    
     table = $('#tb_realTimeDelivery').DataTable();
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();

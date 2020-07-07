@@ -8,15 +8,22 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
+
   next();
 },passport.authenticate('branch',{
   successRedirect : '/branch/main',
   failureRedirect : '/branch'
 }));
-
 router.get('/main', function(req, res, next) {
     res.render('branch/realTimeDelivery', {});
 });
+
+// router.get('/main',passport.authenticate('branch',{
+//   successRedirect : '/branch/main',
+//   failureRedirect : '/branch'
+// }), function(req, res, next) {
+//     res.render('branch/realTimeDelivery', {});
+// });
 
 router.get('/main/:pageName', function(req, res, next) {
   var pageName = req.params.pageName || '';

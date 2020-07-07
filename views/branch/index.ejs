@@ -1,44 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html class="text-xs">
 <%- include('header') %>
 <body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
-    <b>BIKEDA</b>
-  </div>
-  <div class="card">
-    <div class="card-body login-card-body">
-      <form action="/branch/login" method="post">
-        <div class="input-group mb-3">
-          <input name="adminId" type="text" class="form-control" placeholder="아이디">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-user"></span>
+<div class="row">
+  <div class="login-box">
+    <div class="login-logo">
+      <b>Delivery Lab.</b>
+    </div>
+    <div class="card">
+      <div class="card-body login-card-body">
+          <div class="input-group mb-3">
+            <input id="adminId" name="adminId" type="text" class="form-control" placeholder="아이디">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user"></span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="input-group mb-3">
-          <input name="adminPassword" type="password" class="form-control" placeholder="비밀번호">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
+          <div class="input-group mb-3">
+            <input id="adminPassword" name="adminPassword" type="password" class="form-control" placeholder="비밀번호">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" id="remember">
-              <label for="remember">
-                아이디 저장
-              </label>
+          <div class="row">
+            <div class="col-8">
+              <div class="icheck-primary">
+                <input type="checkbox" id="remember">
+                <label for="remember">
+                  아이디 저장
+                </label>
+              </div>
+            </div>
+            <div class="col-4">
+              <button id="btn_login" type="button" class="btn btn-primary btn-block">로그인</button>
             </div>
           </div>
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">로그인</button>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
@@ -46,6 +46,6 @@
 
 </script>
 <%- include('footer') %>
-
+<script src="/js/branch/index.js"></script>
 </body>
 </html>
