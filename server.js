@@ -8,8 +8,7 @@ var multer = require('multer');
 var upload = multer();
 var flash = require('connect-flash');
 var session = require('express-session');
-var passport = require('./config/passport');
-
+var FileStore = require('session-file-store')(session);
 var debug = require('debug')('bikedaapiserver:server');
 var http = require('http');
 
@@ -23,9 +22,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(flash());
-app.use(session({secret:'#JDKLF439jsdlfsjl', resave:true, saveUninitialized:true}));
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(session({secret:'DeliveryLab', resave:true, saveUninitialized:true}));
 app.use(logger('dev', { skip : function(req, res) { return res.statusCode < 400 } }));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -39,8 +36,6 @@ app.use('/css', express.static(path.join(__dirname, 'public/stylesheets')));
 app.use('/img', express.static(path.join(__dirname, 'public/images')));
 
 app.use(function(req, res, next) {
-  res.locals.isAuthenticated = req.isAuthenticated();
-  res.locals.currentUser = req.user;
   next();
 });
 

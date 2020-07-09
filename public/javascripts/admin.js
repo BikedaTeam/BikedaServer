@@ -6,7 +6,7 @@ $(document).ready(function () {
     data.adminPassword = $('#adminPassword').val();
     apiAjaxSend( '/api/auth/admin', 'POST', data, function ( data ) {
       if( data.success ) {
-        alert( data.data );
+        req.session.user = data; 
         window.location.href="/admin/main";
       } else {
         alert( data.message);

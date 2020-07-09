@@ -1,29 +1,51 @@
 var express = require('express');
 var router = express.Router();
-var passport = require('../../config/passport');
+var request = require('request');
+var crypto  = require('crypto');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('branch/index', {});
-});
-
-router.post('/login', function(req, res, next) {
-
-  next();
-},passport.authenticate('branch',{
-  successRedirect : '/branch/main',
-  failureRedirect : '/branch'
-}));
-router.get('/main', function(req, res, next) {
+  if( req.session.logined ) {
     res.render('branch/realTimeDelivery', {});
+  } else {
+    req.session.logined = false;
+    res.render('branch/index', { message : req.query.message});
+  }
 });
+router.post('/login', function(req, res, next) {
+  if( req.body.adminId && req.body.adminPassword ) {
+    var body = {};
+    body.adminId = req.body.adminId;
+    body.adminPassword = crypto.createHash('sha256').update(req.body.adminPassword).digest('hex');
+    var options = {
+      uri : 'http://127.0.0.1:8080/api/auth/branch',
+      method : 'post',
+      body : body,
+      json : true
+    };
+    request.post( options, function ( err, httpRespones, body) {
+      if( body.success ) {
+        res.render('branch/realTimeDelivery', {});
+      } else {
+        res.render('branch/index', { message : body.message });
+      }
+    });
+  } else {
+    res.render('branch/index', { message : 'ID 또는 패스워드를 입력하십시오' });
+  }
 
-// router.get('/main',passport.authenticate('branch',{
-//   successRedirect : '/branch/main',
-//   failureRedirect : '/branch'
-// }), function(req, res, next) {
-//     res.render('branch/realTimeDelivery', {});
-// });
+});
+router.post('/main', function(req, res, next) {
+  console.log(req.body);
+  if( req.body.logined == 'true') {
+    req.session.logined = true;
+    req.session.user = req.body;
+    res.render('branch/realTimeDelivery', { user : req.session.user });
+  } else {
+    res.render('branch/index', {});
+  }
+
+});
 
 router.get('/main/:pageName', function(req, res, next) {
   var pageName = req.params.pageName || '';
