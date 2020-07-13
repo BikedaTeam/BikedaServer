@@ -1,9 +1,6 @@
 $(document).ready(function () {
+  searchDelivery();
   $('#tb_realTimeDelivery').DataTable({
-    ajax : {
-      url : '/branch/realTimeDelivery',
-      type : 'post'
-    },
     columns : [
       {
         data : 'dlvryStateCd',
@@ -294,7 +291,7 @@ $(document).ready(function () {
 
     $("#tb_dispatchRider").DataTable().ajax.reload();
   });
-  $('#tb_realTimeDelivery tbody').on('click', '.bg-danger.enabled', function (){    
+  $('#tb_realTimeDelivery tbody').on('click', '.bg-danger.enabled', function (){
     table = $('#tb_realTimeDelivery').DataTable();
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();
@@ -405,3 +402,9 @@ $(document).ready(function () {
     $('#realTimeDeliveryDetail').modal('hide');
   });
 });
+
+function searchDelivery(){
+  var date = new Date();
+  var dlvryRecvDt = date.getFullYear() + '' + ( date.getMonth() + 1 ) + '' + date.getDate() + '' + date.getHours() + '' + date.getMinutes() + '' + date.getSeconds();
+  console.log( dlvryRecvDt );
+}

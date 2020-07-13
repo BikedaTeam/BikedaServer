@@ -1,4 +1,4 @@
-function phoneFomatter(num){  
+function phoneFomatter(num){
   var formatNum = '';
   if(num.length==11) {
     formatNum = num.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');

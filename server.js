@@ -36,6 +36,8 @@ app.use('/css', express.static(path.join(__dirname, 'public/stylesheets')));
 app.use('/img', express.static(path.join(__dirname, 'public/images')));
 
 app.use(function(req, res, next) {
+  if(req.session.user) res.locals.user = req.session.user;
+  else res.locals.user = undefined;
   next();
 });
 
