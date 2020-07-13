@@ -406,5 +406,7 @@ $(document).ready(function () {
 function searchDelivery(){
   var date = new Date();
   var dlvryRecvDt = date.getFullYear() + '' + ( date.getMonth() + 1 ) + '' + date.getDate() + '' + date.getHours() + '' + date.getMinutes() + '' + date.getSeconds();
-  console.log( dlvryRecvDt );
+  var sendDate = {};
+  sendDate.dlvryRecvDt = dlvryRecvDt;
+  ajaxSend( '')
 }
