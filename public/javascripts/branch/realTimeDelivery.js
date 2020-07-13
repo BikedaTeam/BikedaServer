@@ -1,6 +1,40 @@
 $(document).ready(function () {
-  searchDelivery();
+  var stdDate = new Date();
+  stdDate.setDate( stdDate.getDate() - 2 );
+  var endDate = new Date();
+
+  var dlvryRecvDtEnd = endDate.yyyymmddhhmiss();
+  var dlvryRecvDtStd = stdDate.yyyymmddhhmiss();
+  var requestData = {};
+  requestData.dlvryRecvDtEnd = dlvryRecvDtEnd;
+  requestData.dlvryRecvDtStd = dlvryRecvDtStd;
+
+  ajaxSend( '/branch/realTimedeliveryCount', 'post', requestData, function ( result ) {
+    if(result.success) {
+      $('#dlvryStateCd_01').text('0');
+      $('#dlvryStateCd_02').text('0');
+      $('#dlvryStateCd_03').text('0');
+      $('#dlvryStateCd_04').text('0');
+      var resultData = result.data;
+      for( var i = 0; i < resultData.length; i++ ) {
+        if( resultData[i].dlvryStateCd == '01')
+          $('#dlvryStateCd_01').text( resultData[i].dlvryCnt );
+        else if( resultData[i].dlvryStateCd == '02')
+          $('#dlvryStateCd_02').text( resultData[i].dlvryCnt );
+        else if( resultData[i].dlvryStateCd == '03')
+          $('#dlvryStateCd_03').text( resultData[i].dlvryCnt );
+        else if( resultData[i].dlvryStateCd == '04')
+          $('#dlvryStateCd_04').text( resultData[i].dlvryCnt );
+      }
+    }
+  });
+
   $('#tb_realTimeDelivery').DataTable({
+    ajax : {
+      url : '/branch/realTimeDelivery',
+      type : 'post',
+      data : requestData
+    },
     columns : [
       {
         data : 'dlvryStateCd',
@@ -375,14 +409,47 @@ $(document).ready(function () {
 
   $('#btn_dispatchRider').on('click', function () {
     var riderData = $("#tb_dispatchRider").DataTable().row('.selected').data();
-    $("#tb_dispatchRider").DataTable().$('tr.selected').removeClass('selected');
-    data.riderBrcofcId = riderData.riderBrcofcId;
-    data.riderId = riderData.riderId;
-    data.riderNm = riderData.riderNm;
-    data.riderCelno = riderData.riderCelno;
-    data.dlvryStateCd = '02';
-    table.row(row).data(data).draw();
-    $('#realTimeDeliveryDispatch').modal('hide');
+    if( !riderData ) return;
+    Swal.fire({
+      title :'배차 처리',
+      text : '해당 라이더에게 배차 처리를 진행 하시겠습니까?',
+      icon : 'info',
+      heightAuto: false,
+      showCloseButton: true,
+      showCancelButton: true,
+      confirmButtonText: '배차',
+      confirmButtonAriaLabel: '배차',
+      cancelButtonText: '취소',
+      cancelButtonAriaLabel: '취소'
+    }).then(function (result) {
+      if( result.value ) {
+        $("#tb_dispatchRider").DataTable().$('tr.selected').removeClass('selected');
+        data.riderBrcofcId = riderData.riderBrcofcId;
+        data.riderId = riderData.riderId;
+        data.riderNm = riderData.riderNm;
+        data.riderCelno = riderData.riderCelno;
+        data.dlvryStateCd = '02';
+        ajaxSend( '/branch/realTimeDeliveryDispatch', 'post', data, function ( result ) {
+          if( result.success ){
+            Swal.fire({
+              title :'배차 완료',
+              text : '배차 처리 되었습니다.',
+              icon : 'info',
+              heightAuto: false
+            }).then(function (result) {
+              if( result.value ) {
+                table.row(row).data(data).draw();
+                var dlvryStateCd_01 = $('#dlvryStateCd_01').text();
+                var dlvryStateCd_02 = $('#dlvryStateCd_02').text();
+                $('#dlvryStateCd_01').text( ( Number(dlvryStateCd_01) - 1 ) );
+                $('#dlvryStateCd_02').text( ( Number(dlvryStateCd_02) + 1 ) );
+              }
+            });
+          }
+          $('#realTimeDeliveryDispatch').modal('hide');
+        });
+      }
+    });
   });
   $('#realTimeDeliveryDetail').on('show.bs.modal', function (event) {
     var modal = $(this);
@@ -397,16 +464,52 @@ $(document).ready(function () {
     }
   });
   $('#btn_cancel').on('click', function () {
-    data.dlvryStateCd = '09';
-    table.row(row).data(data).draw();
-    $('#realTimeDeliveryDetail').modal('hide');
+    Swal.fire({
+      title :'배달 취소',
+      text : '해당 배달 대행을 취소 하시겠습니까?',
+      icon : 'info',
+      heightAuto: false,
+      showCloseButton: true,
+      showCancelButton: true,
+      confirmButtonText: '취소',
+      confirmButtonAriaLabel: '취소',
+      cancelButtonText: '닫기',
+      cancelButtonAriaLabel: '닫기'
+    }).then(function (result) {
+      var ogrin_dlvryStateCd = data.dlvryStateCd;
+      data.dlvryStateCd = '05';
+      ajaxSend( '/branch/realTimeDeliveryCancel', 'post', data, function ( result ) {
+        if( result.success ){
+          Swal.fire({
+            title :'배달 취소',
+            text : '배달 대행 취소 되었습니다.',
+            icon : 'info',
+            heightAuto: false
+          }).then(function (result) {
+            if( result.value ) {
+              table.row(row).data(data).draw();
+              if( ogrin_dlvryStateCd == '01') {
+                var dlvryStateCd_01 = $('#dlvryStateCd_01').text();
+                $('#dlvryStateCd_01').text( ( Number(dlvryStateCd_01) - 1 ) );
+              } else if( ogrin_dlvryStateCd == '02') {
+                  var dlvryStateCd_02 = $('#dlvryStateCd_02').text();
+                  $('#dlvryStateCd_02').text( ( Number(dlvryStateCd_02) - 1 ) );
+              }
+            }
+          });
+        }
+        $('#realTimeDeliveryDetail').modal('hide');
+      });
+    });
   });
 });
 
 function searchDelivery(){
   var date = new Date();
   var dlvryRecvDt = date.getFullYear() + '' + ( date.getMonth() + 1 ) + '' + date.getDate() + '' + date.getHours() + '' + date.getMinutes() + '' + date.getSeconds();
-  var sendDate = {};
-  sendDate.dlvryRecvDt = dlvryRecvDt;
-  ajaxSend( '')
+  var requestData = {};
+  requestData.dlvryRecvDt = dlvryRecvDt;
+  ajaxSend('/branch//realTimeDelivery', 'post', requestData, function ( data ) {
+
+  });
 }
