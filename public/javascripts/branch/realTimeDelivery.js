@@ -9,7 +9,7 @@ $(document).ready(function () {
   requestData.dlvryRecvDtEnd = dlvryRecvDtEnd;
   requestData.dlvryRecvDtStd = dlvryRecvDtStd;
 
-  ajaxSend( '/branch/realTimedeliveryCount', 'post', true, requestData, function ( result ) {
+  ajaxSend( '/branch/realTimedeliveryCount', 'post', requestData, function ( result ) {
     if(result.success) {
       $('#dlvryStateCd_01').text('0');
       $('#dlvryStateCd_02').text('0');
@@ -432,7 +432,7 @@ $(document).ready(function () {
         data.riderNm = riderData.riderNm;
         data.riderCelno = riderData.riderCelno;
         data.dlvryStateCd = '02';
-        ajaxSend( '/branch/realTimeDeliveryDispatch', 'post', true, data, function ( result ) {
+        ajaxSend( '/branch/realTimeDeliveryDispatch', 'post', data, function ( result ) {
           if( result.success ){
             Swal.fire({
               title :'배차 완료',
@@ -481,7 +481,7 @@ $(document).ready(function () {
     }).then(function (result) {
       var ogrin_dlvryStateCd = data.dlvryStateCd;
       data.dlvryStateCd = '05';
-      ajaxSend( '/branch/realTimeDeliveryCancel', 'post', true, data, function ( result ) {
+      ajaxSend( '/branch/realTimeDeliveryCancel', 'post', data, function ( result ) {
         if( result.success ){
           Swal.fire({
             title :'배달 취소',

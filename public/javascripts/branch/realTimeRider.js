@@ -2,7 +2,7 @@ $(document).ready(function () {
   var container = document.getElementById('map');
   var map = null;
   var marker = null;
-  ajaxSend('/branch/branchLocation', 'get', false, null, function ( result ) {
+  ajaxSend('/branch/branchLocation', 'get', null, function ( result ) {
     var options = {
       center: new kakao.maps.LatLng(result.data.brcofcLa, result.data.brcofcLo),
       level: 5
@@ -24,7 +24,7 @@ $(document).ready(function () {
     },
     columns : [
       {
-        data : 'riderBrcofcId',
+        data : 'brcofcId',
         visible : false
       },
       {
@@ -121,6 +121,7 @@ $(document).ready(function () {
             '<thead>'+
             '<tr>'+
               '<th>배달 목록</th>'+
+              '<th>배달 목록</th>'+
             '</tr>'+
             '</thead>'+
           '</table>'+
@@ -137,114 +138,38 @@ $(document).ready(function () {
 
     // 커스텀 오버레이를 지도에 표시합니다
     customOverlay.setMap(map);
-
+    var requestData = {};
+    requestData.riderId = data.riderId;
     $('#tb_riderDeliveries').DataTable({
       ajax : {
         url : '/branch/realTimeDelivery',
-        type : 'post'
+        type : 'post',
+        data : requestData
       },
       columns : [
         {
           data : 'dlvryStateCd',
-          visible : false
-        },
-        {
-          data : 'dlvryNo',
-          visible : false
-        },
-        {
-          data : 'stoBrcofcId',
-          visible : false
-        },
-        {
-          data : 'stoId',
-          visible : false
+          render : function ( data, type, row, meta) {
+            if( data  == '01' )
+              return  '<span class="badge bg-secondary">배차 대기</span>';
+            else if( data  == '02')
+              return  '<span class="badge bg-warning">배차 완료</span>';
+            else if( data  == '03')
+              return  '<span class="badge bg-olive">픽업 완료</span>';
+            else if( data  == '04')
+              return  '<span class="badge bg-success">배달 완료</span>';
+            else if( data  == '05')
+              return  '<span class="badge bg-danger">배달 취소</span>';
+          }
         },
         {
           data : 'stoMtlty'
         },
         {
-          data : 'stoTelno',
-          visible : false
-        },
-        {
-          data : 'dlvryCusTelno',
-          visible : false
-        },
-        {
-          data : 'dlvryCusAdres',
-          visible : false
-        },
-        {
-          data : 'dlvryCusRoadAdres'
-        },
-        {
-          data : 'dlvryCusDetlAdres',
-          visible : false
-        },
-        {
-          data : 'dlvryCusLa',
-          visible : false
-        },
-        {
-          data : 'dlvryCusLo',
-          visible : false
-        },
-        {
-          data : 'dlvryPaySeCd',
-          visible : false
-        },
-        {
-          data : 'dlvryFoodAmnt',
-          visible : false
-        },
-        {
-          data : 'dlvryAmnt',
-          visible : false
-        },
-        {
-          data : 'dlvryPickReqTm',
-          visible : false
-        },
-        {
-          data : 'dlvryRecvDt',
-          visible : false
-        },
-        {
-          data : 'dlvryDsptcDt',
-          visible : false
-        },
-        {
-          data : 'dlvryPickDt',
-          visible : false
-        },
-        {
-          data : 'dlvryTcDt',
-          visible : false
-        },
-        {
-          data : 'dlvryDstnc',
-          visible : false
-        },
-        {
-          data : 'dlvryReqCn',
-          visible : false
-        },
-        {
-          data : 'riderBrcofcId',
-          visible : false
-        },
-        {
-          data : 'riderId',
-          visible : false
-        },
-        {
-          data : 'riderNm',
-          visible : false
-        },
-        {
-          data : 'riderCelno',
-          visible : false
+          data : 'dlvryCusRoadAdres',
+          render : function ( data, type, row, meta) {
+            return data + ' ' + row.dlvryCusDetlAdres;
+          }
         }
       ],
       autoWidth : false,
@@ -253,7 +178,7 @@ $(document).ready(function () {
       dom: 't',
       order: [ [1, 'desc'] ],
       language: {
-        'emptyTable': '데이터가 존재 하지 않습니다.'
+        'emptyTable': '배달 중인 내용이 없습니다.'
       },
       drawCallback : function ( settings ) {
         $("#tb_riderDeliveries thead").remove();

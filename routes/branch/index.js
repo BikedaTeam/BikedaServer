@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var crypto  = require('crypto');
-var restUrl = 'http://127.0.0.1:8080';
+// var restUrl = 'http://127.0.0.1:8080';
+var restUrl = 'http://deliverylabapi.gabia.io';
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if( req.session.logined ) {
@@ -66,6 +67,7 @@ router.post('/login', function(req, res, next) {
 router.get('/logout', function (req, res, next) {
   req.session.logined = false;
   req.session.user = null;
+  req.session.branch = null;
   req.session.save(function () {
     res.redirect('/branch');
   });
@@ -80,6 +82,7 @@ router.get('/main/:pageName', function(req, res, next) {
   } else {
     req.session.logined = false;
     req.session.user = null;
+    req.session.branch = null;
     req.session.save(function () {
       res.redirect('/branch');
     });
@@ -87,9 +90,10 @@ router.get('/main/:pageName', function(req, res, next) {
 });
 router.post('/realTimeDelivery', function(req, res, next) {
   var body = {};
-  body.stoBrcofcId = req.session.user.brcofcId || '';
-  body.dlvryRecvDtStd = req.body.dlvryRecvDtStd || '';
-  body.dlvryRecvDtEnd = req.body.dlvryRecvDtEnd || '';
+  if( req.session.user.brcofcId ) body.stoBrcofcId = req.session.user.brcofcId;
+  if( req.body.dlvryRecvDtStd ) body.dlvryRecvDtStd = req.body.dlvryRecvDtStd;
+  if( req.body.dlvryRecvDtEnd ) body.dlvryRecvDtEnd = req.body.dlvryRecvDtEnd;
+  if( req.body.riderId ) body.riderId = req.body.riderId;
   var options = {
     uri : restUrl + '/api/delivery/delivery',
     method : 'get',
@@ -185,40 +189,22 @@ router.get('/branchLocation', function(req, res, next) {
   result.message = null;
   res.json(result);
 });
-
 router.post('/realTimeRider', function(req, res, next) {
-  var data = { "data" : [
-    {
-      riderBrcofcId : 'B0001',
-      riderId : 'R00001',
-      riderNm : '테스트 라이더1',
-      riderCelno : '01012345678',
-      riderStateCd : '01',
-      riderLa : 35.19461943325928,
-      riderLo : 129.11751365461865
+  var body = {};
+  body.brcofcId = req.session.user.brcofcId || '';
+  var options = {
+    uri : restUrl + '/api/rider/rider',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.token
     },
-    {
-      riderBrcofcId : 'B0001',
-      riderId : 'R00002',
-      riderNm : '테스트 라이더2',
-      riderCelno : '01012345678',
-      riderStateCd : '02',
-      riderLa : 35.196597453088884,
-      riderLo : 129.11570970633733
-    },
-    {
-      riderBrcofcId : 'B0001',
-      riderId : 'R00003',
-      riderNm : '테스트 라이더3',
-      riderCelno : '01012345678',
-      riderStateCd : '01',
-      riderLa : 35.19688847791782,
-      riderLo : 129.12481813852943
-    },
-  ] };
-  res.json(data);
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
 });
-
 router.post('/stores', function(req, res, next) {
   var data = { "data" : [
     {
@@ -299,7 +285,6 @@ router.post('/stores', function(req, res, next) {
   ] };
   res.json(data);
 });
-
 router.post('/surcharge', function(req, res, next) {
   var data = { "data" : [
     {
