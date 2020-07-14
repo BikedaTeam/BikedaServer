@@ -1,16 +1,21 @@
 $(document).ready(function () {
   var container = document.getElementById('map');
-  var options = {
-    center: new kakao.maps.LatLng(35.19707078036156, 129.11891663441136),
-    level: 5
-  };
-  var map = new kakao.maps.Map(container, options);
-  //지점 위치 마커
-  var markerPosition  = new kakao.maps.LatLng(35.19707078036156, 129.11891663441136);
-  var marker = new kakao.maps.Marker({
-      position: markerPosition
+  var map = null;
+  var marker = null;
+  ajaxSend('/branch/branchLocation', 'get', false, null, function ( result ) {
+    var options = {
+      center: new kakao.maps.LatLng(result.data.brcofcLa, result.data.brcofcLo),
+      level: 5
+    };
+    map = new kakao.maps.Map(container, options);
+    //지점 위치 마커
+    var markerPosition  = new kakao.maps.LatLng(result.data.brcofcLa, result.data.brcofcLo);
+    marker = new kakao.maps.Marker({
+        position: markerPosition
+    });
+    marker.setMap(map);
   });
-  marker.setMap(map);
+
 
   $('#tb_realTimeRider').DataTable({
     ajax : {
@@ -70,7 +75,7 @@ $(document).ready(function () {
       // 라이더 위치 마커
       var api = this.api();
       var rows =  api.rows().data();
-      var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+      var imageSrc = "/img/rider.png";
 
       for( var i = rows.length-1 ; i >= 0; i--) {
         var imageSize = new kakao.maps.Size(24, 35);

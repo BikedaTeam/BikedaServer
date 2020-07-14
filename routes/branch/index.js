@@ -29,9 +29,27 @@ router.post('/login', function(req, res, next) {
     request( options, function ( err, httpRespones, result ) {
       if( result.success ) {
         req.session.logined = true;
-        req.session.user = result.data;
-        req.session.save(function () {
-          res.json(result);
+        req.session.user = result.data.user;
+        req.session.branch = result.data.branch;
+        req.session.token = result.data.token;
+
+        var body = {};
+        body.query = req.session.branch.brcofcBsnsPlaceAdres;
+        var options = {
+          uri : 'https://dapi.kakao.com/v2/local/search/address.json',
+          method : 'get',
+          headers : {
+            'Authorization' : 'KakaoAK 0662ade9504f2f9a44bb691790995783'
+          },
+          qs : body,
+          json : true
+        };
+        request( options, function ( err, httpRespones, resultKaKao ) {
+          req.session.branch.brcofcLo = resultKaKao.documents[0].x;
+          req.session.branch.brcofcLa = resultKaKao.documents[0].y;
+          req.session.save(function () {
+            res.json(result);
+          });
         });
       } else {
         res.json(result);
@@ -67,8 +85,6 @@ router.get('/main/:pageName', function(req, res, next) {
     });
   }
 });
-
-
 router.post('/realTimeDelivery', function(req, res, next) {
   var body = {};
   body.stoBrcofcId = req.session.user.brcofcId || '';
@@ -78,7 +94,7 @@ router.post('/realTimeDelivery', function(req, res, next) {
     uri : restUrl + '/api/delivery/delivery',
     method : 'get',
     headers : {
-      'x-access-token' : req.session.user.token
+      'x-access-token' : req.session.token
     },
     qs : body,
     json : true
@@ -87,7 +103,6 @@ router.post('/realTimeDelivery', function(req, res, next) {
     res.json(result);
   });
 });
-
 router.post('/realTimedeliveryCount', function(req, res, next) {
   var body = {};
   body.stoBrcofcId = req.session.user.brcofcId || '';
@@ -97,7 +112,7 @@ router.post('/realTimedeliveryCount', function(req, res, next) {
     uri : restUrl + '/api/delivery/delivery-count',
     method : 'get',
     headers : {
-      'x-access-token' : req.session.user.token
+      'x-access-token' : req.session.token
     },
     qs : body,
     json : true
@@ -116,7 +131,7 @@ router.post('/realTimeDeliveryDispatch', function(req, res, next) {
     uri : restUrl + '/api/delivery/delivery',
     method : 'put',
     headers : {
-      'x-access-token' : req.session.user.token
+      'x-access-token' : req.session.token
     },
     form : body,
     json : true
@@ -133,7 +148,7 @@ router.post('/realTimeDeliveryCancel', function(req, res, next) {
     uri : restUrl + '/api/delivery/delivery',
     method : 'put',
     headers : {
-      'x-access-token' : req.session.user.token
+      'x-access-token' : req.session.token
     },
     form : body,
     json : true
@@ -143,31 +158,34 @@ router.post('/realTimeDeliveryCancel', function(req, res, next) {
   });
 });
 router.post('/dispatchRider', function(req, res, next) {
-  var data = { "data" : [
-    {
-      riderBrcofcId : 'B0001',
-      riderId : 'R00001',
-      riderNm : '테스트 라이더1',
-      riderCelno : '01012345678',
-      riderDsptCnt : 5,
+  var body = {};
+  body.stoBrcofcId = req.session.user.brcofcId || '';
+  body.riderStateCd = req.body.riderStateCd || '';
+  body.riderLoginYn = req.body.riderLoginYn || '';
+  var options = {
+    uri : restUrl + '/api/rider/rider',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.token
     },
-    {
-      riderBrcofcId : 'B0001',
-      riderId : 'R00002',
-      riderNm : '테스트 라이더2',
-      riderCelno : '01012345678',
-      riderDsptCnt : 3,
-    },
-    {
-      riderBrcofcId : 'B0001',
-      riderId : 'R00003',
-      riderNm : '테스트 라이더3',
-      riderCelno : '01012345678',
-      riderDsptCnt : 0,
-    },
-  ] };
-  res.json(data);
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
 });
+router.get('/branchLocation', function(req, res, next) {
+  var result = {};
+  var data = {};
+  data.brcofcLo = req.session.branch.brcofcLo;
+  data.brcofcLa = req.session.branch.brcofcLa;
+  result.success = true;
+  result.data = data;
+  result.message = null;
+  res.json(result);
+});
+
 router.post('/realTimeRider', function(req, res, next) {
   var data = { "data" : [
     {
