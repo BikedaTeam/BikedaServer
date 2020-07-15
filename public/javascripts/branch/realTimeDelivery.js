@@ -192,7 +192,6 @@ $(document).ready(function () {
     paging: false,
     searching: false,
     dom: 't',
-    order: [ [1, 'desc'] ],
     language: {
       'emptyTable': '배달 대행 접수 내역이 없습니다.'
     }
@@ -237,7 +236,6 @@ $(document).ready(function () {
     select : {
       style: 'single'
     },
-    order: [ [1, 'asc'] ],
     language: {
       'emptyTable': '배차 가능한 라이더가 없습니다.'
     }

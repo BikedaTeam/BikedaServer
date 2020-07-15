@@ -108,7 +108,7 @@ router.post('/realTimedeliveryCount', function(req, res, next) {
   if( req.body.dlvryRecvDtStd ) body.dlvryRecvDtStd = req.body.dlvryRecvDtStd;
   if( req.body.dlvryRecvDtEnd ) body.dlvryRecvDtEnd = req.body.dlvryRecvDtEnd;
   var options = {
-    uri : restUrl + '/api/delivery/realTimeDeliveryCount',
+    uri : restUrl + '/api/delivery/realTimedeliveryCount',
     method : 'get',
     headers : {
       'x-access-token' : req.session.branch.token
