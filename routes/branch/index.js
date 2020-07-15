@@ -2,15 +2,15 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var crypto  = require('crypto');
-// var restUrl = 'http://127.0.0.1:8080';
-var restUrl = 'http://deliverylabapi.gabia.io';
+var restUrl = 'http://127.0.0.1:8080';
+// var restUrl = 'http://deliverylabapi.gabia.io';
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if( req.session.logined ) {
     res.redirect('/branch/main/realTimeDelivery');
   } else {
     req.session.logined = false;
-    req.session.user = null;
+    req.session.branch = null;
     req.session.save(function () {
       res.render('branch/index');
     });
@@ -30,9 +30,7 @@ router.post('/login', function(req, res, next) {
     request( options, function ( err, httpRespones, result ) {
       if( result.success ) {
         req.session.logined = true;
-        req.session.user = result.data.user;
-        req.session.branch = result.data.branch;
-        req.session.token = result.data.token;
+        req.session.branch = result.data;
 
         var body = {};
         body.query = req.session.branch.brcofcBsnsPlaceAdres;
@@ -66,7 +64,6 @@ router.post('/login', function(req, res, next) {
 });
 router.get('/logout', function (req, res, next) {
   req.session.logined = false;
-  req.session.user = null;
   req.session.branch = null;
   req.session.save(function () {
     res.redirect('/branch');
@@ -81,7 +78,6 @@ router.get('/main/:pageName', function(req, res, next) {
       res.render('branch/realTimeDelivery', { });
   } else {
     req.session.logined = false;
-    req.session.user = null;
     req.session.branch = null;
     req.session.save(function () {
       res.redirect('/branch');
@@ -90,15 +86,14 @@ router.get('/main/:pageName', function(req, res, next) {
 });
 router.post('/realTimeDelivery', function(req, res, next) {
   var body = {};
-  if( req.session.user.brcofcId ) body.stoBrcofcId = req.session.user.brcofcId;
+  if( req.session.branch.brcofcId ) body.stoBrcofcId = req.session.branch.brcofcId;
   if( req.body.dlvryRecvDtStd ) body.dlvryRecvDtStd = req.body.dlvryRecvDtStd;
   if( req.body.dlvryRecvDtEnd ) body.dlvryRecvDtEnd = req.body.dlvryRecvDtEnd;
-  if( req.body.riderId ) body.riderId = req.body.riderId;
   var options = {
-    uri : restUrl + '/api/delivery/delivery',
+    uri : restUrl + '/api/delivery/realTimeDelivery',
     method : 'get',
     headers : {
-      'x-access-token' : req.session.token
+      'x-access-token' : req.session.branch.token
     },
     qs : body,
     json : true
@@ -109,14 +104,14 @@ router.post('/realTimeDelivery', function(req, res, next) {
 });
 router.post('/realTimedeliveryCount', function(req, res, next) {
   var body = {};
-  body.stoBrcofcId = req.session.user.brcofcId || '';
-  body.dlvryRecvDtStd = req.body.dlvryRecvDtStd || '';
-  body.dlvryRecvDtEnd = req.body.dlvryRecvDtEnd || '';
+  if( req.session.branch.brcofcId ) body.stoBrcofcId = req.session.branch.brcofcId;
+  if( req.body.dlvryRecvDtStd ) body.dlvryRecvDtStd = req.body.dlvryRecvDtStd;
+  if( req.body.dlvryRecvDtEnd ) body.dlvryRecvDtEnd = req.body.dlvryRecvDtEnd;
   var options = {
-    uri : restUrl + '/api/delivery/delivery-count',
+    uri : restUrl + '/api/delivery/realTimeDeliveryCount',
     method : 'get',
     headers : {
-      'x-access-token' : req.session.token
+      'x-access-token' : req.session.branch.token
     },
     qs : body,
     json : true
@@ -135,7 +130,7 @@ router.post('/realTimeDeliveryDispatch', function(req, res, next) {
     uri : restUrl + '/api/delivery/delivery',
     method : 'put',
     headers : {
-      'x-access-token' : req.session.token
+      'x-access-token' : req.session.branch.token
     },
     form : body,
     json : true
@@ -152,7 +147,7 @@ router.post('/realTimeDeliveryCancel', function(req, res, next) {
     uri : restUrl + '/api/delivery/delivery',
     method : 'put',
     headers : {
-      'x-access-token' : req.session.token
+      'x-access-token' : req.session.branch.token
     },
     form : body,
     json : true
@@ -163,14 +158,14 @@ router.post('/realTimeDeliveryCancel', function(req, res, next) {
 });
 router.post('/dispatchRider', function(req, res, next) {
   var body = {};
-  body.stoBrcofcId = req.session.user.brcofcId || '';
+  body.stoBrcofcId = req.session.branch.brcofcId || '';
   body.riderStateCd = req.body.riderStateCd || '';
   body.riderLoginYn = req.body.riderLoginYn || '';
   var options = {
     uri : restUrl + '/api/rider/rider',
     method : 'get',
     headers : {
-      'x-access-token' : req.session.token
+      'x-access-token' : req.session.branch.token
     },
     qs : body,
     json : true
@@ -191,12 +186,12 @@ router.get('/branchLocation', function(req, res, next) {
 });
 router.post('/realTimeRider', function(req, res, next) {
   var body = {};
-  body.brcofcId = req.session.user.brcofcId || '';
+  body.brcofcId = req.session.branch.brcofcId || '';
   var options = {
     uri : restUrl + '/api/rider/rider',
     method : 'get',
     headers : {
-      'x-access-token' : req.session.token
+      'x-access-token' : req.session.branch.token
     },
     qs : body,
     json : true

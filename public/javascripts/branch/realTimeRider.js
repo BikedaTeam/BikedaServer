@@ -16,11 +16,21 @@ $(document).ready(function () {
     marker.setMap(map);
   });
 
+  var stdDate = new Date();
+  stdDate.setDate( stdDate.getDate() - 2 );
+  var endDate = new Date();
+
+  var dlvryRecvDtEnd = endDate.yyyymmddhhmiss();
+  var dlvryRecvDtStd = stdDate.yyyymmddhhmiss();
+  var requestData = {};
+  requestData.dlvryRecvDtEnd = dlvryRecvDtEnd;
+  requestData.dlvryRecvDtStd = dlvryRecvDtStd;
 
   $('#tb_realTimeRider').DataTable({
     ajax : {
       url : '/branch/realTimeRider',
-      type : 'post'
+      type : 'post',
+      data : requestData
     },
     columns : [
       {
@@ -69,7 +79,7 @@ $(document).ready(function () {
     },
     order: [ [1, 'asc'] ],
     language: {
-      'emptyTable': '데이터가 존재 하지 않습니다.'
+      'emptyTable': '등록된 라이더가 없습니다.'
     },
     drawCallback : function ( settings ) {
       // 라이더 위치 마커
@@ -120,8 +130,6 @@ $(document).ready(function () {
           '<table id="tb_riderDeliveries" class="table table-bordered table-hover">'+
             '<thead>'+
             '<tr>'+
-              '<th>배달 목록</th>'+
-              '<th>배달 목록</th>'+
             '</tr>'+
             '</thead>'+
           '</table>'+
@@ -138,7 +146,6 @@ $(document).ready(function () {
 
     // 커스텀 오버레이를 지도에 표시합니다
     customOverlay.setMap(map);
-    var requestData = {};
     requestData.riderId = data.riderId;
     $('#tb_riderDeliveries').DataTable({
       ajax : {

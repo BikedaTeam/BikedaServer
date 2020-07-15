@@ -36,12 +36,6 @@ app.use('/css', express.static(path.join(__dirname, 'public/stylesheets')));
 app.use('/img', express.static(path.join(__dirname, 'public/images')));
 
 app.use(function(req, res, next) {
-  if(req.session.user) res.locals.user = req.session.user;
-  else res.locals.user = undefined;
-
-  if(req.session.token) res.locals.token = req.session.token;
-  else res.locals.token = undefined;
-
   if(req.session.branch) res.locals.branch = req.session.branch;
   else res.locals.branch = undefined;
 

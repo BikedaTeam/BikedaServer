@@ -194,7 +194,7 @@ $(document).ready(function () {
     dom: 't',
     order: [ [1, 'desc'] ],
     language: {
-      'emptyTable': '데이터가 존재 하지 않습니다.'
+      'emptyTable': '배달 대행 접수 내역이 없습니다.'
     }
   });
   requestData.riderStateCd = '01';
@@ -239,7 +239,7 @@ $(document).ready(function () {
     },
     order: [ [1, 'asc'] ],
     language: {
-      'emptyTable': '데이터가 존재 하지 않습니다.'
+      'emptyTable': '배차 가능한 라이더가 없습니다.'
     }
   });
 
