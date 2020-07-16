@@ -215,69 +215,24 @@ $(document).ready(function () {
     $('#stoNightSrchrTm').text( data.stoNightSrchrStdTm.replace(/(\d{2})(\d{2})(\d{2})/, '$1:$2:$3') + ' ~ ' + data.stoNightSrchrEndTm.replace(/(\d{2})(\d{2})(\d{2})/, '$1:$2:$3') );
     $('#stoNightSrchrAmnt').text( data.stoNightSrchrAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
 
-
-    var sendData = {
-      stoId : data.stoId
-    };
-    serverAjaxSend( '/branch/surcharge', 'post', sendData, function ( datas ) {
-      $('#surchargeList').empty();
-      var data = datas.data;
-      for( var i = 0 ; i < data.length ; i++ ){
-        var html =
-        '<li class="list-group-item d-flex justify-content-between align-items-center">' +
-        ' <div class="col-12">' +
-        '  <input disabled type="checkbox"'+ ( data[i].srchrApplyYn == 'Y' ? 'checked' : '' ) +'>&nbsp;<b>' + data[i].srchrCn + '</b>' +
-        '  <a class="float-right">'+ data[i].srchrAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</a>' +
-        ' </div>' +
-        '</li>';
-        $('#surchargeList').append( html );
+    ajaxSend( '/branch/storeSurcharge', 'post', data, function ( result ) {
+      if(result.success) {
+        $('#surchargeList').empty();
+        var resultData = result.data;
+        for( var i = 0 ; i < resultData.length ; i++ ){
+          var html =
+          '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+          ' <div class="col-12">' +
+          '  <input disabled type="checkbox"'+ ( resultData[i].srchrApplyYn == 'Y' ? 'checked' : '' ) +'>&nbsp;<b>' + resultData[i].srchrCn + '</b>' +
+          '  <a class="float-right">'+ resultData[i].srchrAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</a>' +
+          ' </div>' +
+          '</li>';
+          $('#surchargeList').append( html );
+        }
       }
     });
 
-    serverAjaxSend( '/branch/setDistance', 'post', sendData, function ( datas ) {
-      $('#setDistanceList').empty();
-      var data = datas.data;
-      for( var i = 0 ; i < data.length ; i++ ){
-        var html =
-        '<li class="list-group-item d-flex justify-content-between align-items-center">' +
-        ' <div class="col-12">' +
-        '  <b>' + data[i].setStdDstnc.toFixed(2) + '(km) ~ ' + data[i].setEndDstnc.toFixed(2) + '(km)</b>' +
-        '  <a class="float-right">'+ data[i].setAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</a>' +
-        ' </div>' +
-        '</li>';
-        $('#setDistanceList').append( html );
-      }
-    });
 
-    serverAjaxSend( '/branch/setArea', 'post', sendData, function ( datas ) {
-      $('#setAreaList').empty();
-      var data = datas.data;
-      for( var i = 0 ; i < data.length ; i++ ){
-        var html =
-        '<li class="list-group-item d-flex justify-content-between align-items-center">' +
-        ' <div class="col-12">' +
-        '  <b>' + data[i].setSbmnc + '&nbsp;' + data[i].setVlg + '</b>' +
-        '  <a class="float-right">'+ data[i].setAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</a>' +
-        ' </div>' +
-        '</li>';
-        $('#setAreaList').append( html );
-      }
-    });
-
-    serverAjaxSend( '/branch/setSpecial', 'post', sendData, function ( datas ) {
-      $('#setSpecialList').empty();
-      var data = datas.data;
-      for( var i = 0 ; i < data.length ; i++ ){
-        var html =
-        '<li class="list-group-item d-flex justify-content-between align-items-center">' +
-        ' <div class="col-12">' +
-        '  <b>' + data[i].setNm + '</b>' +
-        '  <a class="float-right">'+ data[i].setAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</a>' +
-        ' </div>' +
-        '</li>';
-        $('#setSpecialList').append( html );
-      }
-    });
 
     $('#stoBizSeCd').bootstrapToggle('enable');
     if( data.stoBizSeCd == '01') {
@@ -349,29 +304,108 @@ $(document).ready(function () {
       });
       marker.setMap(map);
 
-      var sendData = {};
-      sendData.sdCd = '26';
-      sendData.sggCd = '350';
-      sendData.emdCd = '103';
-      sendData.riCd = '00';
-      apiAjaxSend( '/api/common/coordinate', 'get', sendData, function ( result ) {
-        if( result.success ) {
-          var data = result.data;
-          var path = Array();
-          for( var i = 0 ; i < data.length ; i++ ){
-            path.push( new kakao.maps.LatLng(data[i].crdntLa, data[i].crdntLo) );
+      if( data.stoSetSeCd == '01') {
+        ajaxSend( '/branch/storeAreaSetting', 'post', data, function ( result ) {
+          if(result.success) {
+            $('#setAreaList').empty();
+            var resultData = result.data;
+            for( var i = 0 ; i < resultData.length ; i++ ){
+              var html =
+              '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+              ' <div class="col-12">' +
+              '  <b>' + resultData[i].setEmdNm + '&nbsp;' + resultData[i].setRiNm + '</b>' +
+              '  <a class="float-right">'+ resultData[i].setAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</a>' +
+              ' </div>' +
+              '</li>';
+              $('#setAreaList').append( html );
+              ajaxSend( '/branch/storeAreaSettingCoordinate', 'post', resultData[i], function ( result ) {
+                if( result.success ) {
+                  var resultData = result.data;
+                  var path = Array();
+                  for( var i = 0 ; i < resultData.length ; i++ ){
+                    path.push( new kakao.maps.LatLng(resultData[i].crdntLa, resultData[i].crdntLo) );
+                  }
+                  var polygon = new kakao.maps.Polygon({
+                    path:path, // 그려질 다각형의 좌표 배열입니다
+                    strokeWeight: 1, // 선의 두께입니다
+                    strokeColor: '#004c80', // 선의 색깔입니다
+                    strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                    strokeStyle: 'solid', // 선의 스타일입니다
+                    fillColor: '#fff', // 채우기 색깔입니다
+                    fillOpacity: 0.3 // 채우기 불투명도 입니다
+                  });
+                  // 지도에 다각형을 표시합니다
+                  polygon.setMap(map);
+                }
+              });
+            }
           }
-          var polygon = new kakao.maps.Polygon({
-            path:path, // 그려질 다각형의 좌표 배열입니다
-            strokeWeight: 1, // 선의 두께입니다
-            strokeColor: '#004c80', // 선의 색깔입니다
-            strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-            strokeStyle: 'solid', // 선의 스타일입니다
-            fillColor: '#fff', // 채우기 색깔입니다
-            fillOpacity: 0.7 // 채우기 불투명도 입니다
-          });
-          // 지도에 다각형을 표시합니다
-          polygon.setMap(map);
+        });
+      } else if( data.stoSetSeCd == '02') {
+        ajaxSend( '/branch/storeDistanceSetting', 'post', data, function ( result ) {
+          if(result.success) {
+            $('#setDistanceList').empty();
+            var resultData = result.data;
+            for( var i = 0 ; i < resultData.length ; i++ ){
+              var html =
+              '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+              ' <div class="col-12">' +
+              '  <b>' + resultData[i].setStdDstnc.toFixed(2) + '(km) ~ ' + resultData[i].setEndDstnc.toFixed(2) + '(km)</b>' +
+              '  <a class="float-right">'+ resultData[i].setAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</a>' +
+              ' </div>' +
+              '</li>';
+              $('#setDistanceList').append( html );
+              var circle = new kakao.maps.Circle({
+                  center : new kakao.maps.LatLng(data.stoLa, data.stoLo),  // 원의 중심좌표 입니다
+                  radius: (resultData[i].setEndDstnc * 1000) , // 미터 단위의 원의 반지름입니다
+                  strokeWeight: 1, // 선의 두께입니다
+                  strokeColor: '#004c80', // 선의 색깔입니다
+                  strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                  strokeStyle: 'solid', // 선의 스타일입니다
+                  fillColor: '#fff', // 채우기 색깔입니다
+                  fillOpacity: 0.3 // 채우기 불투명도 입니다
+              });
+              circle.setMap(map);
+            }
+          }
+        });
+      }
+
+      ajaxSend( '/branch/storeSpecialSetting', 'post', data, function ( result ) {
+        if(result.success) {
+          $('#setSpecialList').empty();
+          var resultData = result.data;
+          for( var i = 0 ; i < resultData.length ; i++ ){
+            var html =
+            '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+            ' <div class="col-12">' +
+            '  <b>' + resultData[i].setNm + '</b>' +
+            '  <a class="float-right">'+ resultData[i].setAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</a>' +
+            ' </div>' +
+            '</li>';
+            $('#setSpecialList').append( html );
+            ajaxSend( '/branch/storeSpecialSettingLocation', 'post', resultData[i], function ( result ) {
+              if( result.success ) {
+                var resultData = result.data;
+                var path = Array();
+                for( var i = 0 ; i < resultData.length ; i++ ){
+                  path.push( new kakao.maps.LatLng(resultData[i].lctnLa, resultData[i].lctnLo) );
+                }
+                var polygon = new kakao.maps.Polygon({
+                  path:path, // 그려질 다각형의 좌표 배열입니다
+                  strokeWeight: 1, // 선의 두께입니다
+                  strokeColor: '#004c80', // 선의 색깔입니다
+                  strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+                  strokeStyle: 'solid', // 선의 스타일입니다
+                  fillColor: '#fff', // 채우기 색깔입니다
+                  fillOpacity: 0.3 // 채우기 불투명도 입니다
+                });
+                // 지도에 다각형을 표시합니다
+                polygon.setMap(map);
+              }
+            });
+
+          }
         }
       });
     },500);

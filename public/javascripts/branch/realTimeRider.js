@@ -3,17 +3,19 @@ $(document).ready(function () {
   var map = null;
   var marker = null;
   ajaxSend('/branch/branchLocation', 'get', null, function ( result ) {
-    var options = {
-      center: new kakao.maps.LatLng(result.data.brcofcLa, result.data.brcofcLo),
-      level: 5
-    };
-    map = new kakao.maps.Map(container, options);
-    //지점 위치 마커
-    var markerPosition  = new kakao.maps.LatLng(result.data.brcofcLa, result.data.brcofcLo);
-    marker = new kakao.maps.Marker({
-        position: markerPosition
-    });
-    marker.setMap(map);
+    if(result.success) {
+      var options = {
+        center: new kakao.maps.LatLng(result.data.brcofcLa, result.data.brcofcLo),
+        level: 5
+      };
+      map = new kakao.maps.Map(container, options);
+      //지점 위치 마커
+      var markerPosition  = new kakao.maps.LatLng(result.data.brcofcLa, result.data.brcofcLo);
+      marker = new kakao.maps.Marker({
+          position: markerPosition
+      });
+      marker.setMap(map);
+    }
   });
 
   var stdDate = new Date();

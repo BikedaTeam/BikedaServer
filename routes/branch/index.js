@@ -232,6 +232,7 @@ router.post('/realTimeRiderDelivery', function(req, res, next) {
   });
 });
 
+// 상점 조회
 router.post('/stores', function(req, res, next) {
   var body = {};
   body.brcofcId = req.session.branch.brcofcId || '';
@@ -249,132 +250,117 @@ router.post('/stores', function(req, res, next) {
     res.json(result);
   });
 });
-router.post('/surcharge', function(req, res, next) {
-  var data = { "data" : [
-    {
-      srchrSeqNo : 1,
-      stoId : 'S0001',
-      srchrSeCd : '01',
-      srchrCn : '눈',
-      srchrAmnt : 500,
-      srchrApplyYn : 'Y',
-    },
-    {
-      srchrSeqNo : 2,
-      stoId : 'S0001',
-      srchrSeCd : '02',
-      srchrCn : '비',
-      srchrAmnt : 500,
-      srchrApplyYn : 'Y',
-    },
-    {
-      srchrSeqNo : 3,
-      stoId : 'S0001',
-      srchrSeCd : '03',
-      srchrCn : '결빙',
-      srchrAmnt : 500,
-      srchrApplyYn : 'N',
-    },
-    {
-      srchrSeqNo : 4,
-      stoId : 'S0001',
-      srchrSeCd : '04',
-      srchrCn : '기타',
-      srchrAmnt : 500,
-      srchrApplyYn : 'Y',
-    },
-  ] };
-  res.json(data);
-});
-router.post('/setDistance', function(req, res, next) {
-  var data = { "data" : [
-    {
-      setSeqNo : 1,
-      stoId : 'S0001',
-      setStdDstnc : 0,
-      setEndDstnc : 0.5,
-      setAmnt : 500
-    },
-    {
-      setSeqNo : 2,
-      stoId : 'S0001',
-      setStdDstnc : 0.5,
-      setEndDstnc : 1,
-      setAmnt : 1000
-    },
-    {
-      setSeqNo : 3,
-      stoId : 'S0001',
-      setStdDstnc : 1,
-      setEndDstnc : 2,
-      setAmnt : 2000
-    },
-  ] };
-  res.json(data);
-});
 
-router.post('/setArea', function(req, res, next) {
-  var data = { "data" : [
-    {
-      setSeqNo : 1,
-      stoId : 'S0001',
-      setPrvnc : '부산',
-      setMncpl: '해운대구',
-      setSbmnc: '반여1동',
-      setVlg: '',
-      setAmnt : 1000
+// 상점 할증
+router.post('/storeSurcharge', function(req, res, next) {
+  var body = {};
+  body.stoId = req.body.stoId || '';
+  var options = {
+    uri : restUrl + '/api/branch/storeSurcharge',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
     },
-    {
-      setSeqNo : 2,
-      stoId : 'S0001',
-      setPrvnc : '부산',
-      setMncpl: '해운대구',
-      setSbmnc: '반여2동',
-      setVlg: '',
-      setAmnt : 1000
-    },
-    {
-      setSeqNo : 3,
-      stoId : 'S0001',
-      setDCd : '4113510900',
-      setPrvnc : '부산',
-      setMncpl: '해운대구',
-      setSbmnc: '반여3동',
-      setVlg: '',
-      setAmnt : 1000
-    },
-  ] };
-  res.json(data);
-});
-
-router.post('/getAreaCoordinate', function(req, res, next) {
-  var sendData = req.body;
-  apiAjaxSend.send( '/api/commond/coordinate', 'get', sendData, function ( result ) {
-    res.send(data);
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
   });
-  res.send(null);
 });
 
-router.post('/setSpecial', function(req, res, next) {
-  var data = { "data" : [
-    {
-      setSeqNo : 1,
-      stoId : 'S0001',
-      setNm : '반여동',
-      setAmnt : 500,
+// 상점 거리 요금
+router.post('/storeDistanceSetting', function(req, res, next) {
+  var body = {};
+  body.stoId = req.body.stoId || '';
+  var options = {
+    uri : restUrl + '/api/branch/storeDistanceSetting',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
     },
-    {
-      setSeqNo : 2,
-      stoId : 'S0001',
-      setNm : '재송동',
-      setAmnt : 1000,
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+
+// 상점 지역 요금
+router.post('/storeAreaSetting', function(req, res, next) {
+  var body = {};
+  body.stoId = req.body.stoId || '';
+  var options = {
+    uri : restUrl + '/api/branch/storeAreaSetting',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
     },
-  ] };
-  res.json(data);
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
 });
 
-router.post('/setSpecialPolygons', function(req, res, next) {
-
-  res.send(null);
+// 상점 지역 좌표
+router.post('/storeAreaSettingCoordinate', function(req, res, next) {
+  var body = {};
+  body.setSdCd = req.body.setSdCd || '';
+  body.setSggCd = req.body.setSggCd || '';
+  body.setEmdCd = req.body.setEmdCd || '';
+  body.setRiCd = req.body.setRiCd || '';
+  var options = {
+    uri : restUrl + '/api/branch/storeAreaSettingCoordinate',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
 });
+
+// 상점 특별 요금
+router.post('/storeSpecialSetting', function(req, res, next) {
+  var body = {};
+  body.stoId = req.body.stoId || '';
+  var options = {
+    uri : restUrl + '/api/branch/storeSpecialSetting',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+
+// 상점 특별 요금 좌표
+router.post('/storeSpecialSettingLocation', function(req, res, next) {
+  var body = {};
+  body.stoId = req.body.stoId || '';
+  body.setSeqNo = req.body.setSeqNo || '';
+  var options = {
+    uri : restUrl + '/api/branch/storeSpecialSettingLocation',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+
 module.exports = router;
