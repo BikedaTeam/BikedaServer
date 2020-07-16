@@ -149,7 +149,7 @@ $(document).ready(function () {
     requestData.riderId = data.riderId;
     $('#tb_riderDeliveries').DataTable({
       ajax : {
-        url : '/branch/realTimeDelivery',
+        url : '/branch/realTimeRiderDelivery',
         type : 'post',
         data : requestData
       },
@@ -175,7 +175,10 @@ $(document).ready(function () {
         {
           data : 'dlvryCusRoadAdres',
           render : function ( data, type, row, meta) {
-            return data + ' ' + row.dlvryCusDetlAdres;
+            if( row.dlvryCusDetlAdres )
+              return data + ' ' + row.dlvryCusDetlAdres;
+            else
+              return data;
           }
         }
       ],

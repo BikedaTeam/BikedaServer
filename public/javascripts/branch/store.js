@@ -10,10 +10,6 @@ $(document).ready(function () {
         width : '70px'
       },
       {
-        data : 'brcofcId',
-        visible : false
-      },
-      {
         data : 'stoBsnsRgnmb',
         width : '100px',
         render : function ( data, type, row, meta) {
@@ -207,8 +203,8 @@ $(document).ready(function () {
     $('#stoBsnsRgnmb').text( data.stoBsnsRgnmb.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3') );
     $('#stoMtlty').text( data.stoMtlty );
     $('#stoRprsntvNm').text( data.stoRprsntvNm );
-    $('#stoBrdYmd').text( data.stoBrdYmd.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') );
-    $('#stoCrprtRgnmb').text( data.stoCrprtRgnmb.replace(/(\d{6})(\d{7})/, '$1-$2') );
+    if(data.stoBrdYmd) $('#stoBrdYmd').text( data.stoBrdYmd.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') );
+    if(data.stoCrprtRgnmb) $('#stoCrprtRgnmb').text( data.stoCrprtRgnmb.replace(/(\d{6})(\d{7})/, '$1-$2') );
     $('#stoOpnngYmd').text( data.stoOpnngYmd.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') );
     $('#stoBsnsPlaceAdres').text( data.stoBsnsPlaceAdres );
     $('#stoHdofcAdres').text( data.stoHdofcAdres );
@@ -416,8 +412,8 @@ $(document).ready(function () {
     $('#u_stoBsnsRgnmb').val( data.stoBsnsRgnmb.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3') );
     $('#u_stoMtlty').val( data.stoMtlty );
     $('#u_stoRprsntvNm').val( data.stoRprsntvNm );
-    $('#u_stoBrdYmd').val( data.stoBrdYmd.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') );
-    $('#u_stoCrprtRgnmb').val( data.stoCrprtRgnmb.replace(/(\d{6})(\d{7})/, '$1-$2') );
+    if(data.stoBrdYmd) $('#u_stoBrdYmd').val( data.stoBrdYmd.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') );
+    if(data.stoCrprtRgnmb) $('#u_stoCrprtRgnmb').val( data.stoCrprtRgnmb.replace(/(\d{6})(\d{7})/, '$1-$2') );
     $('#u_stoOpnngYmd').val( data.stoOpnngYmd.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') );
     $('#u_stoBsnsPlaceAdres').val( data.stoBsnsPlaceAdres );
     $('#u_stoHdofcAdres').val( data.stoHdofcAdres );

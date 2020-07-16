@@ -80,7 +80,13 @@ $(document).ready(function () {
         visible : false
       },
       {
-        data : 'dlvryCusRoadAdres'
+        data : 'dlvryCusRoadAdres',
+        render : function ( data, type, row, meta) {
+          if( row.dlvryCusDetlAdres )
+            return data + ' ' + row.dlvryCusDetlAdres;
+          else
+            return data;
+        }
       },
       {
         data : 'dlvryCusDetlAdres',
@@ -192,17 +198,15 @@ $(document).ready(function () {
     paging: false,
     searching: false,
     dom: 't',
+    order: [16, 'desc'],
     language: {
       'emptyTable': '배달 대행 접수 내역이 없습니다.'
     }
   });
-  requestData.riderStateCd = '01';
-  requestData.riderLoginYn = 'Y';
   $('#tb_dispatchRider').DataTable({
     ajax : {
-      url : '/branch/dispatchRider',
-      type : 'post',
-      data : requestData
+      url : '/branch/realTimeDispatchRider',
+      type : 'post'
     },
     columns : [
       {
@@ -430,7 +434,7 @@ $(document).ready(function () {
         data.riderNm = riderData.riderNm;
         data.riderCelno = riderData.riderCelno;
         data.dlvryStateCd = '02';
-        ajaxSend( '/branch/realTimeDeliveryDispatch', 'post', data, function ( result ) {
+        ajaxSend( '/branch/realTimeDispatch', 'post', data, function ( result ) {
           if( result.success ){
             Swal.fire({
               title :'배차 완료',
@@ -479,7 +483,7 @@ $(document).ready(function () {
     }).then(function (result) {
       var ogrin_dlvryStateCd = data.dlvryStateCd;
       data.dlvryStateCd = '05';
-      ajaxSend( '/branch/realTimeDeliveryCancel', 'post', data, function ( result ) {
+      ajaxSend( '/branch/realTimeCancelDelivery', 'post', data, function ( result ) {
         if( result.success ){
           Swal.fire({
             title :'배달 취소',

@@ -4,7 +4,8 @@ var request = require('request');
 var crypto  = require('crypto');
 var restUrl = 'http://127.0.0.1:8080';
 // var restUrl = 'http://deliverylabapi.gabia.io';
-/* GET home page. */
+
+// 메인 root
 router.get('/', function(req, res, next) {
   if( req.session.logined ) {
     res.redirect('/branch/main/realTimeDelivery');
@@ -16,10 +17,12 @@ router.get('/', function(req, res, next) {
     });
   }
 });
+
+// 로그인 처리
 router.post('/login', function(req, res, next) {
   if( req.body.adminId && req.body.adminPassword ) {
     var options = {
-      uri : restUrl + '/api/auth/branch',
+      uri : restUrl + '/api/branch/login',
       method : 'post',
       form : {
         adminId : req.body.adminId,
@@ -69,6 +72,8 @@ router.get('/logout', function (req, res, next) {
     res.redirect('/branch');
   });
 });
+
+// 화면 전환
 router.get('/main/:pageName', function(req, res, next) {
   if( req.session.logined ) {
     var pageName = req.params.pageName || '';
@@ -84,13 +89,15 @@ router.get('/main/:pageName', function(req, res, next) {
     });
   }
 });
+
+// 실시간 배달 목록
 router.post('/realTimeDelivery', function(req, res, next) {
   var body = {};
   if( req.session.branch.brcofcId ) body.stoBrcofcId = req.session.branch.brcofcId;
   if( req.body.dlvryRecvDtStd ) body.dlvryRecvDtStd = req.body.dlvryRecvDtStd;
   if( req.body.dlvryRecvDtEnd ) body.dlvryRecvDtEnd = req.body.dlvryRecvDtEnd;
   var options = {
-    uri : restUrl + '/api/delivery/realTimeDelivery',
+    uri : restUrl + '/api/branch/realTimeDelivery',
     method : 'get',
     headers : {
       'x-access-token' : req.session.branch.token
@@ -102,13 +109,15 @@ router.post('/realTimeDelivery', function(req, res, next) {
     res.json(result);
   });
 });
+
+// 실시간 배달 상태 건수
 router.post('/realTimedeliveryCount', function(req, res, next) {
   var body = {};
   if( req.session.branch.brcofcId ) body.stoBrcofcId = req.session.branch.brcofcId;
   if( req.body.dlvryRecvDtStd ) body.dlvryRecvDtStd = req.body.dlvryRecvDtStd;
   if( req.body.dlvryRecvDtEnd ) body.dlvryRecvDtEnd = req.body.dlvryRecvDtEnd;
   var options = {
-    uri : restUrl + '/api/delivery/realTimedeliveryCount',
+    uri : restUrl + '/api/branch/realTimedeliveryCount',
     method : 'get',
     headers : {
       'x-access-token' : req.session.branch.token
@@ -120,15 +129,33 @@ router.post('/realTimedeliveryCount', function(req, res, next) {
     res.json(result);
   });
 });
-router.post('/realTimeDeliveryDispatch', function(req, res, next) {
+// 실시간 배차 라이더 목록
+router.post('/realTimeDispatchRider', function(req, res, next) {
+  var body = {};
+  body.brcofcId = req.session.branch.brcofcId || '';
+  var options = {
+    uri : restUrl + '/api/branch/realTimeDispatchRider',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+
+//실시간 배차
+router.post('/realTimeDispatch', function(req, res, next) {
   var body = {};
   body.dlvryNo = req.body.dlvryNo || '';
   body.riderId = req.body.riderId || '';
   body.riderBrcofcId = req.body.riderBrcofcId || '';
-  body.dlvryStateCd = req.body.dlvryStateCd || '';
   var options = {
-    uri : restUrl + '/api/delivery/delivery',
-    method : 'put',
+    uri : restUrl + '/api/branch/realTimeDispatch',
+    method : 'post',
     headers : {
       'x-access-token' : req.session.branch.token
     },
@@ -139,13 +166,13 @@ router.post('/realTimeDeliveryDispatch', function(req, res, next) {
     res.json(result);
   });
 });
-router.post('/realTimeDeliveryCancel', function(req, res, next) {
+// 실시간 주문 취소
+router.post('/realTimeCancelDelivery', function(req, res, next) {
   var body = {};
   body.dlvryNo = req.body.dlvryNo || '';
-  body.dlvryStateCd = req.body.dlvryStateCd || '';
   var options = {
-    uri : restUrl + '/api/delivery/delivery',
-    method : 'put',
+    uri : restUrl + '/api/branch/realTimeCancelDelivery',
+    method : 'post',
     headers : {
       'x-access-token' : req.session.branch.token
     },
@@ -156,24 +183,8 @@ router.post('/realTimeDeliveryCancel', function(req, res, next) {
     res.json(result);
   });
 });
-router.post('/dispatchRider', function(req, res, next) {
-  var body = {};
-  body.stoBrcofcId = req.session.branch.brcofcId || '';
-  body.riderStateCd = req.body.riderStateCd || '';
-  body.riderLoginYn = req.body.riderLoginYn || '';
-  var options = {
-    uri : restUrl + '/api/rider/rider',
-    method : 'get',
-    headers : {
-      'x-access-token' : req.session.branch.token
-    },
-    qs : body,
-    json : true
-  };
-  request( options, function ( err, httpRespones, result ) {
-    res.json(result);
-  });
-});
+
+// 지점 좌표 조회
 router.get('/branchLocation', function(req, res, next) {
   var result = {};
   var data = {};
@@ -184,11 +195,13 @@ router.get('/branchLocation', function(req, res, next) {
   result.message = null;
   res.json(result);
 });
+
+// 실시간 라이더 조회
 router.post('/realTimeRider', function(req, res, next) {
   var body = {};
   body.brcofcId = req.session.branch.brcofcId || '';
   var options = {
-    uri : restUrl + '/api/rider/rider',
+    uri : restUrl + '/api/branch/realTimeRider',
     method : 'get',
     headers : {
       'x-access-token' : req.session.branch.token
@@ -200,85 +213,41 @@ router.post('/realTimeRider', function(req, res, next) {
     res.json(result);
   });
 });
+
+// 실시간 라이더 배달 목록 조회
+router.post('/realTimeRiderDelivery', function(req, res, next) {
+  var body = {};
+  body.riderId = req.body.riderId || '';
+  var options = {
+    uri : restUrl + '/api/branch/realTimeRiderDelivery',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+
 router.post('/stores', function(req, res, next) {
-  var data = { "data" : [
-    {
-      stoId : 'S0001',
-      stoBsnsRgnmb : '1234567890',
-      stoMtlty : '테스트 상점1',
-      stoBizSeCd : '01',
-      stoRprsntvNm : '테스트 대표1',
-      stoBsnsPlaceAdres : '부산시 부산진구 중앙대로 993',
-      stoStateCd : '01',
-      brcofcId : 'B0001',
-      stoBrdYmd : '20201231',
-      stoCrprtRgnmb : '1234567890123',
-      stoOpnngYmd : '20201231',
-      stoHdofcAdres : '부산시 부산진구 중앙대로 993',
-      stoBizcnd : '제조',
-      stoInduty : '음식',
-      stoTelno : '01012345678',
-      stoVrtlAcnt : '0000000000000',
-      stoSetSeCd : '01',
-      stoNightSrchrApplyYn : 'Y',
-      stoNightSrchrStdTm : '210000',
-      stoNightSrchrEndTm : '030000',
-      stoNightSrchrAmnt : 1000,
-      stoLa : 35.19688847791782,
-      stoLo : 129.12481813852943
+  var body = {};
+  body.brcofcId = req.session.branch.brcofcId || '';
+  body.stoMtlty = req.body.stoMtlty || '';
+  var options = {
+    uri : restUrl + '/api/branch/stores',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
     },
-    {
-      stoId : 'S0002',
-      stoBsnsRgnmb : '1234567890',
-      stoMtlty : '테스트 상점1',
-      stoBizSeCd : '02',
-      stoRprsntvNm : '테스트 대표2',
-      stoBsnsPlaceAdres : '부산시 부산진구 중앙대로 993',
-      stoStateCd : '01',
-      brcofcId : 'B0001',
-      stoBrdYmd : '20201231',
-      stoCrprtRgnmb : '1234567890123',
-      stoOpnngYmd : '20201231',
-      stoHdofcAdres : '부산시 부산진구 중앙대로 993',
-      stoBizcnd : '제조',
-      stoInduty : '음식',
-      stoTelno : '01012345678',
-      stoVrtlAcnt : '0000000000000',
-      stoSetSeCd : '02',
-      stoNightSrchrApplyYn : 'N',
-      stoNightSrchrStdTm : '210000',
-      stoNightSrchrEndTm : '030000',
-      stoNightSrchrAmnt : 1000,
-      stoLa : 35.19688847791782,
-      stoLo : 129.12481813852943
-    },
-    {
-      stoId : 'S0003',
-      stoBsnsRgnmb : '1234567890',
-      stoMtlty : '테스트 상점1',
-      stoBizSeCd : '01',
-      stoRprsntvNm : '테스트 대표3',
-      stoBsnsPlaceAdres : '부산시 부산진구 중앙대로 993',
-      stoStateCd : '02',
-      brcofcId : 'B0001',
-      stoBrdYmd : '20201231',
-      stoCrprtRgnmb : '1234567890123',
-      stoOpnngYmd : '20201231',
-      stoHdofcAdres : '부산시 부산진구 중앙대로 993',
-      stoBizcnd : '제조',
-      stoInduty : '음식',
-      stoTelno : '01012345678',
-      stoVrtlAcnt : '0000000000000',
-      stoSetSeCd : '01',
-      stoNightSrchrApplyYn : 'N',
-      stoNightSrchrStdTm : '210000',
-      stoNightSrchrEndTm : '030000',
-      stoNightSrchrAmnt : 1000,
-      stoLa : 35.19688847791782,
-      stoLo : 129.12481813852943
-    },
-  ] };
-  res.json(data);
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
 });
 router.post('/surcharge', function(req, res, next) {
   var data = { "data" : [
