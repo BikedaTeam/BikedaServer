@@ -363,4 +363,36 @@ router.post('/storeSpecialSettingLocation', function(req, res, next) {
   });
 });
 
+// 상점 수정
+router.post('/storeModify', function(req, res, next) {
+  var body = {};
+  body.stoId = req.body.stoId || '';
+  body.stoBsnsRgnmb = req.body.stoBsnsRgnmb || '';
+  body.stoMtlty = req.body.stoMtlty || '';
+  body.stoRprsntvNm = req.body.stoRprsntvNm || '';
+  body.stoBrdYmd = req.body.stoBrdYmd || '';
+  body.stoCrprtRgnmb = req.body.stoCrprtRgnmb || '';
+  body.stoOpnngYmd = req.body.stoOpnngYmd || '';
+  body.stoBsnsPlaceAdres = req.body.stoBsnsPlaceAdres || '';
+  body.stoHdofcAdres = req.body.stoHdofcAdres || '';
+  body.stoBizcnd = req.body.stoBizcnd || '';
+  body.stoInduty = req.body.stoInduty || '';
+  body.stoTelno = req.body.stoTelno || '';
+  body.stoVrtlAcnt = req.body.stoVrtlAcnt || '';
+  body.stoStateCd = req.body.stoStateCd || '';
+  body.stoBizSeCd = req.body.stoBizSeCd || '';
+  var options = {
+    uri : restUrl + '/api/branch/storeModify',
+    method : 'post',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    form : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+
 module.exports = router;

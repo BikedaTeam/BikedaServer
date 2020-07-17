@@ -439,19 +439,17 @@ $(document).ready(function () {
             Swal.fire({
               title :'배차 완료',
               text : '배차 처리 되었습니다.',
-              icon : 'info',
+              icon : 'success',
               heightAuto: false
             }).then(function (result) {
-              if( result.value ) {
-                table.row(row).data(data).draw();
-                var dlvryStateCd_01 = $('#dlvryStateCd_01').text();
-                var dlvryStateCd_02 = $('#dlvryStateCd_02').text();
-                $('#dlvryStateCd_01').text( ( Number(dlvryStateCd_01) - 1 ) );
-                $('#dlvryStateCd_02').text( ( Number(dlvryStateCd_02) + 1 ) );
-              }
+              table.row(row).data(data).draw();
+              var dlvryStateCd_01 = $('#dlvryStateCd_01').text();
+              var dlvryStateCd_02 = $('#dlvryStateCd_02').text();
+              $('#dlvryStateCd_01').text( ( Number(dlvryStateCd_01) - 1 ) );
+              $('#dlvryStateCd_02').text( ( Number(dlvryStateCd_02) + 1 ) );
+              $('#realTimeDeliveryDispatch').modal('hide');
             });
           }
-          $('#realTimeDeliveryDispatch').modal('hide');
         });
       }
     });
@@ -488,22 +486,20 @@ $(document).ready(function () {
           Swal.fire({
             title :'배달 취소',
             text : '배달 대행 취소 되었습니다.',
-            icon : 'info',
+            icon : 'success',
             heightAuto: false
           }).then(function (result) {
-            if( result.value ) {
-              table.row(row).data(data).draw();
-              if( ogrin_dlvryStateCd == '01') {
-                var dlvryStateCd_01 = $('#dlvryStateCd_01').text();
-                $('#dlvryStateCd_01').text( ( Number(dlvryStateCd_01) - 1 ) );
-              } else if( ogrin_dlvryStateCd == '02') {
-                  var dlvryStateCd_02 = $('#dlvryStateCd_02').text();
-                  $('#dlvryStateCd_02').text( ( Number(dlvryStateCd_02) - 1 ) );
-              }
+            table.row(row).data(data).draw();
+            if( ogrin_dlvryStateCd == '01') {
+              var dlvryStateCd_01 = $('#dlvryStateCd_01').text();
+              $('#dlvryStateCd_01').text( ( Number(dlvryStateCd_01) - 1 ) );
+            } else if( ogrin_dlvryStateCd == '02') {
+                var dlvryStateCd_02 = $('#dlvryStateCd_02').text();
+                $('#dlvryStateCd_02').text( ( Number(dlvryStateCd_02) - 1 ) );
             }
+            $('#realTimeDeliveryDetail').modal('hide');
           });
         }
-        $('#realTimeDeliveryDetail').modal('hide');
       });
     });
   });

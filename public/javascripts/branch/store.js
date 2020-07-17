@@ -441,7 +441,6 @@ $(document).ready(function () {
     $('#u_stoInduty').val('');
     $('#u_stoTelno').val('');
     $('#u_stoVrtlAcnt').val('');
-
     $('#u_stoId').val( data.stoId );
     $('#u_stoBsnsRgnmb').val( data.stoBsnsRgnmb.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3') );
     $('#u_stoMtlty').val( data.stoMtlty );
@@ -478,6 +477,69 @@ $(document).ready(function () {
       u_bizSwap = $('#u_bizCrprt').detach();
     else
       u_bizSwap = $('#u_bizPrivate').detach();
+  });
+  $('#btn_modify').on('click', function () {
+    data.stoId = $('#u_stoId').val();
+    if( $('#u_stoBsnsRgnmb').val() ) data.stoBsnsRgnmb = $('#u_stoBsnsRgnmb').val().replace(/-/g,"");
+    data.stoMtlty = $('#u_stoMtlty').val();
+    data.stoRprsntvNm = $('#u_stoRprsntvNm').val();
+    if( $('#u_stoOpnngYmd').val() ) data.stoOpnngYmd = $('#u_stoOpnngYmd').val().replace(/-/g,"");
+    data.stoBsnsPlaceAdres = $('#u_stoBsnsPlaceAdres').val();
+    data.stoBizcnd = $('#u_stoBizcnd').val();
+    data.stoInduty = $('#u_stoInduty').val();
+    if( $('#u_stoTelno').val() ) data.stoTelno = $('#u_stoTelno').val().replace(/-/g,"");
+    data.stoVrtlAcnt = $('#u_stoVrtlAcnt').val();
+    if( $('#u_stoStateCd').prop('checked') )
+      data.stoStateCd = '01';
+    else
+      data.stoStateCd = '02';
+
+    if( $('#u_stoBizSeCd').prop('checked') ) {
+      data.stoBizSeCd = '01';
+      if( $('#u_stoBrdYmd').val() ) data.stoBrdYmd = $('#u_stoBrdYmd').val().replace(/-/g,"");
+      else data.stoBrdYmd = '';
+    } else {
+      data.stoBizSeCd = '02';
+      if( $('#u_stoCrprtRgnmb').val() ) data.stoCrprtRgnmb = $('#u_stoCrprtRgnmb').val().replace(/-/g,"");
+      else data.stoCrprtRgnmb = '';
+      data.stoHdofcAdres = $('#u_stoHdofcAdres').val();
+    }
+
+    Swal.fire({
+      title :'상점 정보 수정',
+      text : '상점 정보를 수정 하시겠습니까?',
+      icon : 'info',
+      heightAuto: false,
+      showCloseButton: true,
+      showCancelButton: true,
+      confirmButtonText: '수정',
+      confirmButtonAriaLabel: '수정',
+      cancelButtonText: '취소',
+      cancelButtonAriaLabel: '취소'
+    }).then(function (result) {
+      if( result.value ) {
+        ajaxSend( '/branch/storeModify', 'post', data, function ( result ) {
+          if(result.success) {
+            Swal.fire({
+              title :'수정 완료',
+              text : '정상 처리 되었습니다.',
+              icon : 'success',
+              heightAuto: false
+            }).then(function (result) {
+              table.row(row).data(data).draw();
+              $('#storeModify').modal('hide');
+            });
+          } else {
+            Swal.fire({
+              title :'수정 오류',
+              text : result.message,
+              icon : 'danger',
+              heightAuto: false
+            });
+          }
+        });
+      }
+    });
   });
 
   var u_setSwap;
