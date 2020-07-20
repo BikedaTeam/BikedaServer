@@ -2,7 +2,7 @@ $(document).ready(function () {
   var container = document.getElementById('map');
   var map = null;
   var marker = null;
-  ajaxSend('/branch/branchLocation', 'get', null, function ( result ) {
+  ajaxSend('/branch/branchLocation', 'get', true, null, function ( result ) {
     if(result.success) {
       var options = {
         center: new kakao.maps.LatLng(result.data.brcofcLa, result.data.brcofcLo),

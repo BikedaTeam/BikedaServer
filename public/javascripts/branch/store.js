@@ -215,7 +215,7 @@ $(document).ready(function () {
     $('#stoNightSrchrTm').text( data.stoNightSrchrStdTm.replace(/(\d{2})(\d{2})(\d{2})/, '$1:$2:$3') + ' ~ ' + data.stoNightSrchrEndTm.replace(/(\d{2})(\d{2})(\d{2})/, '$1:$2:$3') );
     $('#stoNightSrchrAmnt').text( data.stoNightSrchrAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
 
-    ajaxSend( '/branch/storeSurcharge', 'post', data, function ( result ) {
+    ajaxSend( '/branch/storeSurcharge', 'post', true, data, function ( result ) {
       if(result.success) {
         $('#surchargeList').empty();
         var resultData = result.data;
@@ -305,7 +305,7 @@ $(document).ready(function () {
       marker.setMap(map);
 
       if( data.stoSetSeCd == '01') {
-        ajaxSend( '/branch/storeAreaSetting', 'post', data, function ( result ) {
+        ajaxSend( '/branch/storeAreaSetting', 'post', true, data, function ( result ) {
           if(result.success) {
             $('#setAreaList').empty();
             var resultData = result.data;
@@ -318,7 +318,7 @@ $(document).ready(function () {
               ' </div>' +
               '</li>';
               $('#setAreaList').append( html );
-              ajaxSend( '/branch/storeAreaSettingCoordinate', 'post', resultData[i], function ( result ) {
+              ajaxSend( '/branch/storeAreaSettingCoordinate', 'post', true, resultData[i], function ( result ) {
                 if( result.success ) {
                   var resultData = result.data;
                   var path = Array();
@@ -342,7 +342,7 @@ $(document).ready(function () {
           }
         });
       } else if( data.stoSetSeCd == '02') {
-        ajaxSend( '/branch/storeDistanceSetting', 'post', data, function ( result ) {
+        ajaxSend( '/branch/storeDistanceSetting', 'post', true, data, function ( result ) {
           if(result.success) {
             $('#setDistanceList').empty();
             var resultData = result.data;
@@ -371,7 +371,7 @@ $(document).ready(function () {
         });
       }
 
-      ajaxSend( '/branch/storeSpecialSetting', 'post', data, function ( result ) {
+      ajaxSend( '/branch/storeSpecialSetting', 'post', true, data, function ( result ) {
         if(result.success) {
           $('#setSpecialList').empty();
           var resultData = result.data;
@@ -384,7 +384,7 @@ $(document).ready(function () {
             ' </div>' +
             '</li>';
             $('#setSpecialList').append( html );
-            ajaxSend( '/branch/storeSpecialSettingLocation', 'post', resultData[i], function ( result ) {
+            ajaxSend( '/branch/storeSpecialSettingLocation', 'post', true, resultData[i], function ( result ) {
               if( result.success ) {
                 var resultData = result.data;
                 var path = Array();
@@ -518,7 +518,7 @@ $(document).ready(function () {
       cancelButtonAriaLabel: '취소'
     }).then(function (result) {
       if( result.value ) {
-        ajaxSend( '/branch/storeModify', 'post', data, function ( result ) {
+        ajaxSend( '/branch/storeModify', 'post', true, data, function ( result ) {
           if(result.success) {
             Swal.fire({
               title :'수정 완료',
@@ -552,7 +552,7 @@ $(document).ready(function () {
     $('#u_stoNightSrchrEndTm').val( data.stoNightSrchrEndTm );
     $('#u_stoNightSrchrAmnt').val( data.stoNightSrchrAmnt );
 
-    ajaxSend( '/branch/storeSurcharge', 'post', data, function ( result ) {
+    ajaxSend( '/branch/storeSurcharge', 'post', true, data, function ( result ) {
       if(result.success) {
         var resultData = result.data;
         for( var i = 0 ; i < resultData.length ; i++ ){
@@ -601,7 +601,7 @@ $(document).ready(function () {
     }).then(function (result) {
       if( result.value ) {
 
-        ajaxSend( '/branch/storeModifyNightSurcharge', 'post', data, function ( result ) {
+        ajaxSend( '/branch/storeModifyNightSurcharge', 'post', true, data, function ( result ) {
           if(result.success) {
             Swal.fire({
               title :'수정 완료',
@@ -651,34 +651,131 @@ $(document).ready(function () {
         },
         {
           data : 'setSdCd',
-          visible : false
-        },
-        {
-          data : 'setSdNm'
+          width : '180px',
+          render : function ( data, type, row, meta) {
+            var selectHtml = '<select id="sdCd" class="form-control select2">';
+            ajaxSend('/common/sido','post', false, null, function ( result ) {
+              if( result.success ) {
+                var resultData = result.data;
+                for( var i = 0; i < resultData.length; i++ ) {
+                  if( resultData[i].sdCd == data ) {
+                    selectHtml += '<option value="' + resultData[i].sdCd + '" selected >' + resultData[i].sdNm + '</option>';
+                  } else {
+                    selectHtml += '<option value="' + resultData[i].sdCd + '">' + resultData[i].sdNm + '</option>';
+                  }
+                }
+              }
+              selectHtml += '</select>'
+
+            });
+            return selectHtml;
+          }
         },
         {
           data : 'setSggCd',
-          visible : false
-        },
-        {
-          data : 'setSggNm'
+          width : '180px',
+          render : function ( data, type, row, meta) {
+            var selectHtml = '<select id="sggCd" class="form-control select2">';
+            var reqParam = {};
+            reqParam.sdCd = row.setSdCd;
+            ajaxSend('/common/sigungu','post', false, reqParam, function ( result ) {
+              if( result.success ) {
+                var resultData = result.data;
+                for( var i = 0; i < resultData.length; i++ ) {
+                  if( data ) {
+                    if( resultData[i].sggCd == data ) {
+                      selectHtml += '<option value="' + resultData[i].sggCd + '" selected >' + resultData[i].sggNm + '</option>';
+                    } else {
+                      selectHtml += '<option value="' + resultData[i].sggCd + '">' + resultData[i].sggNm + '</option>';
+                    }
+                  } else {
+                    if( i == 0 ) {
+                      row.setSggCd = resultData[i].sggCd;
+                      selectHtml += '<option value="' + resultData[i].sggCd + '" selected >' + resultData[i].sggNm + '</option>';
+                    } else {
+                      selectHtml += '<option value="' + resultData[i].sggCd + '">' + resultData[i].sggNm + '</option>';
+                    }
+                  }
+                }
+              }
+              selectHtml += '</select>'
+
+            });
+            return selectHtml;
+          }
         },
         {
           data : 'setEmdCd',
-          visible : false
-        },
-        {
-          data : 'setEmdNm'
+          width : '120px',
+          render : function ( data, type, row, meta) {
+            var selectHtml = '<select id="emdCd" class="form-control select2">';
+            var reqParam = {};
+            reqParam.sdCd = row.setSdCd;
+            reqParam.sggCd = row.setSggCd;
+
+            ajaxSend('/common/emd','post', false, reqParam, function ( result ) {
+              if( result.success ) {
+                var resultData = result.data;
+                for( var i = 0; i < resultData.length; i++ ) {
+                  if( data ) {
+                    if( resultData[i].emdCd == data ) {
+                      selectHtml += '<option value="' + resultData[i].emdCd + '" selected >' + resultData[i].emdNm + '</option>';
+                    } else {
+                      selectHtml += '<option value="' + resultData[i].emdCd + '">' + resultData[i].emdNm + '</option>';
+                    }
+                  } else {
+                    if( i == 0 ) {
+                      row.setEmdCd = resultData[i].emdCd;
+                      selectHtml += '<option value="' + resultData[i].emdCd + '" selected >' + resultData[i].emdNm + '</option>';
+                    } else {
+                      selectHtml += '<option value="' + resultData[i].emdCd + '">' + resultData[i].emdNm + '</option>';
+                    }
+                  }
+                }
+              }
+              selectHtml += '</select>'
+
+            });
+            return selectHtml;
+          }
         },
         {
           data : 'setRiCd',
-          visible : false
+          width : '120px',
+          render : function ( data, type, row, meta) {
+            var selectHtml = '<select id="riCd" class="form-control select2">';
+            var reqParam = {};
+            reqParam.sdCd = row.setSdCd;
+            reqParam.sggCd = row.setSggCd;
+            reqParam.emdCd = row.setEmdCd;
+            ajaxSend('/common/ri','post', false, reqParam, function ( result ) {
+              if( result.success ) {
+                var resultData = result.data;
+                for( var i = 0; i < resultData.length; i++ ) {
+                  if( data ) {
+                    if( resultData[i].riCd == data )
+                      selectHtml += '<option value="' + resultData[i].riCd + '" selected >' + resultData[i].riNm + '</option>';
+                    else
+                      selectHtml += '<option value="' + resultData[i].riCd + '">' + resultData[i].riNm + '</option>';
+                  } else {
+                    if( i == 0 )
+                      selectHtml += '<option value="' + resultData[i].riCd + '" selected >' + resultData[i].riNm + '</option>';
+                    else
+                      selectHtml += '<option value="' + resultData[i].riCd + '">' + resultData[i].riNm + '</option>';
+                  }
+                }
+              }
+              selectHtml += '</select>'
+
+            });
+            return selectHtml;
+          }
         },
         {
-          data : 'setRiNm'
-        },
-        {
-          data : 'setAmnt'
+          data : 'setAmnt',
+          render : function ( data, type, row, meta) {
+            return '<input id="setAmnt" type="text" class="form-control form-control-sm" value="' + data +'">';
+          }
         }
       ],
       autoWidth : false,
@@ -687,33 +784,44 @@ $(document).ready(function () {
       dom: 't',
       order: [ [1, 'desc'] ],
       language: {
-        'emptyTable': '데이터가 존재 하지 않습니다.'
+        'emptyTable': '지역 요금 설정이 없습니다.'
       }
     });
-    $('#tb_area tbody').on('click','tr',function () {
-      var areaRow = tb_area.row($(this)).data();
+    // $('#tb_area tbody').on('click','tr',function () {
+    //   var areaRow = tb_area.row($(this)).data();
+    //   console.log($('#sdCd').val());
+    // });
+    $('#tb_area tbody').on('change','#sdCd',function () {
+      var row = tb_area.row($(this).closest('tr'));
+      var data = tb_area.row($(this).closest('tr')).data();
+      data.setSdCd = this.value;
+      data.setSggCd = null;
+      data.setEmdCd = null;
+      data.setRiCd = null;
+      tb_area.row(row).data(data).draw();
     });
-    ajaxSend('/common/sido','post',null, function ( result ) {
-      console.log(result);
-      if( result.success ) {
-        var resultData = result.data;
-        for( var i = 0; i < resultData.length; i++ ) {
-          $('#setSd').append('<option value="' + resultData[i].sdCd + '">' + resultData[i].sdNm + '</option>');
-        }
-      }
+    $('#tb_area tbody').on('change','#sggCd',function () {
+      var row = tb_area.row($(this).closest('tr'));
+      var data = tb_area.row($(this).closest('tr')).data();
+      data.setSggCd = this.value;
+      data.setEmdCd = null;
+      data.setRiCd = null;
+      tb_area.row(row).data(data).draw();
     });
-    $('#setSd').on('change', function () {
-      var reqParam = {};
-      reqParam.sdCd = $('#setSd').val();
-      apiAjaxSend('/api/common/sigungu','get',reqParam, function ( result ) {
-        if( result.success ) {
-          var resultData = result.data;
-          for( var i = 0; i < resultData.length; i++ ) {
-            $('#setSgg').append('<option value="' + resultData[i].sdCd + '">' + resultData[i].sdNm + '</option>');
-          }
-        }
-      });
+    $('#tb_area tbody').on('change','#emdCd',function () {
+      var row = tb_area.row($(this).closest('tr'));
+      var data = tb_area.row($(this).closest('tr')).data();
+      data.setEmdCd = this.value;
+      data.setRiCd = null;
+      tb_area.row(row).data(data).draw();
     });
+
+    if(data.stoSetSeCd == '01') {
+      $('#u_stoSetSeCd').bootstrapToggle('on');
+    } else {
+      $('#u_stoSetSeCd').bootstrapToggle('off');
+    }
+
 
     tb_distance = $('#tb_distance').DataTable({
       ajax : {
@@ -755,11 +863,7 @@ $(document).ready(function () {
         'emptyTable': '데이터가 존재 하지 않습니다.'
       }
     });
-    if(data.stoSetSeCd == '01') {
-      $('#u_stoSetSeCd').bootstrapToggle('on');
-    } else {
-      $('#u_stoSetSeCd').bootstrapToggle('off');
-    }
+
   });
   $('#storeModifyFee').on('hidden.bs.modal', function (event) {
     $('#u_stoSetSeCd').bootstrapToggle('on');

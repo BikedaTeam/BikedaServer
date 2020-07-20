@@ -15,7 +15,7 @@ function login() {
   var requestData = {};
   requestData.adminId = $('#adminId').val();
   requestData.adminPassword = $('#adminPassword').val();
-  ajaxSend('/branch/login', 'post', requestData, function ( result ) {
+  ajaxSend('/branch/login', 'post', true, requestData, function ( result ) {
     if( result.success ) {
       location.href="/branch/main/realTimeDelivery";
     } else {
