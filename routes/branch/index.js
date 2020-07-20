@@ -395,4 +395,27 @@ router.post('/storeModify', function(req, res, next) {
   });
 });
 
+// 상점 야간 할증 수정
+router.post('/storeModifyNightSurcharge', function(req, res, next) {
+  var body = {};
+  body.stoId = req.body.stoId || '';
+  body.stoNightSrchrApplyYn = req.body.stoNightSrchrApplyYn || '';
+  body.stoNightSrchrStdTm = req.body.stoNightSrchrStdTm || '000000';
+  body.stoNightSrchrEndTm = req.body.stoNightSrchrEndTm || '000000';
+  body.stoNightSrchrAmnt = req.body.stoNightSrchrAmnt || '0';
+  body.surcharge = req.body.surcharge;
+  var options = {
+    uri : restUrl + '/api/branch/storeModifyNightSurcharge',
+    method : 'post',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    form : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+
 module.exports = router;

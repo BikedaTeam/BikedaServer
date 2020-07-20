@@ -542,16 +542,97 @@ $(document).ready(function () {
     });
   });
 
+  $('#storeModifySurcharge').on('show.bs.modal', function (event) {
+    if( data.stoNightSrchrApplyYn == 'Y'){
+      $('u_stoNightSrchrApplyYn').bootstrapToggle('on');
+    } else {
+      $('u_stoNightSrchrApplyYn').bootstrapToggle('off');
+    }
+    $('#u_stoNightSrchrStdTm').val( data.stoNightSrchrStdTm );
+    $('#u_stoNightSrchrEndTm').val( data.stoNightSrchrEndTm );
+    $('#u_stoNightSrchrAmnt').val( data.stoNightSrchrAmnt );
+
+    ajaxSend( '/branch/storeSurcharge', 'post', data, function ( result ) {
+      if(result.success) {
+        var resultData = result.data;
+        for( var i = 0 ; i < resultData.length ; i++ ){
+          $('#u_srchrCn' + i ).val( resultData[i].srchrCn );
+          $('#u_srchrAmnt' + i ).val( resultData[i].srchrAmnt );
+          if( resultData[i].srchrApplyYn == 'Y')
+            $('#u_srchrApplyYn' + i ).bootstrapToggle('on');
+          else
+            $('#u_srchrApplyYn' + i ).bootstrapToggle('off');
+        }
+      }
+    });
+  });
+  $('#btn_modifySurcharge').on('click', function () {
+    if( $('#u_stoNightSrchrApplyYn').prop('checked') )
+      data.stoNightSrchrApplyYn = 'Y';
+    else
+      data.stoNightSrchrApplyYn = 'N';
+    data.stoNightSrchrStdTm = $('#u_stoNightSrchrStdTm').val();
+    data.stoNightSrchrEndTm = $('#u_stoNightSrchrEndTm').val();
+    data.stoNightSrchrAmnt = $('#u_stoNightSrchrAmnt').val();
+
+    surchargeArray = Array();
+    for( var i = 0 ; i < 6 ; i++ ) {
+      var surcharge = {};
+      surcharge.stoId = data.stoId;
+      surcharge.srchrCn = $('#u_srchrCn' + i ).val();
+      surcharge.srchrAmnt = $('#u_srchrAmnt' + i ).val();
+      surcharge.srchrApplyYn = ( $('#u_srchrApplyYn' + i ).prop('checked') ? 'Y' : 'N' );
+      surcharge.srchrSeCd = '0' +(i+1);
+      surchargeArray.push(surcharge);
+    }
+    data.surcharge = surchargeArray;
+    console.log(data);
+    Swal.fire({
+      title :'상점 할증 수정',
+      text : '상점 할증을 수정 하시겠습니까?',
+      icon : 'info',
+      heightAuto: false,
+      showCloseButton: true,
+      showCancelButton: true,
+      confirmButtonText: '수정',
+      confirmButtonAriaLabel: '수정',
+      cancelButtonText: '취소',
+      cancelButtonAriaLabel: '취소'
+    }).then(function (result) {
+      if( result.value ) {
+
+        ajaxSend( '/branch/storeModifyNightSurcharge', 'post', data, function ( result ) {
+          if(result.success) {
+            Swal.fire({
+              title :'수정 완료',
+              text : '정상 처리 되었습니다.',
+              icon : 'success',
+              heightAuto: false
+            }).then(function (result) {
+              table.row(row).data(data).draw();
+              $('#storeModifySurcharge').modal('hide');
+            });
+          } else {
+            Swal.fire({
+              title :'수정 오류',
+              text : result.message,
+              icon : 'danger',
+              heightAuto: false
+            });
+          }
+        });
+      }
+    });
+  });
+
   var u_setSwap;
   var tb_area, tb_distance;
   $('#storeModifyFee').on('show.bs.modal', function (event) {
-    var reqParam = {};
-    reqParam.stoId = data.stoId;
     tb_area = $('#tb_area').DataTable({
       ajax : {
-        url : 'http:// .gabia.io/api/store/store-area',
-        type : 'get',
-        data : reqParam,
+        url : '/branch/storeAreaSetting',
+        type : 'post',
+        data : data,
         dataSrc :function( data, textStatus, jqXHR ) {
           if( data.success )
             return data.data;
@@ -597,10 +678,7 @@ $(document).ready(function () {
           data : 'setRiNm'
         },
         {
-          data : 'setAmnt',
-          render : function ( data, type, row, meta) {
-            return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
+          data : 'setAmnt'
         }
       ],
       autoWidth : false,
@@ -615,7 +693,8 @@ $(document).ready(function () {
     $('#tb_area tbody').on('click','tr',function () {
       var areaRow = tb_area.row($(this)).data();
     });
-    apiAjaxSend('/api/common/sido','get',null, function ( result ) {
+    ajaxSend('/common/sido','post',null, function ( result ) {
+      console.log(result);
       if( result.success ) {
         var resultData = result.data;
         for( var i = 0; i < resultData.length; i++ ) {
@@ -638,9 +717,9 @@ $(document).ready(function () {
 
     tb_distance = $('#tb_distance').DataTable({
       ajax : {
-        url : 'http://deliverylabapi.gabia.io/api/store/store-distance',
-        type : 'get',
-        data : reqParam,
+        url : '/branch/storeDistanceSetting',
+        type : 'post',
+        data : data,
         dataSrc :function( data, textStatus, jqXHR ) {
           if( data.success )
             return data.data;
@@ -658,23 +737,13 @@ $(document).ready(function () {
           visible : false
         },
         {
-          data : 'setStdDstnc',
-          render : function ( data, type, row, meta) {
-            return data.toFixed(2);
-          }
-
+          data : 'setStdDstnc'
         },
         {
-          data : 'setEndDstnc',
-          render : function ( data, type, row, meta) {
-            return data.toFixed(2);
-          }
+          data : 'setEndDstnc'
         },
         {
-          data : 'setAmnt',
-          render : function ( data, type, row, meta) {
-            return data.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          }
+          data : 'setAmnt'
         }
       ],
       autoWidth : false,

@@ -13,6 +13,7 @@ var debug = require('debug')('bikedaapiserver:server');
 var http = require('http');
 
 var indexRouter = require('./routes/index');
+var commonRouter = require('./routes/common/index');
 var adminRouter = require('./routes/admin/index');
 var branchRouter = require('./routes/branch/index');
 
@@ -54,6 +55,7 @@ app.use(function(err, req, res, next) {
 });
 
 app.use('/', indexRouter);
+app.use('/common', commonRouter);
 app.use('/admin', adminRouter);
 app.use('/branch', branchRouter);
 
