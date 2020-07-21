@@ -1,8 +1,11 @@
 $(document).ready(function () {
-  $('#tb_store').DataTable({
+  var tb_store = $('#tb_store').DataTable({
     ajax : {
       url : '/branch/stores',
-      type : 'post'
+      type : 'post',
+      data :  function ( d ) {
+        d.stoMtlty = $('#stoMtlty').val();
+      }
     },
     columns : [
       {
@@ -147,6 +150,9 @@ $(document).ready(function () {
     }
   });
 
+  $('#btn_search').on('click', function () {
+    tb_store.ajax.reload();
+  });
   $('#tb_store tbody').on('click', '.bg-info', function () {
     table = $('#tb_store').DataTable();
     row = table.row($(this).closest('tr'));
@@ -176,9 +182,6 @@ $(document).ready(function () {
   });
 
   //================= storeDetail====================================
-  var stateSwap;
-  var bizSwap;
-  var setSwap;
   $('#storeDetail').on('show.bs.modal', function (event) {
     $('#stoId').text('');
     $('#brcofcNm').text('');
@@ -274,19 +277,23 @@ $(document).ready(function () {
   });
 
   $('#stoBizSeCd').change(function () {
-    $('#bizDefault').append( bizSwap );
-    if( $('#stoBizSeCd').prop('checked') )
-      bizSwap = $('#bizCrprt').detach();
-    else
-      bizSwap = $('#bizPrivate').detach();
+    if( $('#stoBizSeCd').prop('checked') ) {
+      $('#bizCrprt').hide();
+      $('#bizPrivate').show();
+    } else {
+      $('#bizCrprt').show();
+      $('#bizPrivate').hide();
+    }
   });
 
   $('#stoSetSeCd').change(function () {
-    $('#setDefault').append( setSwap );
-    if( $('#stoSetSeCd').prop('checked') )
-      setSwap = $('#setDistance').detach();
-    else
-      setSwap = $('#setArea').detach();
+    if( $('#stoSetSeCd').prop('checked') ) {
+      $('#setDistance').hide();
+      $('#setArea').show();
+    } else {
+      $('#setDistance').show();
+      $('#setArea').hide();
+    }
   });
 
   $('#storeDetailFee').on('show.bs.modal', function (event) {
@@ -411,7 +418,6 @@ $(document).ready(function () {
     },500);
   });
 
-  var r_bizSwap;
   $('#storeRegister').on('show.bs.modal', function (event) {
     $('#r_stoBizSeCd').bootstrapToggle('on');
   });
@@ -419,14 +425,15 @@ $(document).ready(function () {
     $('#r_stoBizSeCd').bootstrapToggle('on');
   });
   $('#r_stoBizSeCd').change(function () {
-    $('#r_bizDefault').append( r_bizSwap );
-    if( $('#r_stoBizSeCd').prop('checked') )
-      r_bizSwap = $('#r_bizCrprt').detach();
-    else
-      r_bizSwap = $('#r_bizPrivate').detach();
+    if( $('#r_stoBizSeCd').prop('checked') ) {
+      $('#r_bizCrprt').hide();
+      $('#r_bizPrivate').show();
+    } else {
+      $('#r_bizCrprt').show();
+      $('#r_bizPrivate').hide();
+    }
   });
 
-  var u_bizSwap;
   $('#storeModify').on('show.bs.modal', function (event) {
     $('#u_stoId').val('');
     $('#u_stoBsnsRgnmb').val('');
@@ -472,11 +479,13 @@ $(document).ready(function () {
   });
 
   $('#u_stoBizSeCd').change(function () {
-    $('#u_bizDefault').append( u_bizSwap );
-    if( $('#u_stoBizSeCd').prop('checked') )
-      u_bizSwap = $('#u_bizCrprt').detach();
-    else
-      u_bizSwap = $('#u_bizPrivate').detach();
+    if( $('#u_stoBizSeCd').prop('checked') ) {
+      $('#u_bizCrprt').hide();
+      $('#u_bizPrivate').show();
+    } else {
+      $('#u_bizCrprt').show();
+      $('#u_bizPrivate').hide();
+    }
   });
   $('#btn_modify').on('click', function () {
     data.stoId = $('#u_stoId').val();
@@ -586,7 +595,6 @@ $(document).ready(function () {
       surchargeArray.push(surcharge);
     }
     data.surcharge = surchargeArray;
-    console.log(data);
     Swal.fire({
       title :'상점 할증 수정',
       text : '상점 할증을 수정 하시겠습니까?',
@@ -625,7 +633,6 @@ $(document).ready(function () {
     });
   });
 
-  var u_setSwap;
   var tb_area, tb_distance;
   $('#storeModifyFee').on('show.bs.modal', function (event) {
     tb_area = $('#tb_area').DataTable({
@@ -774,7 +781,7 @@ $(document).ready(function () {
         {
           data : 'setAmnt',
           render : function ( data, type, row, meta) {
-            return '<input id="setAmnt" type="text" class="form-control form-control-sm" value="' + data +'">';
+            return '<input type="text" class="form-control form-control-sm setAmnt" value="' + data +'">';
           }
         }
       ],
@@ -787,10 +794,6 @@ $(document).ready(function () {
         'emptyTable': '지역 요금 설정이 없습니다.'
       }
     });
-    // $('#tb_area tbody').on('click','tr',function () {
-    //   var areaRow = tb_area.row($(this)).data();
-    //   console.log($('#sdCd').val());
-    // });
     $('#tb_area tbody').on('change','#sdCd',function () {
       var row = tb_area.row($(this).closest('tr'));
       var data = tb_area.row($(this).closest('tr')).data();
@@ -815,13 +818,13 @@ $(document).ready(function () {
       data.setRiCd = null;
       tb_area.row(row).data(data).draw();
     });
-
-    if(data.stoSetSeCd == '01') {
-      $('#u_stoSetSeCd').bootstrapToggle('on');
-    } else {
-      $('#u_stoSetSeCd').bootstrapToggle('off');
-    }
-
+    $('#tb_area tbody').on('change', '.setAmnt',function () {
+      console.log(this.value);
+      var row = tb_area.row($(this).closest('tr'));
+      var data = tb_area.row($(this).closest('tr')).data();
+      data.setAmnt = this.value;
+      tb_area.row(row).data(data).draw();
+    });
 
     tb_distance = $('#tb_distance').DataTable({
       ajax : {
@@ -845,13 +848,22 @@ $(document).ready(function () {
           visible : false
         },
         {
-          data : 'setStdDstnc'
+          data : 'setStdDstnc',
+          render : function ( data, type, row, meta) {
+            return '<input type="text" class="form-control form-control-sm setStdDstnc" value="' + data +'">';
+          }
         },
         {
-          data : 'setEndDstnc'
+          data : 'setEndDstnc',
+          render : function ( data, type, row, meta) {
+            return '<input type="text" class="form-control form-control-sm setEndDstnc" value="' + data +'">';
+          }
         },
         {
-          data : 'setAmnt'
+          data : 'setAmnt',
+          render : function ( data, type, row, meta) {
+            return '<input type="text" class="form-control form-control-sm setAmnt" value="' + data +'">';
+          }
         }
       ],
       autoWidth : false,
@@ -860,10 +872,33 @@ $(document).ready(function () {
       dom: 't',
       order: [ [1, 'desc'] ],
       language: {
-        'emptyTable': '데이터가 존재 하지 않습니다.'
+        'emptyTable': '거리 설정 요금이 없습니다.'
       }
     });
+    $('#tb_distance tbody').on('change', '.setStdDstnc',function () {
+      var row = tb_distance.row($(this).closest('tr'));
+      var data = tb_distance.row($(this).closest('tr')).data();
+      data.setStdDstnc = this.value;
+      tb_distance.row(row).data(data).draw();
+    });
+    $('#tb_distance tbody').on('change', '.setEndDstnc',function () {
+      var row = tb_distance.row($(this).closest('tr'));
+      var data = tb_distance.row($(this).closest('tr')).data();
+      data.setEndDstnc = this.value;
+      tb_distance.row(row).data(data).draw();
+    });
+    $('#tb_distance tbody').on('change', '.setAmnt',function () {
+      var row = tb_distance.row($(this).closest('tr'));
+      var data = tb_distance.row($(this).closest('tr')).data();
+      data.setAmnt = this.value;
+      tb_distance.row(row).data(data).draw();
+    });
 
+    if(data.stoSetSeCd == '01') {
+      $('#u_stoSetSeCd').bootstrapToggle('on');
+    } else {
+      $('#u_stoSetSeCd').bootstrapToggle('off');
+    }
   });
   $('#storeModifyFee').on('hidden.bs.modal', function (event) {
     $('#u_stoSetSeCd').bootstrapToggle('on');
@@ -872,17 +907,102 @@ $(document).ready(function () {
   });
 
   $('#u_stoSetSeCd').change(function () {
-    $('#u_setDefault').append( u_setSwap );
     if( $('#u_stoSetSeCd').prop('checked') ){
-      u_setSwap = $('#u_setDistance').detach();
+      $('#u_setDistance').hide();
+      $('#u_setArea').show();
     } else {
-      u_setSwap = $('#u_setArea').detach();
+      $('#u_setArea').hide();
+      $('#u_setDistance').show();
     }
   });
 
-});
-$(document).on('hidden.bs.modal', function (event) {
-	if ($('.modal:visible').length) {
-		$('body').addClass('modal-open');
-	}
+  $('#btn_distanceInst').on('click', function () {
+    tb_distance.row.add({
+      setSeqNo : '0',
+      stoId : data.stoId,
+      setStdDstnc : '0',
+      setEndDstnc : '0',
+      setAmnt : '0',
+    }).draw(false);
+  });
+
+  $('#btn_areaInst').on('click', function () {
+    tb_area.row.add({
+      setSeqNo : '0',
+      stoId : data.stoId,
+      setSdCd : '26',
+      setSggCd : '110',
+      setEmdCd : '101',
+      setRiCd : '00',
+      setAmnt : '0',
+    }).draw(false);
+  });
+
+  $('#btn_modifyFee').on('click', function () {
+    if( $('#u_stoSetSeCd').prop('checked') ) {
+      var rowsData = tb_area.rows().data();
+      var setDatas = Array();
+      for( var i = 0 ; i < rowsData.length; i++ ) {
+        var setData = {};
+        setData.stoId = rowsData[i].stoId;
+        setData.setSeqNo = rowsData[i].setSeqNo;
+        setData.setSdCd = rowsData[i].setSdCd;
+        setData.setSggCd = rowsData[i].setSggCd;
+        setData.setEmdCd = rowsData[i].setEmdCd;
+        setData.setRiCd = rowsData[i].setRiCd;
+        setData.setAmnt = rowsData[i].setAmnt;
+        setDatas.push(setData);
+      }
+      data.stoSetData = setDatas;
+    } else {
+      var rowsData = tb_distance.rows().data();
+      var setDatas = Array();
+      for( var i = 0 ; i < rowsData.length; i++ ) {
+        var setData = {};
+        setData.stoId = rowsData[i].stoId;
+        setData.setSeqNo = rowsData[i].setSeqNo;
+        setData.setStdDstnc = rowsData[i].setStdDstnc;
+        setData.setEndDstnc = rowsData[i].setEndDstnc;
+        setData.setAmnt = rowsData[i].setAmnt;
+        setDatas.push(setData);
+      }
+      data.stoSetData = setDatas;
+    }
+    data.stoSetSeCd = ( $('#u_stoSetSeCd').prop('checked') ? '01' : '02' );
+    Swal.fire({
+      title :'상점 요금 저장',
+      text : '상점 요금을 저장 하시겠습니까?',
+      icon : 'info',
+      heightAuto: false,
+      showCloseButton: true,
+      showCancelButton: true,
+      confirmButtonText: '저장',
+      confirmButtonAriaLabel: '저장',
+      cancelButtonText: '취소',
+      cancelButtonAriaLabel: '취소'
+    }).then(function (result) {
+      if( result.value ) {
+        ajaxSend( '/branch/storeModifyFee', 'post', false, data, function ( result ) {
+          if(result.success) {
+            Swal.fire({
+              title :'저장 완료',
+              text : '정상 처리 되었습니다.',
+              icon : 'success',
+              heightAuto: false
+            }).then(function (result) {
+              table.row(row).data(data).draw();
+              $('#storeModifyFee').modal('hide');
+            });
+          } else {
+            Swal.fire({
+              title :'저장 오류',
+              text : result.message,
+              icon : 'danger',
+              heightAuto: false
+            });
+          }
+        });
+      }
+    });
+  });
 });

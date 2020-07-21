@@ -418,4 +418,24 @@ router.post('/storeModifyNightSurcharge', function(req, res, next) {
   });
 });
 
+// 상점 요금 수정
+router.post('/storeModifyFee', function(req, res, next) {
+  var body = {};
+  body.stoId = req.body.stoId || '';
+  body.stoSetSeCd = req.body.stoSetSeCd || '';
+  body.stoSetData = req.body.stoSetData;
+  var options = {
+    uri : restUrl + '/api/branch/storeModifyFee',
+    method : 'post',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    form : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+
 module.exports = router;
