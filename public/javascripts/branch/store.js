@@ -111,13 +111,13 @@ $(document).ready(function () {
             return  '<span class="badge bg-navy">탈회</span>';
         }
       },
-      {
-        data : null,
-        width : '50px',
-        render : function ( data, type, row, meta) {
-          return '<button type="button" class="btn btn-block btn-xs bg-info">상세</button>';
-        }
-      },
+      // {
+      //   data : null,
+      //   width : '50px',
+      //   render : function ( data, type, row, meta) {
+      //     return '<button type="button" class="btn btn-block btn-xs bg-info">상세</button>';
+      //   }
+      // },
       {
         data : null,
         width : '50px',
@@ -138,6 +138,13 @@ $(document).ready(function () {
         render : function ( data, type, row, meta) {
           return '<button type="button" class="btn btn-block btn-xs bg-maroon">요금</button>';
         }
+      },
+      {
+        data : null,
+        width : '50px',
+        render : function ( data, type, row, meta) {
+          return '<button type="button" class="btn btn-block btn-xs bg-lightblue">특수</button>';
+        }
       }
     ],
     autoWidth : false,
@@ -153,7 +160,7 @@ $(document).ready(function () {
   $('#btn_search').on('click', function () {
     tb_store.ajax.reload();
   });
-  $('#tb_store tbody').on('click', '.bg-info', function () {
+  $('#tb_store tbody').on('click','td:not(:has(button))',function () {
     table = $('#tb_store').DataTable();
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();
@@ -179,6 +186,13 @@ $(document).ready(function () {
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();
     $('#storeModifyFee').modal('show');
+  });
+
+  $('#tb_store tbody').on('click', '.bg-lightblue', function () {
+    table = $('#tb_store').DataTable();
+    row = table.row($(this).closest('tr'));
+    data = table.row($(this).closest('tr')).data();
+    $('#storeModifySpecial').modal('show');
   });
 
   //================= storeDetail====================================
@@ -783,6 +797,13 @@ $(document).ready(function () {
           render : function ( data, type, row, meta) {
             return '<input type="text" class="form-control form-control-sm setAmnt" value="' + data +'">';
           }
+        },
+        {
+          data : null,
+          width : '50px',
+          render : function ( data, type, row, meta) {
+            return '<button type="button" class="btn btn-block btn-xs bg-danger">삭제</button>';
+          }
         }
       ],
       autoWidth : false,
@@ -825,6 +846,10 @@ $(document).ready(function () {
       data.setAmnt = this.value;
       tb_area.row(row).data(data).draw();
     });
+    $('#tb_area tbody').on('click', '.bg-danger', function () {
+      var row = tb_area.row($(this).closest('tr'));
+      tb_area.row(row).remove().draw();
+    });
 
     tb_distance = $('#tb_distance').DataTable({
       ajax : {
@@ -864,6 +889,13 @@ $(document).ready(function () {
           render : function ( data, type, row, meta) {
             return '<input type="text" class="form-control form-control-sm setAmnt" value="' + data +'">';
           }
+        },
+        {
+          data : null,
+          width : '50px',
+          render : function ( data, type, row, meta) {
+            return '<button type="button" class="btn btn-block btn-xs bg-danger">삭제</button>';
+          }
         }
       ],
       autoWidth : false,
@@ -892,6 +924,10 @@ $(document).ready(function () {
       var data = tb_distance.row($(this).closest('tr')).data();
       data.setAmnt = this.value;
       tb_distance.row(row).data(data).draw();
+    });
+    $('#tb_distance tbody').on('click', '.bg-danger', function () {
+      var row = tb_distance.row($(this).closest('tr'));
+      tb_distance.row(row).remove().draw();
     });
 
     if(data.stoSetSeCd == '01') {
@@ -1004,5 +1040,125 @@ $(document).ready(function () {
         });
       }
     });
+  });
+
+  var tb_special;
+  var mapRow, mapData;
+  $('#storeModifySpecial').on('show.bs.modal', function (event) {
+    tb_special = $('#tb_special').DataTable({
+      ajax : {
+        url : '/branch/storeSpecialSetting',
+        type : 'post',
+        data : data,
+        dataSrc :function( data, textStatus, jqXHR ) {
+          if( data.success )
+            return data.data;
+          else
+            return null;
+        }
+      },
+      columns : [
+        {
+          data : 'setSeqNo',
+          visible : false
+        },
+        {
+          data : 'stoId',
+          visible : false
+        },
+        {
+          data : 'setNm',
+          render : function ( data, type, row, meta) {
+            return '<input type="text" class="form-control form-control-sm setNm" value="' + data +'">';
+          }
+        },
+        {
+          data : 'setAmnt',
+          render : function ( data, type, row, meta) {
+            return '<input type="text" class="form-control form-control-sm setAmnt" value="' + data +'">';
+          }
+        },
+        {
+          data : null,
+          width : '80px',
+          render : function ( data, type, row, meta) {
+            return '<button type="button" class="btn btn-block btn-xs bg-info">지도 보기</button>';
+          }
+        },
+        {
+          data : null,
+          width : '50px',
+          render : function ( data, type, row, meta) {
+            return '<button type="button" class="btn btn-block btn-xs bg-danger">삭제</button>';
+          }
+        }
+      ],
+      autoWidth : false,
+      paging: false,
+      searching: false,
+      dom: 't',
+      order: [ [1, 'desc'] ],
+      language: {
+        'emptyTable': '특별 설정 요금이 없습니다.'
+      }
+    });
+    $('#tb_special tbody').on('click', '.bg-info',function () {
+      mapRow = tb_special.row($(this).closest('tr'));
+      mapData = tb_special.row($(this).closest('tr')).data();
+      $('#storeModifySpecialMap').modal('show');
+    });
+    $('#tb_special tbody').on('click', '.bg-danger',function () {
+      var row = tb_distance.row($(this).closest('tr'));
+      tb_special.row(row).remove().draw();
+    });
+  });
+
+  $('#storeModifySpecialMap').on('show.bs.modal', function () {
+    setTimeout(function () {
+      var container = document.getElementById('specialMap');
+      var options = {
+        center: new kakao.maps.LatLng(data.stoLa, data.stoLo),
+        level: 6
+      };
+      var map = new kakao.maps.Map(container, options);
+      //지점 위치 마커
+      var markerPosition  = new kakao.maps.LatLng(data.stoLa, data.stoLo);
+      var marker = new kakao.maps.Marker({
+          position: markerPosition
+      });
+      marker.setMap(map);
+
+      ajaxSend( '/branch/storeSpecialSettingLocation', 'post', true, mapData, function ( result ) {
+        if( result.success ) {
+          var resultData = result.data;
+          var path = Array();
+          for( var i = 0 ; i < resultData.length ; i++ ){
+            path.push( new kakao.maps.LatLng(resultData[i].lctnLa, resultData[i].lctnLo) );
+          }
+          var polygon = new kakao.maps.Polygon({
+            path:path, // 그려질 다각형의 좌표 배열입니다
+            strokeWeight: 1, // 선의 두께입니다
+            strokeColor: '#004c80', // 선의 색깔입니다
+            strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+            strokeStyle: 'solid', // 선의 스타일입니다
+            fillColor: '#fff', // 채우기 색깔입니다
+            fillOpacity: 0.3 // 채우기 불투명도 입니다
+          });
+          // 지도에 다각형을 표시합니다
+          polygon.setMap(map);
+        }
+      });
+
+    }, 500);
+  });
+
+  $('#btn_specialInst').on('click', function () {
+    // tb_special.row.add({
+    //   setSeqNo : '0',
+    //   stoId : data.stoId,
+    //   setNm : '0',
+    //   setEndDstnc : '0',
+    //   setAmnt : '0',
+    // }).draw(false);
   });
 });

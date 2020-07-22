@@ -47,9 +47,14 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-12 mb-3">
-            <div class="input-group col-md-1 offset-md-11 col-sm-2 offset-sm-10 col-3 offset-9">
+        <div class="row mb-3">
+          <div class="col-md-11 col-sm-10 col-9">
+            <div class="input-group">
+              <label class="text-red">조회된 항목을 선택하면 상세정보가 표시 됩니다.</label>
+            </div>
+          </div>
+          <div class="col-md-1 col-sm-2 col-3">
+            <div class="input-group">
               <button type="button" data-toggle="modal" data-target="#storeRegister" class="form-control btn btn-info float-right">신규</button>
             </div>
           </div>
@@ -83,6 +88,7 @@
                     <th>위도</th>
                     <th>경도</th>
                     <th>상태</th>
+                    <!-- <th></th> -->
                     <th></th>
                     <th></th>
                     <th></th>
@@ -121,6 +127,8 @@
   <%- include('modal/storeModify') %>
   <%- include('modal/storeModifyFee') %>
   <%- include('modal/storeModifySurcharge') %>
+  <%- include('modal/storeModifySpecial') %>
+  <%- include('modal/storeModifySpecialMap') %>
   <%- include('modal/storeRegister') %>
   <footer class="main-footer">
     <strong>Copyright &copy; 2020 Bikeda.</strong>All rights reserved.
