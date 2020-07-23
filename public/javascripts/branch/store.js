@@ -1112,22 +1112,48 @@ $(document).ready(function () {
       tb_special.row(row).remove().draw();
     });
   });
+  $('#storeModifySpecial').on('hidden.bs.modal', function (event) {
+    tb_special.destroy().draw();
+  });
 
+  var manager;
   $('#storeModifySpecialMap').on('show.bs.modal', function () {
     setTimeout(function () {
       var container = document.getElementById('specialMap');
       var options = {
         center: new kakao.maps.LatLng(data.stoLa, data.stoLo),
-        level: 6
+        level: 5
       };
-      var map = new kakao.maps.Map(container, options);
+
+      var drawingMap = new kakao.maps.Map(container, options);
       //지점 위치 마커
       var markerPosition  = new kakao.maps.LatLng(data.stoLa, data.stoLo);
       var marker = new kakao.maps.Marker({
           position: markerPosition
       });
-      marker.setMap(map);
+      marker.setMap(drawingMap);
 
+      var drawingOptions= { // Drawing Manager를 생성할 때 사용할 옵션입니다
+          map: drawingMap, // Drawing Manager로 그리기 요소를 그릴 map 객체입니다
+          drawingMode: [ // Drawing Manager로 제공할 그리기 요소 모드입니다
+              kakao.maps.drawing.OverlayType.POLYGON
+          ],
+          // 사용자에게 제공할 그리기 가이드 툴팁입니다
+          // 사용자에게 도형을 그릴때, 드래그할때, 수정할때 가이드 툴팁을 표시하도록 설정합니다
+          guideTooltip: ['draw', 'drag', 'edit'],
+          polygonOptions: {
+              draggable: true,
+              removable: false,
+              editable: true,
+              strokeColor: '#39f',
+              fillColor: '#39f',
+              fillOpacity: 0.5,
+              hintStrokeStyle: 'dash',
+              hintStrokeOpacity: 0.5
+          }
+      };
+
+      manager = new kakao.maps.drawing.DrawingManager(drawingOptions);
       ajaxSend( '/branch/storeSpecialSettingLocation', 'post', true, mapData, function ( result ) {
         if( result.success ) {
           var resultData = result.data;
@@ -1135,30 +1161,25 @@ $(document).ready(function () {
           for( var i = 0 ; i < resultData.length ; i++ ){
             path.push( new kakao.maps.LatLng(resultData[i].lctnLa, resultData[i].lctnLo) );
           }
-          var polygon = new kakao.maps.Polygon({
-            path:path, // 그려질 다각형의 좌표 배열입니다
-            strokeWeight: 1, // 선의 두께입니다
-            strokeColor: '#004c80', // 선의 색깔입니다
-            strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-            strokeStyle: 'solid', // 선의 스타일입니다
-            fillColor: '#fff', // 채우기 색깔입니다
-            fillOpacity: 0.3 // 채우기 불투명도 입니다
-          });
           // 지도에 다각형을 표시합니다
-          polygon.setMap(map);
+          manager.put(kakao.maps.drawing.OverlayType.POLYGON, path);
         }
       });
-
     }, 500);
   });
 
+  $('#btn_reDraw').on('click', function () {
+    var overlays = manager.getOverlays();
+    if( overlays.polygon.length != 0 )  manager.remove(overlays.polygon[0]);
+    manager.cancel();
+    manager.select(kakao.maps.drawing.OverlayType['POLYGON']);
+  });
   $('#btn_specialInst').on('click', function () {
-    // tb_special.row.add({
-    //   setSeqNo : '0',
-    //   stoId : data.stoId,
-    //   setNm : '0',
-    //   setEndDstnc : '0',
-    //   setAmnt : '0',
-    // }).draw(false);
+    tb_special.row.add({
+      setSeqNo : '0',
+      stoId : data.stoId,
+      setNm : '0',
+      setAmnt : '0',
+    }).draw(false);
   });
 });
