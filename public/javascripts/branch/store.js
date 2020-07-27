@@ -556,7 +556,7 @@ $(document).ready(function () {
             Swal.fire({
               title :'수정 오류',
               text : result.message,
-              icon : 'danger',
+              icon : 'error',
               heightAuto: false
             });
           }
@@ -638,7 +638,7 @@ $(document).ready(function () {
             Swal.fire({
               title :'수정 오류',
               text : result.message,
-              icon : 'danger',
+              icon : 'error',
               heightAuto: false
             });
           }
@@ -848,7 +848,52 @@ $(document).ready(function () {
     });
     $('#tb_area tbody').on('click', '.bg-danger', function () {
       var row = tb_area.row($(this).closest('tr'));
-      tb_area.row(row).remove().draw();
+      var data = tb_area.row($(this).closest('tr')).data();
+      Swal.fire({
+        title :'상점 요금 삭제',
+        text : '상점 요금을 삭제 하시겠습니까?',
+        icon : 'info',
+        heightAuto: false,
+        showCloseButton: true,
+        showCancelButton: true,
+        confirmButtonText: '저장',
+        confirmButtonAriaLabel: '저장',
+        cancelButtonText: '취소',
+        cancelButtonAriaLabel: '취소'
+      }).then(function (result) {
+        if( result.value ) {
+          if(data.setSeqNo == 0) {
+            Swal.fire({
+              title :'삭제 완료',
+              text : '정상 처리 되었습니다.',
+              icon : 'success',
+              heightAuto: false
+            }).then(function (result) {
+              tb_area.row(row).remove().draw();
+            });
+          } else {
+            ajaxSend( '/branch/storeModifyFeeAreaDelt', 'post', false, data, function ( result ) {
+              if(result.success) {
+                Swal.fire({
+                  title :'삭제 완료',
+                  text : '정상 처리 되었습니다.',
+                  icon : 'success',
+                  heightAuto: false
+                }).then(function (result) {
+                  tb_area.row(row).remove().draw();
+                });
+              } else {
+                Swal.fire({
+                  title :'저장 오류',
+                  text : result.message,
+                  icon : 'error',
+                  heightAuto: false
+                });
+              }
+            });
+          }
+        }
+      });
     });
 
     tb_distance = $('#tb_distance').DataTable({
@@ -927,7 +972,52 @@ $(document).ready(function () {
     });
     $('#tb_distance tbody').on('click', '.bg-danger', function () {
       var row = tb_distance.row($(this).closest('tr'));
-      tb_distance.row(row).remove().draw();
+      var data = tb_distance.row($(this).closest('tr')).data();
+      Swal.fire({
+        title :'상점 요금 삭제',
+        text : '상점 요금을 삭제 하시겠습니까?',
+        icon : 'info',
+        heightAuto: false,
+        showCloseButton: true,
+        showCancelButton: true,
+        confirmButtonText: '저장',
+        confirmButtonAriaLabel: '저장',
+        cancelButtonText: '취소',
+        cancelButtonAriaLabel: '취소'
+      }).then(function (result) {
+        if( result.value ) {
+          if(data.setSeqNo == 0) {
+            Swal.fire({
+              title :'삭제 완료',
+              text : '정상 처리 되었습니다.',
+              icon : 'success',
+              heightAuto: false
+            }).then(function (result) {
+              tb_distance.row(row).remove().draw();
+            });
+          } else {
+            ajaxSend( '/branch/storeModifyFeeDistanceDelt', 'post', false, data, function ( result ) {
+              if(result.success) {
+                Swal.fire({
+                  title :'삭제 완료',
+                  text : '정상 처리 되었습니다.',
+                  icon : 'success',
+                  heightAuto: false
+                }).then(function (result) {
+                  tb_distance.row(row).remove().draw();
+                });
+              } else {
+                Swal.fire({
+                  title :'저장 오류',
+                  text : result.message,
+                  icon : 'error',
+                  heightAuto: false
+                });
+              }
+            });
+          }
+        }
+      });
     });
 
     if(data.stoSetSeCd == '01') {
@@ -1033,7 +1123,7 @@ $(document).ready(function () {
             Swal.fire({
               title :'저장 오류',
               text : result.message,
-              icon : 'danger',
+              icon : 'error',
               heightAuto: false
             });
           }
@@ -1102,6 +1192,19 @@ $(document).ready(function () {
         'emptyTable': '특별 설정 요금이 없습니다.'
       }
     });
+    $('#tb_special tbody').on('change', '.setNm',function () {
+      var row = tb_special.row($(this).closest('tr'));
+      var data = tb_special.row($(this).closest('tr')).data();
+      data.setNm = this.value;
+      tb_special.row(row).data(data).draw();
+    });
+    $('#tb_special tbody').on('change', '.setAmnt',function () {
+      var row = tb_special.row($(this).closest('tr'));
+      var data = tb_special.row($(this).closest('tr')).data();
+      data.setAmnt = this.value;
+      tb_special.row(row).data(data).draw();
+    });
+
     $('#tb_special tbody').on('click', '.bg-info',function () {
       mapRow = tb_special.row($(this).closest('tr'));
       mapData = tb_special.row($(this).closest('tr')).data();
@@ -1116,6 +1219,64 @@ $(document).ready(function () {
     tb_special.destroy().draw();
   });
 
+  $('#btn_specialInst').on('click', function () {
+    tb_special.row.add({
+      setSeqNo : '0',
+      stoId : data.stoId,
+      setNm : '0',
+      setAmnt : '0',
+    }).draw(false);
+  });
+  $('#btn_modifySpecial').on('click', function () {
+    var rowsData = tb_special.rows().data();
+    var setDatas = Array();
+    console.log(rowsData);
+    for( var i = 0 ; i < rowsData.length; i++ ) {
+      var setData = {};
+      setData.stoId = rowsData[i].stoId;
+      setData.setSeqNo = rowsData[i].setSeqNo;
+      setData.setNm = rowsData[i].setNm;
+      setData.setAmnt = rowsData[i].setAmnt;
+      setData.points = rowsData[i].points;
+      setDatas.push(setData);
+    }
+    data.stoSetData = setDatas;
+    Swal.fire({
+      title :'상점 특수 요금 저장',
+      text : '상점 특수 요금을 저장 하시겠습니까?',
+      icon : 'info',
+      heightAuto: false,
+      showCloseButton: true,
+      showCancelButton: true,
+      confirmButtonText: '저장',
+      confirmButtonAriaLabel: '저장',
+      cancelButtonText: '취소',
+      cancelButtonAriaLabel: '취소'
+    }).then(function (result) {
+      if( result.value ) {
+        ajaxSend( '/branch/storeModifySpecial', 'post', false, data, function ( result ) {
+          if(result.success) {
+            Swal.fire({
+              title :'저장 완료',
+              text : '정상 처리 되었습니다.',
+              icon : 'success',
+              heightAuto: false
+            }).then(function (result) {
+              table.row(row).data(data).draw();
+              $('#storeModifySpecial').modal('hide');
+            });
+          } else {
+            Swal.fire({
+              title :'저장 오류',
+              text : result.message,
+              icon : 'error',
+              heightAuto: false
+            });
+          }
+        });
+      }
+    });
+  });
   var manager;
   $('#storeModifySpecialMap').on('show.bs.modal', function () {
     setTimeout(function () {
@@ -1174,12 +1335,18 @@ $(document).ready(function () {
     manager.cancel();
     manager.select(kakao.maps.drawing.OverlayType['POLYGON']);
   });
-  $('#btn_specialInst').on('click', function () {
-    tb_special.row.add({
-      setSeqNo : '0',
-      stoId : data.stoId,
-      setNm : '0',
-      setAmnt : '0',
-    }).draw(false);
+  $('#btn_modifySpecialMap').on('click', function () {
+    var points = manager.getData()[kakao.maps.drawing.OverlayType.POLYGON][0].points;
+    if( points.length > 0 ) {
+        mapData.points = points;
+        console.log(mapData);
+    } else {
+      Swal.fire({
+        title :'그리기 없음',
+        text : '그리기한 내용이 없습니다.',
+        icon : 'error',
+        heightAuto: false
+      });
+    }
   });
 });

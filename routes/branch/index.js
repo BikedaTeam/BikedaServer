@@ -438,4 +438,61 @@ router.post('/storeModifyFee', function(req, res, next) {
   });
 });
 
+// 상점 지역 요금 삭제
+router.post('/storeModifyFeeAreaDelt', function(req, res, next) {
+  var body = {};
+  body.stoId = req.body.stoId || '';
+  body.setSeqNo = req.body.setSeqNo || '';
+  var options = {
+    uri : restUrl + '/api/branch/storeModifyFeeAreaDelt',
+    method : 'post',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    form : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+
+// 상점 구간 요금 삭제
+router.post('/storeModifyFeeDistanceDelt', function(req, res, next) {
+  var body = {};
+  body.stoId = req.body.stoId || '';
+  body.setSeqNo = req.body.setSeqNo || '';
+  var options = {
+    uri : restUrl + '/api/branch/storeModifyFeeDistanceDelt',
+    method : 'post',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    form : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+
+// 상점 특수 요금 수정
+router.post('/storeModifySpecial', function(req, res, next) {
+  var body = {};
+  body.stoId = req.body.stoId || '';
+  body.stoSetData = req.body.stoSetData;
+  var options = {
+    uri : restUrl + '/api/branch/storeModifySpecial',
+    method : 'post',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    form : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+
 module.exports = router;
