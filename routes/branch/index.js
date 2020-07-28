@@ -363,6 +363,51 @@ router.post('/storeSpecialSettingLocation', function(req, res, next) {
   });
 });
 
+//
+router.post('/storeRegister', function(req, res, next) {
+  var body = {};
+  body.brcofcId = req.session.branch.brcofcId;
+  body.stoBsnsRgnmb = req.body.stoBsnsRgnmb || '';
+  body.stoMtlty = req.body.stoMtlty || '';
+  body.stoRprsntvNm = req.body.stoRprsntvNm || '';
+  body.stoBrdYmd = req.body.stoBrdYmd || '';
+  body.stoCrprtRgnmb = req.body.stoCrprtRgnmb || '';
+  body.stoOpnngYmd = req.body.stoOpnngYmd || '';
+  body.stoBsnsPlaceAdres = req.body.stoBsnsPlaceAdres || '';
+  body.stoHdofcAdres = req.body.stoHdofcAdres || '';
+  body.stoBizcnd = req.body.stoBizcnd || '';
+  body.stoInduty = req.body.stoInduty || '';
+  body.stoTelno = req.body.stoTelno || '';
+  body.stoVrtlAcnt = req.body.stoVrtlAcnt || '';
+  body.stoBizSeCd = req.body.stoBizSeCd || '';
+  var options = {
+    uri : 'https://dapi.kakao.com/v2/local/search/address.json',
+    method : 'get',
+    headers : {
+      'Authorization' : 'KakaoAK 0662ade9504f2f9a44bb691790995783'
+    },
+    qs : { query : body.stoBsnsPlaceAdres },
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    body.stoLo = result.documents[0].x;
+    body.stoLa = result.documents[0].y;
+
+    console.log(body);
+    options = {
+      uri : restUrl + '/api/branch/storeRegister',
+      method : 'post',
+      headers : {
+        'x-access-token' : req.session.branch.token
+      },
+      form : body,
+      json : true
+    };
+    request( options, function ( err, httpRespones, result ) {
+      res.json(result);
+    });
+  });
+});
 // 상점 수정
 router.post('/storeModify', function(req, res, next) {
   var body = {};

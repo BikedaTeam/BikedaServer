@@ -447,63 +447,6 @@ $(document).ready(function () {
       $('#r_bizPrivate').hide();
     }
   });
-  $('#btn_register').on('click',function () {
-    var data = {};
-    data.stoBsnsRgnmb = $('#r_stoBsnsRgnmb').val() || '';
-    data.stoMtlty = $('#r_stoMtlty').val() || '';
-    data.stoRprsntvNm = $('#r_stoRprsntvNm').val() || '';
-    data.stoOpnngYmd = $('#r_stoOpnngYmd').val() || '';
-    data.stoBsnsPlaceAdres = $('#r_stoBsnsPlaceAdres').val() || '';
-    data.stoBizcnd = $('#r_stoBizcnd').val() || '';
-    data.stoInduty = $('#r_stoInduty').val() || '';
-    data.stoTelno = $('#r_stoTelno').val() || '';
-    data.stoVrtlAcnt = $('#r_stoVrtlAcnt').val() || '';
-    data.stoVrtlAcnt = $('#r_stoVrtlAcnt').val() || '';
-    if( $('#r_stoBizSeCd').prop('checked') ) {
-      data.stoBizSeCd = '01';
-      data.stoBrdYmd = $('#r_stoBrdYmd').val() || '';
-    } else {
-      data.stoBizSeCd = '02';
-      data.stoCrprtRgnmb = $('#r_stoCrprtRgnmb').val() || '';
-      data.stoHdofcAdres = $('#r_stoHdofcAdres').val() || '';
-    }
-    console.log(data);
-    Swal.fire({
-      title :'상점 등록',
-      text : '상점을 등록 하시겠습니까?',
-      icon : 'info',
-      heightAuto: false,
-      showCloseButton: true,
-      showCancelButton: true,
-      confirmButtonText: '등록',
-      confirmButtonAriaLabel: '등록',
-      cancelButtonText: '취소',
-      cancelButtonAriaLabel: '취소'
-    }).then(function (result) {
-      if( result.value ) {
-        ajaxSend( '/branch/storeRegister', 'post', true, data, function ( result ) {
-          if(result.success) {
-            Swal.fire({
-              title :'등록 완료',
-              text : '정상 처리 되었습니다.',
-              icon : 'success',
-              heightAuto: false
-            }).then(function (result) {
-              table.row(row).data(data).draw();
-              $('#storeRegister').modal('hide');
-            });
-          } else {
-            Swal.fire({
-              title :'등록 오류',
-              text : result.message,
-              icon : 'error',
-              heightAuto: false
-            });
-          }
-        });
-      }
-    });
-  });
 
   $('#storeModify').on('show.bs.modal', function (event) {
     $('#u_stoId').val('');

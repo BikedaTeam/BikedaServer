@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html class="text-xs">
+<%- include('header') %>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+  <%- include('topMenu') %>
+  <%- include('sideMenu') %>
+  <div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>기사 관리</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/branch/main/realTimeDelivery">Home</a></li>
+              <li class="breadcrumb-item">관리</li>
+              <li class="breadcrumb-item">기사 관리</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <!-- 배달 현황 -->
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <form class="form" action="#" method="post">
+                  <div class="row">
+                    <div class="input-group col-sm-6 col-9">
+                      <div class="input-group-prepend">
+                        <button type="button" class="btn btn-nomal"><strong>이름</strong></button>
+                      </div>
+                      <input id="stoMtlty" type="text" class="form-control">
+                    </div>
+                    <div class="input-group col-md-1 offset-md-5 col-sm-2 offset-sm-4 col-3">
+                      <button id="btn_search" type="button" class="form-control btn btn-primary">검색</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-11 col-sm-10 col-9">
+            <div class="input-group">
+              <label class="text-red">조회된 항목을 선택하면 상세정보가 표시 됩니다.</label>
+            </div>
+          </div>
+          <div class="col-md-1 col-sm-2 col-3">
+            <div class="input-group">
+              <button type="button" data-toggle="modal" data-target="#storeRegister" class="form-control btn btn-info float-right">신규</button>
+            </div>
+          </div>
+        </div>
+        <div class="row d-none d-lg-block">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <table id="tb_store" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>사업자 번호</th>
+                    <th>상호</th>
+                    <th>사업</th>
+                    <th>대표자</th>
+                    <th>생년월일</th>
+                    <th>법인등록번호</th>
+                    <th>개업년월일</th>
+                    <th>주소</th>
+                    <th>본점주소</th>
+                    <th>업태</th>
+                    <th>업좀</th>
+                    <th>연락처</th>
+                    <th>가상계좌</th>
+                    <th>설정구분</th>
+                    <th>야간할증여부</th>
+                    <th>할증시작</th>
+                    <th>할증종료</th>
+                    <th>할증금액</th>
+                    <th>위도</th>
+                    <th>경도</th>
+                    <th>상태</th>
+                    <!-- <th></th> -->
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row d-block d-lg-none">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header border-0">
+                <h3 class="card-title">상점 관리</h3>
+              </div>
+              <div class="card-body">
+                <table id="dataTable1" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>상점 목록</th>
+                  </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- Modal -->
+  <%- include('modal/storeDetail') %>
+  <%- include('modal/storeDetailFee') %>
+  <%- include('modal/storeModify') %>
+  <%- include('modal/storeModifyFee') %>
+  <%- include('modal/storeModifySurcharge') %>
+  <%- include('modal/storeModifySpecial') %>
+  <%- include('modal/storeModifySpecialMap') %>
+  <%- include('modal/storeRegister') %>
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2020 Bikeda.</strong>All rights reserved.
+  </footer>
+</div>
+<!-- ./wrapper -->
+<%- include('footer') %>
+<script src="/js/branch/store.js"></script>
+</body>
+</html>
