@@ -1,10 +1,11 @@
+var tb_store;
 $(document).ready(function () {
-  var tb_store = $('#tb_store').DataTable({
+  tb_store = $('#tb_store').DataTable({
     ajax : {
       url : '/branch/stores',
       type : 'post',
       data :  function ( d ) {
-        d.stoMtlty = $('#stoMtlty').val();
+        d.stoMtlty = $('#s_stoMtlty').val();
       }
     },
     columns : [
@@ -20,7 +21,8 @@ $(document).ready(function () {
         }
       },
       {
-        data : 'stoMtlty'
+        data : 'stoMtlty',
+        width : '250px'
       },
       {
         data : 'stoBizSeCd',
@@ -151,9 +153,8 @@ $(document).ready(function () {
     paging: false,
     searching: false,
     dom: 't',
-    order: [ [1, 'desc'] ],
     language: {
-      'emptyTable': '데이터가 존재 하지 않습니다.'
+      'emptyTable': '상점이 존재 하지 않습니다.'
     }
   });
 
@@ -467,7 +468,6 @@ $(document).ready(function () {
       data.stoCrprtRgnmb = $('#r_stoCrprtRgnmb').val() || '';
       data.stoHdofcAdres = $('#r_stoHdofcAdres').val() || '';
     }
-    console.log(data);
     Swal.fire({
       title :'상점 등록',
       text : '상점을 등록 하시겠습니까?',
@@ -489,7 +489,7 @@ $(document).ready(function () {
               icon : 'success',
               heightAuto: false
             }).then(function (result) {
-              table.row(row).data(data).draw();
+              tb_store.ajax.reload();
               $('#storeRegister').modal('hide');
             });
           } else {
@@ -1406,4 +1406,9 @@ $(document).ready(function () {
       });
     }
   });
+});
+$(document).keydown(function(key) {
+  if (key.keyCode == 13) {
+    tb_store.ajax.reload();
+  }
 });

@@ -1,0 +1,70 @@
+<div class="modal fade" id="riderDetail" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">기사 정보</h3>
+                <div class="card-tools">
+                  <input id="riderStateCd" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="정상" data-off="해지" data-onstyle="primary" data-offstyle="dark">
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <section class="col-lg-6 col-12">
+                    <ul class="list-group list-group-unbordered">
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <b>ID</b> <a id="riderId" class="input float-right"></a>
+                        </div>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <b>성명</b> <a id="riderNm" class="float-right"></a>
+                        </div>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <b>연락처</b> <a id="riderCelno" class="float-right"></a>
+                        </div>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <b>출금 계좌</b><a id="riderWthdrAcnt" class="float-right"></a><a class="float-right">&nbsp;/&nbsp;</a><a id="riderWthdrBankNm" class="float-right"></a>
+                        </div>
+                      </li>
+                    </ul>
+                  </section>
+                  <section class="col-lg-6 col-12" >
+                    <ul class="list-group list-group-unbordered">
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <b>최소 출금 금액</b> <a id="riderMinWthdrAmnt" class="float-right"></a>
+                        </div>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <b>콜 제한수</b> <a id="riderCallLimit" class="float-right"></a>
+                        </div>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <b>콜 지연시간</b> <a id="riderCallDelayTime" class="float-right"></a>
+                        </div>
+                      </li>
+                    </ul>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,7 +13,6 @@ function phoneFomatter(num){
   }
   return formatNum;
 }
-
 Date.prototype.yyyymmddhhmiss = function() {
   var mm = this.getMonth() + 1;
   var dd = this.getDate();

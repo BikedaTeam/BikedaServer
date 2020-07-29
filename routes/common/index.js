@@ -81,5 +81,20 @@ router.post('/ri', function(req, res, next) {
   });
 });
 
-
+// 리
+router.post('/bank', function(req, res, next) {
+  var body = {};
+  var options = {
+    uri : restUrl + '/api/common/bank',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
 module.exports = router;

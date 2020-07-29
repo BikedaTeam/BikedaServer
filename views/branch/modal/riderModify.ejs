@@ -1,0 +1,108 @@
+<div class="modal fade" id="riderModify" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">기사 정보 수정</h3>
+                <div class="card-tools">
+                  <input id="u_riderStateCd" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="정상" data-off="해지" data-onstyle="primary" data-offstyle="dark">
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <section class="col-lg-6 col-12">
+                    <ul class="list-group list-group-unbordered">
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <div class="input-group">
+                            <div class="input-group-prepend col-4">
+                              <button type="button" class="btn btn-sm btn-nomal"><b>ID</b></button>
+                            </div>
+                            <input id="u_riderId" type="text" class="form-control form-control-sm" disabled>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <div class="input-group">
+                            <div class="input-group-prepend col-4">
+                              <button type="button" class="btn btn-sm btn-nomal"><b>성명</b></button>
+                            </div>
+                            <input id="u_riderNm" type="text" class="form-control form-control-sm">
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <div class="input-group">
+                            <div class="input-group-prepend col-4">
+                              <button type="button" class="btn btn-sm btn-nomal"><b>연락처</b></button>
+                            </div>
+                            <input id="u_riderCelno" type="text" class="form-control form-control-sm">
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <div class="input-group">
+                            <div class="input-group-prepend col-4">
+                              <button type="button" class="btn btn-sm btn-nomal"><b>출금 계좌</b></button>
+                            </div>
+                            <select id="u_riderWthdrBankCd" class="form-control form-control-sm select2">
+                            </select>
+                            <input id="u_riderWthdrAcnt" type="text" class="form-control form-control-sm">
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </section>
+                  <section class="col-lg-6 col-12" >
+                    <ul class="list-group list-group-unbordered">
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <div class="input-group">
+                            <div class="input-group-prepend col-4">
+                              <button type="button" class="btn btn-sm btn-nomal"><b>최소 출금 금액</b></button>
+                            </div>
+                            <input id="u_riderMinWthdrAmnt" type="text" class="form-control form-control-sm">
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <div class="input-group">
+                            <div class="input-group-prepend col-4">
+                              <button type="button" class="btn btn-sm btn-nomal"><b>콜 제한수</b></button>
+                            </div>
+                            <input id="u_riderCallLimit" type="text" class="form-control form-control-sm">
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <div class="input-group">
+                            <div class="input-group-prepend col-4">
+                              <button type="button" class="btn btn-sm btn-nomal"><b>콜 지연시간</b></button>
+                            </div>
+                            <input id="u_riderCallDelayTime" type="text" class="form-control form-control-sm">
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn_modify" type="button" class="btn btn-primary">저장</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>

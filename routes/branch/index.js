@@ -368,6 +368,7 @@ router.post('/storeRegister', function(req, res, next) {
   var body = {};
   body.brcofcId = req.session.branch.brcofcId;
   body.stoBsnsRgnmb = req.body.stoBsnsRgnmb || '';
+  body.stoPassword = crypto.createHash('sha256').update(req.body.stoBsnsRgnmb).digest('hex');
   body.stoMtlty = req.body.stoMtlty || '';
   body.stoRprsntvNm = req.body.stoRprsntvNm || '';
   body.stoBrdYmd = req.body.stoBrdYmd || '';
@@ -393,7 +394,6 @@ router.post('/storeRegister', function(req, res, next) {
     body.stoLo = result.documents[0].x;
     body.stoLa = result.documents[0].y;
 
-    console.log(body);
     options = {
       uri : restUrl + '/api/branch/storeRegister',
       method : 'post',
@@ -405,6 +405,7 @@ router.post('/storeRegister', function(req, res, next) {
     };
     request( options, function ( err, httpRespones, result ) {
       res.json(result);
+      return;
     });
   });
 });
@@ -540,4 +541,22 @@ router.post('/storeModifySpecial', function(req, res, next) {
   });
 });
 
+// 라이더 조회
+router.post('/riders', function(req, res, next) {
+  var body = {};
+  body.brcofcId = req.session.branch.brcofcId || '';
+  body.riderNm = req.body.riderNm || '';
+  var options = {
+    uri : restUrl + '/api/branch/riders',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
 module.exports = router;
