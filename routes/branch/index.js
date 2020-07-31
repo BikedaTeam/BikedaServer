@@ -559,4 +559,54 @@ router.post('/riders', function(req, res, next) {
     res.json(result);
   });
 });
+
+// 라이더 등록
+router.post('/riderRegister', function(req, res, next) {
+  var body = {};
+  body.riderNm = req.body.riderNm || '';
+  body.riderCelno = req.body.riderCelno || '';
+  body.riderWthdrBankCd = req.body.riderWthdrBankCd || '';
+  body.riderWthdrAcnt = req.body.riderWthdrAcnt || '';
+  body.riderMinWthdrAmnt = req.body.riderMinWthdrAmnt || '';
+  body.riderCallLimit = req.body.riderCallLimit || '';
+  body.riderCallDelayTime = req.body.riderCallDelayTime || '';
+  body.riderStateCd = req.body.riderStateCd || '';
+  var options = {
+    uri : restUrl + '/api/branch/riderRegister',
+    method : 'post',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    form : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+// 라이더 수정
+router.post('/riderModify', function(req, res, next) {
+  var body = {};
+  body.riderId = req.body.riderId || '';
+  body.riderNm = req.body.riderNm || '';
+  body.riderCelno = req.body.riderCelno || '';
+  body.riderWthdrBankCd = req.body.riderWthdrBankCd || '';
+  body.riderWthdrAcnt = req.body.riderWthdrAcnt || '';
+  body.riderMinWthdrAmnt = req.body.riderMinWthdrAmnt || '';
+  body.riderCallLimit = req.body.riderCallLimit || '';
+  body.riderCallDelayTime = req.body.riderCallDelayTime || '';
+  body.riderStateCd = req.body.riderStateCd || '';
+  var options = {
+    uri : restUrl + '/api/branch/riderModify',
+    method : 'post',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    form : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
 module.exports = router;

@@ -41,13 +41,6 @@ $(document).ready(function () {
         render : function ( data, type, row, meta) {
           return '<button type="button" class="btn btn-block btn-xs bg-success">수정</button>';
         }
-      },
-      {
-        data : null,
-        width : '50px',
-        render : function ( data, type, row, meta) {
-          return '<button type="button" class="btn btn-block btn-xs bg-olive">설정</button>';
-        }
       }
     ],
     autoWidth : false,
@@ -74,13 +67,6 @@ $(document).ready(function () {
     row = table.row($(this).closest('tr'));
     data = table.row($(this).closest('tr')).data();
     $('#riderModify').modal('show');
-  });
-
-  $('#tb_rider tbody').on('click', '.bg-olive', function () {
-    table = $('#tb_rider').DataTable();
-    row = table.row($(this).closest('tr'));
-    data = table.row($(this).closest('tr')).data();
-    // $('#riderModifySurcharge').modal('show');
   });
 
   //================= riderDetail====================================
@@ -118,7 +104,78 @@ $(document).ready(function () {
   $('#riderDetail').on('hidden.bs.modal', function (event) {
     $('#riderStateCd').bootstrapToggle('on');
   });
+  $('#riderRegister').on('show.bs.modal', function (event) {
+    $('#r_riderNm').val('');
+    $('#r_riderCelno').val('');
+    $('#r_riderWthdrBankNm').val('');
+    $('#r_riderWthdrAcnt').val('');
+    $('#r_riderMinWthdrAmnt').val('');
+    $('#r_riderCallLimit').val('');
+    $('#r_riderCallDelayTime').val('');
 
+    ajaxSend('/common/bank','post', false, null, function ( result ) {
+      if( result.success ) {
+        var resultData = result.data;
+        for( var i = 0; i < resultData.length; i++ ) {
+          $('#r_riderWthdrBankCd').append('<option value="' + resultData[i].bankCd + '">' + resultData[i].bankNm + '</option>');
+        }
+      }
+    });
+
+  });
+  $('#riderRegister').on('hidden.bs.modal', function (event) {
+    $('#r_riderStateCd').bootstrapToggle('on');
+  });
+  $('#btn_register').on('click',function () {
+    data.riderNm = $('#u_riderNm').val();
+    if( $('#r_riderCelno').val() ) data.riderCelno = $('#r_riderCelno').val().replace(/-/g,"");
+    data.riderWthdrBankCd = $('#r_riderWthdrBankCd').val();
+    data.riderWthdrBankNm = $('#r_riderWthdrBankCd option:checked').text();
+    data.riderWthdrAcnt = $('#r_riderWthdrAcnt').val();
+    data.riderMinWthdrAmnt = $('#r_riderMinWthdrAmnt').val();
+    data.riderCallLimit = $('#r_riderCallLimit').val();
+    data.riderCallDelayTime = $('#r_riderCallDelayTime').val();
+    if( $('#r_riderStateCd').prop('checked') )
+      data.riderStateCd = '01';
+    else
+      data.riderStateCd = '02';
+
+    Swal.fire({
+      title :'기사 정보 등록',
+      text : '기사 정보를 등록 하시겠습니까?',
+      icon : 'info',
+      heightAuto: false,
+      showCloseButton: true,
+      showCancelButton: true,
+      confirmButtonText: '등록',
+      confirmButtonAriaLabel: '등록',
+      cancelButtonText: '취소',
+      cancelButtonAriaLabel: '취소'
+    }).then(function (result) {
+      if( result.value ) {
+        ajaxSend( '/branch/riderRegister', 'post', true, data, function ( result ) {
+          if(result.success) {
+            Swal.fire({
+              title :'등록 완료',
+              text : '정상 처리 되었습니다.',
+              icon : 'success',
+              heightAuto: false
+            }).then(function (result) {
+              tb_rider.ajax.reload();
+              $('#btn_register').modal('hide');
+            });
+          } else {
+            Swal.fire({
+              title :'등록 오류',
+              text : result.message,
+              icon : 'error',
+              heightAuto: false
+            });
+          }
+        });
+      }
+    });
+  })
   $('#riderModify').on('show.bs.modal', function (event) {
     $('#u_riderId').val('');
     $('#u_riderNm').val('');
@@ -161,34 +218,22 @@ $(document).ready(function () {
   });
   $('#btn_modify').on('click', function () {
     data.riderId = $('#u_riderId').val();
-    if( $('#u_stoBsnsRgnmb').val() ) data.stoBsnsRgnmb = $('#u_stoBsnsRgnmb').val().replace(/-/g,"");
-    data.stoMtlty = $('#u_stoMtlty').val();
-    data.stoRprsntvNm = $('#u_stoRprsntvNm').val();
-    if( $('#u_stoOpnngYmd').val() ) data.stoOpnngYmd = $('#u_stoOpnngYmd').val().replace(/-/g,"");
-    data.stoBsnsPlaceAdres = $('#u_stoBsnsPlaceAdres').val();
-    data.stoBizcnd = $('#u_stoBizcnd').val();
-    data.stoInduty = $('#u_stoInduty').val();
-    if( $('#u_stoTelno').val() ) data.stoTelno = $('#u_stoTelno').val().replace(/-/g,"");
-    data.stoVrtlAcnt = $('#u_stoVrtlAcnt').val();
-    if( $('#u_stoStateCd').prop('checked') )
-      data.stoStateCd = '01';
+    data.riderNm = $('#u_riderNm').val();
+    if( $('#u_riderCelno').val() ) data.riderCelno = $('#u_riderCelno').val().replace(/-/g,"");
+    data.riderWthdrBankCd = $('#u_riderWthdrBankCd').val();
+    data.riderWthdrBankNm = $('#u_riderWthdrBankCd option:checked').text();
+    data.riderWthdrAcnt = $('#u_riderWthdrAcnt').val();
+    data.riderMinWthdrAmnt = $('#u_riderMinWthdrAmnt').val();
+    data.riderCallLimit = $('#u_riderCallLimit').val();
+    data.riderCallDelayTime = $('#u_riderCallDelayTime').val();
+    if( $('#u_riderStateCd').prop('checked') )
+      data.riderStateCd = '01';
     else
-      data.stoStateCd = '02';
-
-    if( $('#u_stoBizSeCd').prop('checked') ) {
-      data.stoBizSeCd = '01';
-      if( $('#u_stoBrdYmd').val() ) data.stoBrdYmd = $('#u_stoBrdYmd').val().replace(/-/g,"");
-      else data.stoBrdYmd = '';
-    } else {
-      data.stoBizSeCd = '02';
-      if( $('#u_stoCrprtRgnmb').val() ) data.stoCrprtRgnmb = $('#u_stoCrprtRgnmb').val().replace(/-/g,"");
-      else data.stoCrprtRgnmb = '';
-      data.stoHdofcAdres = $('#u_stoHdofcAdres').val();
-    }
+      data.riderStateCd = '02';
 
     Swal.fire({
-      title :'상점 정보 수정',
-      text : '상점 정보를 수정 하시겠습니까?',
+      title :'기사 정보 수정',
+      text : '기사 정보를 수정 하시겠습니까?',
       icon : 'info',
       heightAuto: false,
       showCloseButton: true,
@@ -199,7 +244,7 @@ $(document).ready(function () {
       cancelButtonAriaLabel: '취소'
     }).then(function (result) {
       if( result.value ) {
-        ajaxSend( '/branch/storeModify', 'post', true, data, function ( result ) {
+        ajaxSend( '/branch/riderModify', 'post', true, data, function ( result ) {
           if(result.success) {
             Swal.fire({
               title :'수정 완료',
@@ -208,7 +253,7 @@ $(document).ready(function () {
               heightAuto: false
             }).then(function (result) {
               table.row(row).data(data).draw();
-              $('#storeModify').modal('hide');
+              $('#riderModify').modal('hide');
             });
           } else {
             Swal.fire({
