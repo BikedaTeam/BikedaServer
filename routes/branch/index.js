@@ -563,6 +563,7 @@ router.post('/riders', function(req, res, next) {
 // 라이더 등록
 router.post('/riderRegister', function(req, res, next) {
   var body = {};
+  body.brcofcId = req.session.branch.brcofcId;
   body.riderNm = req.body.riderNm || '';
   body.riderCelno = req.body.riderCelno || '';
   body.riderWthdrBankCd = req.body.riderWthdrBankCd || '';
@@ -571,6 +572,7 @@ router.post('/riderRegister', function(req, res, next) {
   body.riderCallLimit = req.body.riderCallLimit || '';
   body.riderCallDelayTime = req.body.riderCallDelayTime || '';
   body.riderStateCd = req.body.riderStateCd || '';
+  console.log(body);
   var options = {
     uri : restUrl + '/api/branch/riderRegister',
     method : 'post',

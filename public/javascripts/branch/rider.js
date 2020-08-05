@@ -115,6 +115,8 @@ $(document).ready(function () {
 
     ajaxSend('/common/bank','post', false, null, function ( result ) {
       if( result.success ) {
+        $('#r_riderWthdrBankCd').empty();
+        $('#r_riderWthdrBankCd').append('<option value="000" selected </option>');
         var resultData = result.data;
         for( var i = 0; i < resultData.length; i++ ) {
           $('#r_riderWthdrBankCd').append('<option value="' + resultData[i].bankCd + '">' + resultData[i].bankNm + '</option>');
@@ -127,7 +129,8 @@ $(document).ready(function () {
     $('#r_riderStateCd').bootstrapToggle('on');
   });
   $('#btn_register').on('click',function () {
-    data.riderNm = $('#u_riderNm').val();
+    var data = {};
+    data.riderNm = $('#r_riderNm').val();
     if( $('#r_riderCelno').val() ) data.riderCelno = $('#r_riderCelno').val().replace(/-/g,"");
     data.riderWthdrBankCd = $('#r_riderWthdrBankCd').val();
     data.riderWthdrBankNm = $('#r_riderWthdrBankCd option:checked').text();
@@ -139,7 +142,7 @@ $(document).ready(function () {
       data.riderStateCd = '01';
     else
       data.riderStateCd = '02';
-
+      console.log(data);
     Swal.fire({
       title :'기사 정보 등록',
       text : '기사 정보를 등록 하시겠습니까?',
@@ -162,7 +165,7 @@ $(document).ready(function () {
               heightAuto: false
             }).then(function (result) {
               tb_rider.ajax.reload();
-              $('#btn_register').modal('hide');
+              $('#riderRegister').modal('hide');
             });
           } else {
             Swal.fire({
@@ -188,6 +191,8 @@ $(document).ready(function () {
 
     ajaxSend('/common/bank','post', false, null, function ( result ) {
       if( result.success ) {
+        $('#u_riderWthdrBankCd').empty();
+        $('#u_riderWthdrBankCd').append('<option value="000" selected </option>');
         var resultData = result.data;
         for( var i = 0; i < resultData.length; i++ ) {
           $('#u_riderWthdrBankCd').append('<option value="' + resultData[i].bankCd + '">' + resultData[i].bankNm + '</option>');
@@ -215,6 +220,7 @@ $(document).ready(function () {
   });
   $('#riderModify').on('hidden.bs.modal', function (event) {
     $('#u_riderStateCd').bootstrapToggle('on');
+    $('#u_riderWthdrBankCd option:eq(0)').attr("selected", "selected");
   });
   $('#btn_modify').on('click', function () {
     data.riderId = $('#u_riderId').val();
