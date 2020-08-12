@@ -611,4 +611,43 @@ router.post('/riderModify', function(req, res, next) {
     res.json(result);
   });
 });
+
+// 지점 포인트 총액 조회
+router.post('/branchTotPoint', function(req, res, next) {
+  var body = {};
+  body.brcofcId = req.session.branch.brcofcId || '';
+  var options = {
+    uri : restUrl + '/api/branch/branchTotPoint',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+
+// 지점 포인트 조회
+router.post('/branchPoint', function(req, res, next) {
+  var body = {};
+  body.brcofcId = req.session.branch.brcofcId || '';
+  body.stdDate = req.body.stdDate.replace(/-/g,'') || '';
+  body.endDate = req.body.endDate.replace(/-/g,'') || '';
+  body.pointSeCd = req.body.pointSeCd.replace(/-/g,'') || '';
+  var options = {
+    uri : restUrl + '/api/branch/branchPoint',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
 module.exports = router;

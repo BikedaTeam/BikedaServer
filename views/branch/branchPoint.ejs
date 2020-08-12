@@ -9,10 +9,13 @@
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-sm-4">
             <h1>지점 포인트 정산</h1>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-4">
+            <h4 id="totPoint"></h4>
+          </div>
+          <div class="col-sm-4">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/branch/main/realTimeDelivery">Home</a></li>
               <li class="breadcrumb-item">포인트 정산</li>
@@ -31,19 +34,19 @@
                 <div class="row">
                   <div class="input-group col-4">
                     <label class="col-form-label"><strong>조회 기간&nbsp;&nbsp;&nbsp;</strong></label>
-                    <input type="text" id="stdDate" class="form-control datetimepicker-input" data-target="#stdDate"/>
-                    <div class="input-group-append" data-target="#stdDate" data-toggle="datetimepicker">
+                    <input type="text" id="s_stdDate" class="form-control datetimepicker-input" data-target="#s_stdDate"/>
+                    <div class="input-group-append" data-target="#s_stdDate" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
                     </div>
                     <label class="col-form-label"><strong>&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;</strong></label>
-                    <input type="text" id="endDate" class="form-control datetimepicker-input" data-target="#endDate"/>
-                    <div class="input-group-append" data-target="#endDate" data-toggle="datetimepicker">
+                    <input type="text" id="s_endDate" class="form-control datetimepicker-input" data-target="#s_endDate"/>
+                    <div class="input-group-append" data-target="#s_endDate" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
                     </div>
                   </div>
                   <div class="input-group col-2">
                     <label class="col-form-label"><strong>구분&nbsp;&nbsp;&nbsp;</strong></label>
-                    <select class="form-control select2">
+                    <select class="form-control select2" id="s_pointSeCd">
                       <option value="00" selected >전체</option>
                       <option value="01">입금</option>
                       <option value="02">출금</option>
@@ -57,69 +60,38 @@
             </div>
           </div>
         </div>
-        <div class="row mb-3">
-          <div class="col-md-11 col-sm-10 col-9">
-            <div class="input-group">
-              <label class="text-red">조회된 항목을 선택하면 상세정보가 표시 됩니다.</label>
-            </div>
-          </div>
-          <div class="col-md-1 col-sm-2 col-3">
-            <div class="input-group">
-              <button type="button" data-toggle="modal" data-target="#riderRegister" class="form-control btn btn-info float-right">신규</button>
-            </div>
-          </div>
-        </div>
-        <!-- <div class="row d-none d-lg-block"> -->
         <div class="row">
           <div class="col-12">
             <div class="card">
               <div class="card-body">
-                <table id="tb_rider" class="table table-bordered table-hover">
+                <table id="tb_point" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>이름</th>
-                    <th>연락처</th>
-                    <th>상태</th>
-                    <th></th>
+                    <th>구분</th>
+                    <th>금액</th>
+                    <th>일시</th>
+                    <th>메모</th>
                   </tr>
                   </thead>
+                  <tfoot>
+                    <tr>
+                      <th colspan="4"></th>
+                    </tr>
+                  </tfoot>
                 </table>
               </div>
             </div>
           </div>
         </div>
-        <!-- <div class="row d-block d-lg-none">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header border-0">
-                <h3 class="card-title">라이더 관리</h3>
-              </div>
-              <div class="card-body">
-                <table id="dataTable1" class="table table-bordered table-hover">
-                  <thead>
-                  <tr>
-                    <th>상점 목록</th>
-                  </tr>
-                  </thead>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
     </section>
   </div>
-  <!-- Modal -->
-  <%- include('modal/riderDetail') %>
-  <%- include('modal/riderModify') %>
-  <%- include('modal/riderRegister') %>
   <footer class="main-footer">
     <strong>Copyright &copy; 2020 Bikeda.</strong>All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
 <%- include('footer') %>
-<script src="/js/branch/rider.js"></script>
+<script src="/js/branch/branchPoint.js"></script>
 </body>
 </html>
