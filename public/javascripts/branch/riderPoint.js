@@ -15,9 +15,10 @@ $(document).ready(function () {
   $('#s_endDate').val( today.yyyymmdd().replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') );
   tb_point = $('#tb_point').DataTable({
     ajax : {
-      url : '/branch/branchPoint',
+      url : '/branch/riderPoint',
       type : 'post',
       data :  function ( d ) {
+        d.riderId = $('#s_riderId').val();
         d.stdDate = $('#s_stdDate').val();
         d.endDate = $('#s_endDate').val();
         d.pointSeCd = $('#s_pointSeCd').val();
@@ -92,9 +93,14 @@ $(document).ready(function () {
 
     }
   });
-
+  $('#s_riderNm').on('click',function () {    
+    $('#riderSearch').modal('show');
+  });
   $('#btn_search').on('click', function () {
-    ajaxSend( '/branch/branchTotPoint', 'post', true, null, function ( result ) {
+    tb_point.ajax.reload();
+    var sendData = {}
+    sendData.riderId = $('#s_riderId').val();
+    ajaxSend( '/branch/riderTotPoint', 'post', true, sendData, function ( result ) {
       if(result.success) {
         if( result.data[0].totPoint < 0 )
           $('#totPoint').html('잔여 포인트 : <strong class="text-danger">' + result.data[0].totPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</strong>');
@@ -104,7 +110,6 @@ $(document).ready(function () {
         $('#totPoint').html('잔여 포인트 : <strong>0</strong>' );
       }
     });
-    tb_point.ajax.reload();
   });
 });
 $(document).keydown(function(key) {
