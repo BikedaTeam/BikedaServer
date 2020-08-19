@@ -62,8 +62,6 @@ $(document).ready(function () {
     },
     footerCallback : function ( row, data, start, end, display ) {
       var api = this.api();
-      var data;
-
       var intVal = function ( i ) {
           return typeof i === 'string' ?
               i.replace(/[\$,]/g, '')*1 :
@@ -87,23 +85,24 @@ $(document).ready(function () {
         }, 0 );
       // Update footer
       $( api.column( 0 ).footer() ).html(
-          "<strong class='text-primary'>적립 금액 : " + uptotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</strong> / <strong class='text-danger'>차감 금액 : " + downtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</strong>"
+          "적립 금액 : <strong class='text-primary'>" + uptotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</strong> / 차감 금액 : <strong class='text-danger'>" + downtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</strong>"
       );
 
+      ajaxSend( '/branch/branchTotPoint', 'post', true, null, function ( result ) {
+        if(result.success) {
+          if( result.data[0].totPoint < 0 )
+            $('#totPoint').html('잔여 포인트 : <strong class="text-danger">' + result.data[0].totPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</strong>');
+          else
+            $('#totPoint').html('잔여 포인트 : <strong class="text-primary">' + result.data[0].totPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</strong>');
+        } else {
+          $('#totPoint').html('잔여 포인트 : <strong>0</strong>' );
+        }
+      });
     }
   });
 
   $('#btn_search').on('click', function () {
-    ajaxSend( '/branch/branchTotPoint', 'post', true, null, function ( result ) {
-      if(result.success) {
-        if( result.data[0].totPoint < 0 )
-          $('#totPoint').html('잔여 포인트 : <strong class="text-danger">' + result.data[0].totPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</strong>');
-        else
-          $('#totPoint').html('잔여 포인트 : <strong class="text-primary">' + result.data[0].totPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</strong>');
-      } else {
-        $('#totPoint').html('잔여 포인트 : <strong>0</strong>' );
-      }
-    });
+
     tb_point.ajax.reload();
   });
 });

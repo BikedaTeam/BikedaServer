@@ -1,5 +1,17 @@
 var tb_point;
 $(document).ready(function () {
+  var sendData = {};
+
+  ajaxSend('/branch/riders','post', false, null, function ( result ) {
+    if( result.success ) {
+      $('#s_riderId').empty();
+      var resultData = result.data;
+      for( var i = 0; i < resultData.length; i++ ) {
+        $('#s_riderId').append('<option value="' + resultData[i].riderId + '">' + resultData[i].riderNm + '</option>');
+      }
+    }
+  });
+
   var today = new Date();
   $('#s_stdDate').datetimepicker({
     format: 'YYYY-MM-DD',
@@ -63,8 +75,6 @@ $(document).ready(function () {
     },
     footerCallback : function ( row, data, start, end, display ) {
       var api = this.api();
-      var data;
-
       var intVal = function ( i ) {
           return typeof i === 'string' ?
               i.replace(/[\$,]/g, '')*1 :
@@ -88,28 +98,25 @@ $(document).ready(function () {
         }, 0 );
       // Update footer
       $( api.column( 0 ).footer() ).html(
-          "<strong class='text-primary'>적립 금액 : " + uptotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</strong> / <strong class='text-danger'>차감 금액 : " + downtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</strong>"
+          "적립 금액 : <strong class='text-primary'>" + uptotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</strong> / 차감 금액 : <strong class='text-danger'>" + downtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "</strong>"
       );
 
+      var sendData = {};
+      sendData.riderId = $('#s_riderId').val();
+      ajaxSend( '/branch/riderTotPoint', 'post', true, sendData, function ( result ) {
+        if(result.success) {
+          if( result.data[0].totPoint < 0 )
+            $('#totPoint').html('잔여 포인트 : <strong class="text-danger">' + result.data[0].totPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</strong>');
+          else
+            $('#totPoint').html('잔여 포인트 : <strong class="text-primary">' + result.data[0].totPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</strong>');
+        } else {
+          $('#totPoint').html('잔여 포인트 : <strong>0</strong>' );
+        }
+      });
     }
-  });
-  $('#s_riderNm').on('click',function () {    
-    $('#riderSearch').modal('show');
   });
   $('#btn_search').on('click', function () {
     tb_point.ajax.reload();
-    var sendData = {}
-    sendData.riderId = $('#s_riderId').val();
-    ajaxSend( '/branch/riderTotPoint', 'post', true, sendData, function ( result ) {
-      if(result.success) {
-        if( result.data[0].totPoint < 0 )
-          $('#totPoint').html('잔여 포인트 : <strong class="text-danger">' + result.data[0].totPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</strong>');
-        else
-          $('#totPoint').html('잔여 포인트 : <strong class="text-primary">' + result.data[0].totPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</strong>');
-      } else {
-        $('#totPoint').html('잔여 포인트 : <strong>0</strong>' );
-      }
-    });
   });
 });
 $(document).keydown(function(key) {
