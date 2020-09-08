@@ -49,14 +49,6 @@
                         <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
                     </div>
                   </div>
-                  <div class="input-group col-2">
-                    <label class="col-form-label"><strong>구분&nbsp;&nbsp;&nbsp;</strong></label>
-                    <select class="form-control select2" id="s_pointSeCd">
-                      <option value="00" selected >전체</option>
-                      <option value="01">입금</option>
-                      <option value="02">출금</option>
-                    </select>
-                  </div>
                   <div class="input-group col-1">
                     <button id="btn_search" type="button" class="form-control btn btn-primary">검색</button>
                   </div>
@@ -72,15 +64,18 @@
                 <table id="tb_point" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>구분</th>
-                    <th>금액</th>
                     <th>일시</th>
+                    <th>적립금액</th>
+                    <th>차감금액</th>
                     <th>메모</th>
                   </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th colspan="4"></th>
+                      <th>조회 합계</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
                     </tr>
                   </tfoot>
                 </table>

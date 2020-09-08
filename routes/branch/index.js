@@ -379,8 +379,10 @@ router.post('/storeRegister', function(req, res, next) {
   body.stoBizcnd = req.body.stoBizcnd || '';
   body.stoInduty = req.body.stoInduty || '';
   body.stoTelno = req.body.stoTelno || '';
+  body.stoVrtlBankCd = req.body.stoVrtlBankCd || '';
   body.stoVrtlAcnt = req.body.stoVrtlAcnt || '';
   body.stoBizSeCd = req.body.stoBizSeCd || '';
+  body.stoVatYn = req.body.stoVatYn || '';
   var options = {
     uri : 'https://dapi.kakao.com/v2/local/search/address.json',
     method : 'get',
@@ -424,9 +426,11 @@ router.post('/storeModify', function(req, res, next) {
   body.stoBizcnd = req.body.stoBizcnd || '';
   body.stoInduty = req.body.stoInduty || '';
   body.stoTelno = req.body.stoTelno || '';
+  body.stoVrtlBankCd = req.body.stoVrtlBankCd || '';
   body.stoVrtlAcnt = req.body.stoVrtlAcnt || '';
   body.stoStateCd = req.body.stoStateCd || '';
   body.stoBizSeCd = req.body.stoBizSeCd || '';
+  body.stoVatYn = req.body.stoVatYn || '';
   var options = {
     uri : restUrl + '/api/branch/storeModify',
     method : 'post',
@@ -636,7 +640,6 @@ router.post('/branchPoint', function(req, res, next) {
   body.brcofcId = req.session.branch.brcofcId || '';
   body.stdDate = req.body.stdDate.replace(/-/g,'') || '';
   body.endDate = req.body.endDate.replace(/-/g,'') || '';
-  body.pointSeCd = req.body.pointSeCd || '';
   var options = {
     uri : restUrl + '/api/branch/branchPoint',
     method : 'get',
@@ -675,7 +678,6 @@ router.post('/riderPoint', function(req, res, next) {
   body.riderId = req.body.riderId || '';
   body.stdDate = req.body.stdDate.replace(/-/g,'') || '';
   body.endDate = req.body.endDate.replace(/-/g,'') || '';
-  body.pointSeCd = req.body.pointSeCd || '';
   var options = {
     uri : restUrl + '/api/branch/riderPoint',
     method : 'get',

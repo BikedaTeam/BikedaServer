@@ -213,6 +213,8 @@ $(document).ready(function () {
     $('#stoTelno').text('');
     $('#stoVrtlAcnt').text('');
     $('#stoSetSeCd').text('');
+    $('#stoVatYn').text('');
+
     $('#stoNightSrchrTm').text('');
     $('#stoNightSrchrAmnt').text('');
 
@@ -229,6 +231,7 @@ $(document).ready(function () {
     $('#stoBizcnd').text( data.stoBizcnd );
     $('#stoInduty').text( data.stoInduty );
     $('#stoTelno').text( phoneFomatter(data.stoTelno ) );
+    $('#stoVrtlBankNm').text( data.stoVrtlBankNm );
     $('#stoVrtlAcnt').text( data.stoVrtlAcnt );
     $('#stoNightSrchrTm').text( data.stoNightSrchrStdTm.replace(/(\d{2})(\d{2})(\d{2})/, '$1:$2:$3') + ' ~ ' + data.stoNightSrchrEndTm.replace(/(\d{2})(\d{2})(\d{2})/, '$1:$2:$3') );
     $('#stoNightSrchrAmnt').text( data.stoNightSrchrAmnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
@@ -251,6 +254,13 @@ $(document).ready(function () {
     });
 
 
+    $('#stoVatYn').bootstrapToggle('enable');
+    if( data.stoVatYn == 'Y') {
+      $('#stoVatYn').bootstrapToggle('on');
+    } else if( data.stoVatYn == 'N') {
+      $('#stoVatYn').bootstrapToggle('off');
+    }
+    $('#stoVatYn').bootstrapToggle('disable');
 
     $('#stoBizSeCd').bootstrapToggle('enable');
     if( data.stoBizSeCd == '01') {
@@ -435,6 +445,15 @@ $(document).ready(function () {
 
   $('#storeRegister').on('show.bs.modal', function (event) {
     $('#r_stoBizSeCd').bootstrapToggle('on');
+    ajaxSend('/common/bank','post', false, null, function ( result ) {
+      if( result.success ) {
+        $('#r_stoVrtlBankCd').empty();
+        var resultData = result.data;
+        for( var i = 0; i < resultData.length; i++ ) {
+          $('#r_stoVrtlBankCd').append('<option value="' + resultData[i].bankCd + '">' + resultData[i].bankNm + '</option>');
+        }
+      }
+    });
   });
   $('#storeRegister').on('hidden.bs.modal', function (event) {
     $('#r_stoBizSeCd').bootstrapToggle('on');
@@ -458,7 +477,8 @@ $(document).ready(function () {
     data.stoBizcnd = $('#r_stoBizcnd').val() || '';
     data.stoInduty = $('#r_stoInduty').val() || '';
     data.stoTelno = $('#r_stoTelno').val() || '';
-    data.stoVrtlAcnt = $('#r_stoVrtlAcnt').val() || '';
+    data.stoVrtlBankCd = $('#r_stoVrtlBankCd').val() || '';
+    data.stoVrtlBankNm = $('#r_stoVrtlBankCd option:checked').text();
     data.stoVrtlAcnt = $('#r_stoVrtlAcnt').val() || '';
     if( $('#r_stoBizSeCd').prop('checked') ) {
       data.stoBizSeCd = '01';
@@ -467,6 +487,11 @@ $(document).ready(function () {
       data.stoBizSeCd = '02';
       data.stoCrprtRgnmb = $('#r_stoCrprtRgnmb').val() || '';
       data.stoHdofcAdres = $('#r_stoHdofcAdres').val() || '';
+    }
+    if( $('#r_stoVatYn').prop('checked') ) {
+      data.stoVatYn = 'Y';
+    } else {
+      data.stoVatYn = 'N';
     }
     Swal.fire({
       title :'상점 등록',
@@ -531,6 +556,16 @@ $(document).ready(function () {
     $('#u_stoBizcnd').val( data.stoBizcnd );
     $('#u_stoInduty').val( data.stoInduty );
     $('#u_stoTelno').val( phoneFomatter(data.stoTelno ) );
+    ajaxSend('/common/bank','post', false, null, function ( result ) {
+      if( result.success ) {
+        $('#u_stoVrtlBankCd').empty();
+        var resultData = result.data;
+        for( var i = 0; i < resultData.length; i++ ) {
+          $('#u_stoVrtlBankCd').append('<option value="' + resultData[i].bankCd + '">' + resultData[i].bankNm + '</option>');
+        }
+      }
+    });
+    if(data.stoVrtlBankCd) $('#u_stoVrtlBankCd').val( data.stoVrtlBankCd );
     $('#u_stoVrtlAcnt').val( data.stoVrtlAcnt );
 
     if( data.stoBizSeCd == '01') {
@@ -543,6 +578,12 @@ $(document).ready(function () {
       $('#u_stoStateCd').bootstrapToggle('on');
     } else if( data.stoStateCd == '02') {
       $('#u_stoStateCd').bootstrapToggle('off');
+    }
+
+    if( data.stoVatYn == 'Y') {
+      $('#u_stoVatYn').bootstrapToggle('on');
+    } else if( data.stoVatYn == 'N') {
+      $('#u_stoVatYn').bootstrapToggle('off');
     }
   });
   $('#storeModify').on('hidden.bs.modal', function (event) {
@@ -568,11 +609,18 @@ $(document).ready(function () {
     data.stoBizcnd = $('#u_stoBizcnd').val();
     data.stoInduty = $('#u_stoInduty').val();
     if( $('#u_stoTelno').val() ) data.stoTelno = $('#u_stoTelno').val().replace(/-/g,"");
+    data.stoVrtlBankCd = $('#u_stoVrtlBankCd').val();
+    data.stoVrtlBankNm = $('#u_stoVrtlBankCd option:checked').text();
     data.stoVrtlAcnt = $('#u_stoVrtlAcnt').val();
     if( $('#u_stoStateCd').prop('checked') )
       data.stoStateCd = '01';
     else
       data.stoStateCd = '02';
+
+      if( $('#u_stoVatYn').prop('checked') )
+        data.stoVatYn = 'Y';
+      else
+        data.stoVatYn = 'N';
 
     if( $('#u_stoBizSeCd').prop('checked') ) {
       data.stoBizSeCd = '01';
@@ -584,7 +632,7 @@ $(document).ready(function () {
       else data.stoCrprtRgnmb = '';
       data.stoHdofcAdres = $('#u_stoHdofcAdres').val();
     }
-
+    console.log(data);
     Swal.fire({
       title :'상점 정보 수정',
       text : '상점 정보를 수정 하시겠습니까?',

@@ -113,9 +113,22 @@
                         <div class="col-12">
                           <div class="input-group">
                             <div class="input-group-prepend col-4">
-                              <button type="button" class="btn btn-sm btn-nomal"><b>가상계좌번호</b></button>
+                              <button type="button" class="btn btn-sm btn-nomal"><b>가상계좌</b></button>
                             </div>
+                            <select id="u_stoVrtlBankCd" class="form-control form-control-sm select2">
+                              <option value="000" selected></option>
+                            </select>
                             <input id="u_stoVrtlAcnt" type="text" class="form-control form-control-sm">
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="col-12">
+                          <div class="input-group">
+                            <div class="input-group-prepend col-4">
+                              <button type="button" class="btn btn-sm btn-nomal"><b>부가세 여부</b></button>
+                            </div>
+                            <input id="u_stoVatYn" type="checkbox" checked data-width="60" data-size="sm" data-toggle="toggle" data-on="신청" data-off="미신청" data-onstyle="danger" data-offstyle="success">
                           </div>
                         </div>
                       </li>

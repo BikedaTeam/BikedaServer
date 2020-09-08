@@ -83,8 +83,8 @@ $(document).ready(function () {
     $('#riderId').text( data.riderId );
     $('#riderNm').text( data.riderNm );
     $('#riderCelno').text( phoneFomatter(data.riderCelno ) );
-    if(data.riderWthdrBankNm) $('#riderWthdrBankNm').text( data.riderWthdrBankNm );
-    if(data.riderWthdrAcnt) $('#riderWthdrAcnt').text( data.riderWthdrAcnt );
+    $('#riderWthdrBankNm').text( data.riderWthdrBankNm );
+    $('#riderWthdrAcnt').text( data.riderWthdrAcnt );
     $('#riderMinWthdrAmnt').text( data.riderMinWthdrAmnt );
     $('#riderCallLimit').text( data.riderCallLimit );
     $('#riderCallDelayTime').text( data.riderCallDelayTime );
@@ -116,7 +116,6 @@ $(document).ready(function () {
     ajaxSend('/common/bank','post', false, null, function ( result ) {
       if( result.success ) {
         $('#r_riderWthdrBankCd').empty();
-        $('#r_riderWthdrBankCd').append('<option value="000" selected </option>');
         var resultData = result.data;
         for( var i = 0; i < resultData.length; i++ ) {
           $('#r_riderWthdrBankCd').append('<option value="' + resultData[i].bankCd + '">' + resultData[i].bankNm + '</option>');
@@ -192,7 +191,6 @@ $(document).ready(function () {
     ajaxSend('/common/bank','post', false, null, function ( result ) {
       if( result.success ) {
         $('#u_riderWthdrBankCd').empty();
-        $('#u_riderWthdrBankCd').append('<option value="000" selected </option>');
         var resultData = result.data;
         for( var i = 0; i < resultData.length; i++ ) {
           $('#u_riderWthdrBankCd').append('<option value="' + resultData[i].bankCd + '">' + resultData[i].bankNm + '</option>');
