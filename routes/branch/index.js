@@ -654,30 +654,10 @@ router.post('/branchPoint', function(req, res, next) {
   });
 });
 
-// 라이더 포인트 총액 조회
-router.post('/riderTotPoint', function(req, res, next) {
-  var body = {};
-  body.riderId = req.body.riderId || '';
-  var options = {
-    uri : restUrl + '/api/branch/riderTotPoint',
-    method : 'get',
-    headers : {
-      'x-access-token' : req.session.branch.token
-    },
-    qs : body,
-    json : true
-  };
-  request( options, function ( err, httpRespones, result ) {
-    res.json(result);
-  });
-});
-
 // 라이더 포인트 조회
 router.post('/riderPoint', function(req, res, next) {
   var body = {};
   body.riderId = req.body.riderId || '';
-  body.stdDate = req.body.stdDate.replace(/-/g,'') || '';
-  body.endDate = req.body.endDate.replace(/-/g,'') || '';
   var options = {
     uri : restUrl + '/api/branch/riderPoint',
     method : 'get',
