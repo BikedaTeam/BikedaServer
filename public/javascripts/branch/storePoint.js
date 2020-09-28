@@ -2,49 +2,45 @@ var tb_point;
 $(document).ready(function () {
   var sendData = {};
 
-  ajaxSend('/branch/riders','post', false, null, function ( result ) {
+  ajaxSend('/branch/stores','post', false, null, function ( result ) {
     if( result.success ) {
-      $('#s_riderId').empty();
+      $('#s_storeId').empty();
       var resultData = result.data;
-      $('#s_riderId').append('<option value="">전체</option>');
+      $('#s_storeId').append('<option value="">전체</option>');
       for( var i = 0; i < resultData.length; i++ ) {
-        $('#s_riderId').append('<option value="' + resultData[i].riderId + '">' + resultData[i].riderNm + '</option>');
+        $('#s_storeId').append('<option value="' + resultData[i].stoId + '">' + resultData[i].stoMtlty + '</option>');
       }
     }
   });
 
   tb_point = $('#tb_point').DataTable({
     ajax : {
-      url : '/branch/riderPoint',
+      url : '/branch/storePoint',
       type : 'post',
       data :  function ( d ) {
-        d.riderId = $('#s_riderId').val();
+        d.storeId = $('#s_storeId').val();
       },
     },
     columns : [
       {
-        data : 'riderId',
+        data : 'stoId',
         width : '100px'
       },
       {
-        data : 'riderNm'
+        data : 'stoMtlty'
       },
       {
-        data : 'riderCelno',
+        data : 'stoRprsntvNm'
+      },
+      {
+        data : 'stoTelno',
         width : '150px',
         render : function ( data, type, row, meta) {
           return phoneFomatter(data);
         }
       },
       {
-        data : null,
-        width : '300px',
-        render : function ( data, type, row, meta) {
-          return row.riderWthdrBankNm + ' / ' + row.riderWthdrAcnt;
-        }
-      },
-      {
-        data : 'riderPoint',
+        data : 'stoPoint',
         width : '150px',
         render : function ( data, type, row, meta ) {
           if( data > 0 ) {

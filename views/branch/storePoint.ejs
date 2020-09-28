@@ -10,7 +10,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-4">
-            <h1>지점 포인트</h1>
+            <h1>상점 포인트</h1>
           </div>
           <div class="col-sm-4">
             <h4 id="totPoint"></h4>
@@ -19,7 +19,7 @@
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/branch/main/realTimeDelivery">Home</a></li>
               <li class="breadcrumb-item">포인트</li>
-              <li class="breadcrumb-item">지점 포인트</li>
+              <li class="breadcrumb-item">상점 포인트</li>
             </ol>
           </div>
         </div>
@@ -32,17 +32,10 @@
             <div class="card">
               <div class="card-body">
                 <div class="row">
-                  <div class="input-group col-4">
-                    <label class="col-form-label"><strong>조회 기간&nbsp;&nbsp;&nbsp;</strong></label>
-                    <input type="text" id="s_stdDate" class="form-control datetimepicker-input" data-target="#s_stdDate"/>
-                    <div class="input-group-append" data-target="#s_stdDate" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
-                    </div>
-                    <label class="col-form-label"><strong>&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;</strong></label>
-                    <input type="text" id="s_endDate" class="form-control datetimepicker-input" data-target="#s_endDate"/>
-                    <div class="input-group-append" data-target="#s_endDate" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
-                    </div>
+                  <div class="input-group col-2">
+                    <label class="col-form-label"><strong>상호&nbsp;&nbsp;&nbsp;</strong></label>
+                    <select class="form-control select2" id="s_storeId">
+                    </select>
                   </div>
                   <div class="input-group col-1">
                     <button id="btn_search" type="button" class="form-control btn btn-primary">검색</button>
@@ -58,21 +51,16 @@
               <div class="card-body">
                 <table id="tb_point" class="table table-bordered table-hover">
                   <thead>
-                  <tr>
-                    <th>일시</th>
-                    <th>적립금액</th>
-                    <th>차감금액</th>
-                    <th>메모</th>
-                  </tr>
-                  </thead>
-                  <tfoot>
                     <tr>
-                      <th>조회 합계</th>
-                      <th></th>
+                      <th>ID</th>
+                      <th>상호</th>
+                      <th>대표자</th>
+                      <th>전화번호</th>
+                      <th>잔여포인트</th>
                       <th></th>
                       <th></th>
                     </tr>
-                  </tfoot>
+                  </thead>
                 </table>
               </div>
             </div>
@@ -81,12 +69,13 @@
       </div>
     </section>
   </div>
+
   <footer class="main-footer">
     <strong>Copyright &copy; 2020 Delivery Lab.</strong>All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
 <%- include('footer') %>
-<script src="/js/branch/branchPoint.js"></script>
+<script src="/js/branch/storePoint.js"></script>
 </body>
 </html>

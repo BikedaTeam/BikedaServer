@@ -53,31 +53,11 @@ $(document).ready(function () {
         }
       },
       {
-        data : 'dlvryNo',
-        visible : false
-      },
-      {
-        data : 'stoBrcofcId',
-        visible : false
-      },
-      {
-        data : 'stoId',
-        visible : false
-      },
-      {
-        data : 'stoMtlty'
-      },
-      {
-        data : 'stoTelno',
-        visible : false
-      },
-      {
-        data : 'dlvryCusTelno',
-        visible : false
-      },
-      {
-        data : 'dlvryCusAdres',
-        visible : false
+        data : 'stoMtlty',
+        render : function ( data, type, row, meta ) {
+          if( row.shareYn == 'Y' ) return '(공유)' + data;
+          else return data;
+        }
       },
       {
         data : 'dlvryCusRoadAdres',
@@ -87,18 +67,6 @@ $(document).ready(function () {
           else
             return data;
         }
-      },
-      {
-        data : 'dlvryCusDetlAdres',
-        visible : false
-      },
-      {
-        data : 'dlvryCusLa',
-        visible : false
-      },
-      {
-        data : 'dlvryCusLo',
-        visible : false
       },
       {
         data : 'dlvryPaySeCd',
@@ -113,14 +81,6 @@ $(document).ready(function () {
         }
       },
       {
-        data : 'dlvryFoodAmnt',
-        visible : false
-      },
-      {
-        data : 'dlvryAmnt',
-        visible : false
-      },
-      {
         data : 'dlvryPickReqTm',
         width : '70px',
       },
@@ -132,39 +92,11 @@ $(document).ready(function () {
         }
       },
       {
-        data : 'dlvryDsptcDt',
-        visible : false
-      },
-      {
-        data : 'dlvryPickDt',
-        visible : false
-      },
-      {
-        data : 'dlvryTcDt',
-        visible : false
-      },
-      {
         data : 'dlvryDstnc',
         width : '70px',
       },
       {
-        data : 'dlvryReqCn',
-        visible : false
-      },
-      {
-        data : 'riderBrcofcId',
-        visible : false
-      },
-      {
-        data : 'riderId',
-        visible : false
-      },
-      {
         data : 'riderNm'
-      },
-      {
-        data : 'riderCelno',
-        visible : false
       },
       {
         data : null,
@@ -198,7 +130,7 @@ $(document).ready(function () {
     paging: false,
     searching: false,
     dom: 't',
-    order: [16, 'desc'],
+    order: [5, 'desc'],
     language: {
       'emptyTable': '배달 대행 접수 내역이 없습니다.'
     }

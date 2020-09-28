@@ -94,6 +94,7 @@ router.get('/main/:pageName', function(req, res, next) {
 router.post('/realTimeDelivery', function(req, res, next) {
   var body = {};
   if( req.session.branch.brcofcId ) body.stoBrcofcId = req.session.branch.brcofcId;
+  if( req.session.branch.brcofcId ) body.riderBrcofcId = req.session.branch.brcofcId;
   if( req.body.dlvryRecvDtStd ) body.dlvryRecvDtStd = req.body.dlvryRecvDtStd;
   if( req.body.dlvryRecvDtEnd ) body.dlvryRecvDtEnd = req.body.dlvryRecvDtEnd;
   var options = {
@@ -654,9 +655,29 @@ router.post('/branchPoint', function(req, res, next) {
   });
 });
 
+// 상점 포인트 조회
+router.post('/storePoint', function(req, res, next) {
+  var body = {};
+  body.brcofcId = req.session.branch.brcofcId || '';
+  body.storeId = req.body.storeId || '';
+  var options = {
+    uri : restUrl + '/api/branch/storePoint',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+
 // 라이더 포인트 조회
 router.post('/riderPoint', function(req, res, next) {
   var body = {};
+  body.brcofcId = req.session.branch.brcofcId || '';
   body.riderId = req.body.riderId || '';
   var options = {
     uri : restUrl + '/api/branch/riderPoint',
