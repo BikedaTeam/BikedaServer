@@ -5,3 +5,8 @@
 .table .selected {
   background-color: #dddddd;
 }
+
+.thead-center {
+  text-align: center;
+  vertical-align: middle !important;
+}

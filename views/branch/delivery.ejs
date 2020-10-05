@@ -10,13 +10,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>배달 대행 현황&nbsp;<small class="text-danger">※48시간 배달 대행을 표시 합니다.</small></h1>
+            <h1>배달 대행 내역&nbsp;<small class="text-danger">※배달이 완료된 내역만 표시됩니다.</small></h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/branch/main/realTimeDelivery">Home</a></li>
-              <li class="breadcrumb-item">배달 대행</li>
-              <li class="breadcrumb-item">배달 대행 현황</li>
+              <li class="breadcrumb-item">통계</li>
+              <li class="breadcrumb-item">배달 대행 내역</li>
             </ol>
           </div>
         </div>
@@ -27,116 +27,54 @@
       <!-- 배달 현황 -->
       <div class="container-fluid">
         <div class="row">
-          <div class="col-lg-3 col-6">
-            <div class="small-box bg-secondary">
-              <div class="inner">
-                <p>배차 대기</p>
-                <h3 id="dlvryStateCd_01"></h3>
-              </div>
-              <div class="icon">
-                <i class="fas fa-phone"></i>
-              </div>
-              <a href="#" class="small-box-footer">
-                &nbsp;
-              </a>
-            </div>
-          </div>
-          <div class="col-lg-3 col-6">
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <p>배차 완료</p>
-                <h3 id="dlvryStateCd_02"></h3>
-              </div>
-              <div class="icon">
-                <i class="fas fa-motorcycle"></i>
-              </div>
-              <a href="#" class="small-box-footer">
-                &nbsp;
-              </a>
-            </div>
-          </div>
-          <div class="col-lg-3 col-6">
-            <div class="small-box bg-olive">
-              <div class="inner">
-                <p>픽업 완료</p>
-                <h3 id="dlvryStateCd_03"></h3>
-              </div>
-              <div class="icon">
-                <i class="fas fa-shopping-bag"></i>
-              </div>
-              <a href="#" class="small-box-footer">
-                &nbsp;
-              </a>
-            </div>
-          </div>
-          <div class="col-lg-3 col-6">
-            <div class="small-box bg-success">
-              <div class="inner">
-                <p>배달 완료</p>
-                <h3 id="dlvryStateCd_04"></h3>
-              </div>
-              <div class="icon">
-                <i class="fas fa-home"></i>
-              </div>
-              <a href="#" class="small-box-footer">
-                &nbsp;
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="row d-none d-lg-block">
           <div class="col-12">
             <div class="card">
               <div class="card-body">
-                <table id="tb_realTimeDelivery" class="table table-bordered table-hover">
-                  <thead>
-                  <tr>
-                    <th>배차 상태</th>
-                    <th>배달 번호</th>
-                    <th>상점</th>
-                    <th>상점 연락처</th>
-                    <th>고객 연락처</th>
-                    <th>고객 지번 주소</th>
-                    <th>배달 주소</th>
-                    <th>고객 상세 주소</th>
-                    <th>위도</th>
-                    <th>경도</th>
-                    <th>결제</th>
-                    <th>음식요금</th>
-                    <th>배달요금</th>
-                    <th>시간(분)</th>
-                    <th>접수 시간</th>
-                    <th>배차 일시</th>
-                    <th>픽업 일시</th>
-                    <th>완료 일시</th>
-                    <th>거리(km)</th>
-                    <th>요청 사항</th>
-                    <th>라이더</th>
-                    <th>라이더 연락처</th>
-                    <th>배달 상세</th>
-                    <th>배차</th>
-                    <th>취소</th>
-                  </tr>
-                  </thead>
-                </table>
+                <div class="row">
+                  <div class="input-group col-4">
+                    <label class="col-form-label"><strong>조회 기간&nbsp;&nbsp;&nbsp;</strong></label>
+                    <input type="text" id="s_stdDate" class="form-control datetimepicker-input" data-target="#s_stdDate"/>
+                    <div class="input-group-append" data-target="#s_stdDate" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                    </div>
+                    <label class="col-form-label"><strong>&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;</strong></label>
+                    <input type="text" id="s_endDate" class="form-control datetimepicker-input" data-target="#s_endDate"/>
+                    <div class="input-group-append" data-target="#s_endDate" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                    </div>
+                  </div>
+                  <div class="input-group col-1">
+                    <button id="btn_search" type="button" class="form-control btn btn-primary">검색</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="row d-block d-lg-none">
+        <div class="row">
           <div class="col-12">
             <div class="card">
-              <div class="card-header border-0">
-                <h3 class="card-title">배달대행 현황</h3>
-              </div>
               <div class="card-body">
-                <table id="dataTable1" class="table table-bordered table-hover">
+                <table id="tb_delivery" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>배달 대행 목록</th>
+                    <th rowspan="2" class="thead-center">배달 번호</th>
+                    <th rowspan="2" class="thead-center">상점</th>
+                    <th rowspan="2" class="thead-center">배달 주소</th>
+                    <th rowspan="2" class="thead-center">결제</th>
+                    <th rowspan="2" class="thead-center">배달일시</th>
+                    <th rowspan="2" class="thead-center">배달요금</th>
+                    <th rowspan="2" class="thead-center">부가세</th>
+                    <th colspan="4" class="thead-center">수수료</th>
+                    <th rowspan="2" class="thead-center">라이더</th>
+                  </tr>
+                  <tr>
+                    <th class="thead-center">본사</th>
+                    <th class="thead-center">지점</th>
+                    <th class="thead-center">라이더</th>
+                    <th class="thead-center">공유</th>
                   </tr>
                   </thead>
-
                 </table>
               </div>
             </div>
@@ -145,15 +83,12 @@
       </div>
     </section>
   </div>
-  <!-- Modal -->
-  <%- include('modal/realTimeDeliveryDetail') %>
-  <%- include('modal/realTimeDeliveryDispatch') %>
   <footer class="main-footer">
     <strong>Copyright &copy; 2020 Delivery Lab.</strong>All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
 <%- include('footer') %>
-<script src="/js/branch/realTimeDelivery.js"></script>
+<script src="/js/branch/delivery.js"></script>
 </body>
 </html>

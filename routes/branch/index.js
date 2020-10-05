@@ -692,4 +692,26 @@ router.post('/riderPoint', function(req, res, next) {
     res.json(result);
   });
 });
+
+// 배달 대행 내역
+router.post('/deliverys', function(req, res, next) {
+  var body = {};
+  if( req.session.branch.brcofcId ) body.stoBrcofcId = req.session.branch.brcofcId;
+  if( req.session.branch.brcofcId ) body.riderBrcofcId = req.session.branch.brcofcId;
+  body.stdDate = req.body.stdDate.replace(/-/g,'') || '';
+  body.endDate = req.body.endDate.replace(/-/g,'') || '';
+  var options = {
+    uri : restUrl + '/api/branch/deliverys',
+    method : 'get',
+    headers : {
+      'x-access-token' : req.session.branch.token
+    },
+    qs : body,
+    json : true
+  };
+  request( options, function ( err, httpRespones, result ) {
+    res.json(result);
+  });
+});
+
 module.exports = router;
